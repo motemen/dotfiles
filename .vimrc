@@ -1,3 +1,16 @@
+set nocompatible
+filetype off
+
+set runtimepath+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'L9'
+Bundle 'FuzzyFinder'
+Bundle 'kien/ctrlp.vim'
+Bundle 'kana/vim-metarw'
+Bundle 'kana/vim-metarw-git'
+Bundle 'motemen/git-vim'
+
 syntax on
 filetype plugin indent on
 colorscheme desert
