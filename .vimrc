@@ -6,14 +6,20 @@ call vundle#rc()
 
 Bundle 'L9'
 Bundle 'FuzzyFinder'
+Bundle 'surround.vim'
 Bundle 'kien/ctrlp.vim'
+Bundle 'sgur/ctrlp-extensions.vim'
 Bundle 'kana/vim-metarw'
 Bundle 'kana/vim-metarw-git'
 Bundle 'motemen/git-vim'
+Bundle 'motemen/vim-guess-abbrev'
+Bundle 'motemen/tap-vim'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'wombat256.vim'
+Bundle 'desert-warm-256'
 
 syntax on
 filetype plugin indent on
-colorscheme desert
 
 if &term =~ 'screen'
     autocmd BufEnter * if bufname('') !~ '^\[A-Za-z0-9\]*://' | silent! exe '!echo -n "k+' . expand('%:t') . '\\"' | endif
@@ -37,7 +43,7 @@ set backspace=indent,eol,start
 set number
 set numberwidth=4
 set nobackup
-set backupcopy=no
+"set backupcopy=no
 set hidden
 "set switchbuf=useopen,split
 set foldmethod=marker
@@ -64,9 +70,10 @@ set ambiwidth=double
 set cmdheight=2
 set showcmd
 set laststatus=2
+set cpoptions+=WF
 
-if exists('*GetGitBranch()')
-    set statusline=[%n]%m\ %(%1*%{GetGitBranch()}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?&fenc:&enc}][%{&ff}]%=[%{Cwd()}]\ %l,%c%V\ %4P
+if exists('*GitBranch()')
+    set statusline=[%n]%m\ %(%1*%{GitBranch()}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?&fenc:&enc}][%{&ff}]%=[%{Cwd()}]\ %l,%c%V\ %4P
 else
     set statusline=[%n]%m\ %f\ %<%h%w%r%y[%{&fenc!=''?&fenc:&enc}][%{&ff}]%=[%{Cwd()}]\ %l,%c%V\ %4P
 endif
@@ -207,7 +214,9 @@ cnoremap <silent> <expr> <C-S> getcmdtype() =~ '[/?]' ? "<C-C>:FufLine! " . getc
 autocmd FileType fuf inoremap <buffer> <C-C> <ESC>
 autocmd FileType fuf inoremap <buffer> <C-D> <C-O>:FufRenewCache<CR><C-X><C-N>
 
-autocmd BufEnter \[fuf\] silent call neocomplcache#disable()
+if exists('*neocomplcache#disable')
+    autocmd BufEnter \[fuf\] silent call neocomplcache#disable()
+endif
 
 if exists('*fuf#addMode')
     autocmd VimEnter * call fuf#addMode('tab')
@@ -286,6 +295,9 @@ nnoremap <silent> m  :let g:ctrlp_default_input = 0<CR>:CtrlPMRUFiles<CR>
 nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
 nnoremap <silent> !  :call ctrlp#init(ctrlp#perldoc#id())<CR>
 
+" easymotion
+let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
+
 " syntax/sh.vim
 let g:is_bash = 1
 
@@ -330,22 +342,26 @@ endfunction
 
 command! -nargs=1 -complete=file Move file <args> | silent write | call delete(expand('#'))
 
-nnoremap cD :call CDToProjectDir()<CR>
-autocmd BufEnter * if !exists('t:cwd') | call CDToProjectDir() | endif
+augroup vimrc-cd-to-project-dir
+    autocmd!
+    autocmd BufEnter * if !exists('t:cwd') | call s:cd_to_project_dir() | endif
 
-function! CDToProjectDir()
-    if len(&buftype)
-        return
-    endif
-    let dir = system('cd "' . expand('%:p:h') . '"; git rev-parse --show-toplevel 2>/dev/null')
-    let dir = substitute(dir, '\n', '', '')
-    if v:shell_error == 0 && strlen(dir) && isdirectory(dir)
-        execute 'lcd' fnameescape(dir)
-        if exists('b:git_dir')
-            unlet b:git_dir
+    nnoremap cD :call s:cd_to_project_dir()<CR>
+
+    function! s:cd_to_project_dir()
+        if len(&buftype)
+            return
         endif
-    endif
-endfunction
+        let dir = system('cd "' . expand('%:p:h') . '"; git rev-parse --show-toplevel 2>/dev/null')
+        let dir = substitute(dir, '\n', '', '')
+        if v:shell_error == 0 && strlen(dir) && isdirectory(dir)
+            execute 'lcd' fnameescape(dir)
+            if exists('b:git_dir')
+                unlet b:git_dir
+            endif
+        endif
+    endfunction
+augroup END
 
 " TODO <expr> に
 function! InsertSpaceAsAbove()
@@ -377,3 +393,78 @@ command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? she
 nnoremap <Leader>! :TmuxSplitRun 
 
 nnoremap <ESC>m :update<Enter>:execute 'TmuxSplitRun' &makeprg<Enter>
+
+" augroup vimrc-follow-symlnik
+"     autocmd!
+"     autocmd BufReadPost * call s:follow_symlink()
+"     function! s:follow_symlink()
+"         let file = expand('%')
+"         if getftype(file) == 'link'
+"             bwipeout
+"             execute 'edit' resolve(file)
+"             filetype detect
+"             echo 'following symlink ' . file . ' -> ' . expand('%')
+"         endif
+"     endfunction
+" augroup END
+
+augroup vimrc-add-highlights
+    autocmd!
+    autocmd ColorScheme * call s:add_highlights()
+    function! s:add_highlights()
+        highlight clear MatchParen
+        highlight MatchParen term=bold gui=bold cterm=bold
+        highlight CursorLine ctermbg=NONE
+        highlight CursorColumn ctermbg=NONE
+        highlight Pmenu ctermbg=grey ctermfg=black
+        highlight Pmenusel ctermbg=lightblue ctermfg=black
+        highlight Pmenuselbar ctermbg=grey
+        highlight Folded ctermbg=black ctermfg=white cterm=NONE
+        highlight TabLine cterm=underline ctermbg=NONE
+        highlight Title cterm=underline
+        highlight Search ctermbg=cyan ctermfg=black
+        highlight Visual cterm=NONE ctermbg=yellow ctermfg=black
+    endfunction
+augroup END
+
+colorscheme desert-warm-256
+
+command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
+
+function! PerlModules(arg_lead, cmd_line, cursor_ops)
+    return system('pm-packages.pl')
+endfunction
+
+function! Perldoc(args)
+    if !&modifiable || &modified || bufname('%') != ''
+        throw 'Perldoc: cannot use this buffer'
+    endif
+
+    let bufname = '[perldoc ' . a:args . ']'
+
+    if bufexists(bufname)
+        execute 'buffer' bufnr(fnameescape(bufname))
+        return
+    endif
+
+    enew
+
+    silent execute '0read!perldoc -otext -T' a:args
+
+    if v:shell_error
+        let message = getline(1)
+        bwipeout
+        echohl Error
+        echo message
+        echohl None
+    else
+        let b:perldoc_args = a:args
+        file `=bufname`
+        setlocal buftype=nofile noswapfile nomodifiable
+        setfiletype man
+        nnoremap <buffer> S :split `=system('perldoc -l ' . b:perldoc_args)`<Enter>
+        0
+    endif
+endfunction
+
+finish
