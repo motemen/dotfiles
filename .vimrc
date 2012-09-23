@@ -17,6 +17,7 @@ Bundle 'motemen/tap-vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'wombat256.vim'
 Bundle 'desert-warm-256'
+Bundle 'vim-coffee-script'
 
 syntax on
 filetype plugin indent on
@@ -296,7 +297,8 @@ nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
 nnoremap <silent> !  :call ctrlp#init(ctrlp#perldoc#id())<CR>
 
 " easymotion
-let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz'
+let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz0123456789'
+let g:EasyMotion_grouping = 1
 
 " syntax/sh.vim
 let g:is_bash = 1
@@ -346,7 +348,7 @@ augroup vimrc-cd-to-project-dir
     autocmd!
     autocmd BufEnter * if !exists('t:cwd') | call s:cd_to_project_dir() | endif
 
-    nnoremap cD :call s:cd_to_project_dir()<CR>
+    nnoremap cD :call <SID>cd_to_project_dir()<CR>
 
     function! s:cd_to_project_dir()
         if len(&buftype)
@@ -424,6 +426,8 @@ augroup vimrc-add-highlights
         highlight Title cterm=underline
         highlight Search ctermbg=cyan ctermfg=black
         highlight Visual cterm=NONE ctermbg=yellow ctermfg=black
+        highlight StatusLine ctermbg=236
+        highlight StatusLineNC ctermbg=236
     endfunction
 augroup END
 
