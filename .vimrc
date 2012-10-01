@@ -19,6 +19,9 @@ Bundle 'wombat256.vim'
 Bundle 'desert-warm-256'
 Bundle 'vim-coffee-script'
 
+Bundle 'pangloss/vim-javascript'
+Bundle 'briancollins/vim-jst'
+
 syntax on
 filetype plugin indent on
 
