@@ -26,7 +26,8 @@ setopt no_auto_remove_slash
 setopt interactive_comments
 setopt null_glob
 
-export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+# export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export WORDCHARS=${WORDCHARS//[\/]}
 
 #
 # Prompt
