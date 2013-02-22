@@ -59,6 +59,17 @@ may_fg () {
 zle -N may_fg
 bindkey '^Z' may_fg
 
+# http://qiita.com/items/1e1d3053c33f528363d9
+tm () {
+    if [ -z $TMUX ]; then
+        if $(tmux has-session); then
+            tmux -2 attach
+        else
+            tmux -2
+        fi
+    fi
+}
+
 # perlbrew
 if [ -e "$HOME/perl5/perlbrew/etc/bashrc" ]; then
     source "$HOME/perl5/perlbrew/etc/bashrc"
