@@ -22,7 +22,7 @@ iabbrev <buffer> Pkg <F10>package <C-R>=<SID>perl_package()<CR>;<CR>use strict;<
 iabbrev <buffer> PKg <F10>package <C-R>=<SID>perl_package()<CR>;<CR>use strict;<CR>use warnings;<CR><CR><CR>1;<Up><Up><C-R>=['',getchar(0)][0]<CR><F10>
 
 function! s:perl_package()
-    return join(split(substitute(expand('%:r'), '.*lib/', '', ''), '/'), '::')
+    return join(split(substitute(expand('%:r'), '.*lib/', '', ''), '[/-]'), '::')
 endfunction
 
 inoremap <buffer> <silent> <expr> <C-]> gabbrev#i_start()

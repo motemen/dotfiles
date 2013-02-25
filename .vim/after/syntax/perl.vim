@@ -1,3 +1,7 @@
+" highlight link perlMethod Normal
+" highlight link perlVarSimpleMember Normal
+syntax clear
+
 " Vim syntax file
 " Language:	Perl
 " Maintainer:	Lukas Mai <l.mai@web.de>
