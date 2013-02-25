@@ -18,9 +18,23 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'wombat256.vim'
 Bundle 'desert-warm-256'
 Bundle 'vim-coffee-script'
+Bundle 'surround.vim'
+Bundle 'nginx.vim'
+Bundle 'scala.vim'
+Bundle 'smartchr'
+
+Bundle 'petdance/vim-perl'
 
 Bundle 'pangloss/vim-javascript'
 Bundle 'briancollins/vim-jst'
+
+Bundle 'groenewege/vim-less'
+
+" Bundle 'Valloric/YouCompleteMe'
+
+" Bundle 'ervandew/supertab'
+
+Bundle 'VimClojure'
 
 syntax on
 filetype plugin indent on
