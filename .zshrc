@@ -62,7 +62,7 @@ bindkey '^Z' may_fg
 # http://qiita.com/items/1e1d3053c33f528363d9
 tm () {
     if [ -z $TMUX ]; then
-        if $(tmux has-session); then
+        if tmux has-session 2> /dev/null; then
             tmux -2 attach
         else
             tmux -2
