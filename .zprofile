@@ -1,5 +1,3 @@
-# eval `ssh-agent -t 1800`
-eval $(/usr/local/bin/keychain --agents ssh --inherit any --timeout 30 --nogui --eval id_rsa)
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
@@ -23,3 +21,8 @@ export PAGER="$(which lv) -c -T8192"
 export PERL_REPL=rp
 
 export LANG=ja_JP.UTF-8
+
+# eval `ssh-agent -t 1800`
+if which keychain > /dev/null; then
+    eval $(/usr/local/bin/keychain --agents ssh --quick --timeout 30 --nogui --eval id_rsa)
+fi
