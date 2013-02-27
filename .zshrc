@@ -255,15 +255,17 @@ fi
 # From <http://www.nijino.com/ari/diary/?20020614&to=200206141S1#200206141S1>
 if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
     preexec() {
-        emulate -L zsh
-        local -a cmd; cmd=(${(z)2})
+        if [ -n "$TMUX" ]; then
+            emulate -L zsh
+            local -a cmd; cmd=(${(z)2})
 
-        if [[ $cmd[1] = 'fg' ]]; then
-            echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
-        elif [[ $cmd[1] = 'ssh' ]]; then
-            echo -ne "\ek%$cmd[2]\e\\"
-        else
-            echo -ne "\ek@${${1#*=* }%% *}\e\\"
+            if [[ $cmd[1] = 'fg' ]]; then
+                echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
+            elif [[ $cmd[1] = 'ssh' ]]; then
+                echo -ne "\ek%$cmd[2]\e\\"
+            else
+                echo -ne "\ek@${${1#*=* }%% *}\e\\"
+            fi
         fi
     }
 fi
