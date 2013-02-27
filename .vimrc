@@ -312,12 +312,26 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_map = ''
 
-nnoremap <silent>    :let g:ctrlp_default_input = 0<CR>:CtrlPRoot<CR>
-nnoremap <silent>  :let g:ctrlp_default_input = 0<CR>:CtrlPBuffer<CR>
-nnoremap <silent> g  :let g:ctrlp_default_input = 1<CR>:CtrlPRoot<CR>
-nnoremap <silent> m  :let g:ctrlp_default_input = 0<CR>:CtrlPMRUFiles<CR>
+nnoremap <silent>    :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
+nnoremap <silent>  :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
 nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
-nnoremap <silent> !  :call ctrlp#init(ctrlp#perldoc#id())<CR>
+nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
+nnoremap <silent> p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
+
+" override
+runtime autoload/ctrlp.vim
+
+redir => sc_names
+silent scriptnames
+redir END
+
+let s:ctrlp_sid = matchstr(sc_names, '\zs[0-9]\+\ze: \S\+autoload/ctrlp\.vim')
+
+function! ctrlp#buffers(...)
+    let ids = sort(filter(range(1, bufnr('$')),
+                \ 'getbufvar(v:val, "&bl") && strlen(bufname(v:val))'), '<SNR>'.s:ctrlp_sid.'_compmreb')
+    retu a:0 && a:1 == 'id' ? ids : map(ids, 'fnamemodify(bufname(v:val), ":.")')
+endf
 
 " easymotion
 let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz0123456789'
