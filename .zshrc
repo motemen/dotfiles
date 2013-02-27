@@ -102,11 +102,57 @@ bindkey '^[s' _quote-previous-word-in-single
 
 zstyle ':completion:*:default' menu select=1
 
+_vim-this() {
+    modify-current-argument 'vim ${(Q)ARG}'
+    zle accept-line
+}
+zle -N _vim-this
+bindkey '^[v' _vim-this
+
+_clear-line-echo () {
+    printf "%-${COLUMNS}s\r" $1
+}
+
 #
 # Completion
 #
-autoload -U compinit
-compinit
+
+_clear-line-echo "compinit..."
+
+autoload -U compinit; compinit
+
+# https://github.com/gitster/git/blob/master/contrib/completion/git-completion.bash
+if [ -e ~/.zsh/completion/git-completion.bash ]; then
+    _clear-line-echo "git-completion..."
+    source ~/.zsh/completion/git-completion.bash
+fi
+
+#
+# Aliases
+#
+_clear-line-echo "aliasing..."
+
+alias rm='rm -i'
+
+ls=$(which gls > /dev/null 2>&1 && echo 'gls' || echo 'ls')
+if [ $(uname) = 'Darwin' -a "$ls" = 'ls' ]; then
+    export LS_OPTIONS=-GF
+else
+    export LS_OPTIONS='--color -F'
+fi
+alias ls="$ls $LS_OPTIONS"
+alias ll="$ls -hAlt"
+alias lv='lv -c -T8192'
+alias :e='vim'
+alias :q='exit'
+alias ssh="TERM=screen $(whence ssh)"
+alias vi='vim'
+alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
+
+EASYTETHER_EXT=/System/Library/Extensions/EasyTetherUSBEthernet.kext
+alias easytether-on="sudo kextload $EASYTETHER_EXT"
+alias easytether-off="sudo kextunload $EASYTETHER_EXT"
+alias easytether-status="kextstat |grep EasyTether"
 
 #
 # Functions
@@ -191,33 +237,13 @@ function _update_prompt {
 
 function chpwd() {
     _update_prompt
-    ls $LS_OPTIONS
+    ls
 }
 
 function precmd() {
     _update_prompt
     echo -ne "\ek$(basename $(pwd))\e\\"
 }
-
-#
-# Aliases
-#
-alias rm='rm -i'
-if [ `uname` = 'Darwin' ]; then
-    export LS_OPTIONS=-GF
-else
-    export LS_OPTIONS='--color -F'
-fi
-alias ls="ls $LS_OPTIONS"
-alias ll='ls -hAlt'
-alias lv='lv -c -T8192'
-alias :e='vim'
-alias :q='exit'
-
-EASYTETHER_EXT=/System/Library/Extensions/EasyTetherUSBEthernet.kext
-alias easytether-on="sudo kextload $EASYTETHER_EXT"
-alias easytether-off="sudo kextunload $EASYTETHER_EXT"
-alias easytether-status="kextstat |grep EasyTether"
 
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
@@ -233,7 +259,7 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
         local -a cmd; cmd=(${(z)2})
 
         if [[ $cmd[1] = 'fg' ]]; then
-            echo -ne "\ek%$(builtin jobs -l %+)\e\\"
+            echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
         elif [[ $cmd[1] = 'ssh' ]]; then
             echo -ne "\ek%$cmd[2]\e\\"
         else
@@ -242,6 +268,15 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
     }
 fi
 
-if [ -f "$(brew --prefix)/etc/autojump" 2> /dev/null ]; then
-    . "$(brew --prefix)/etc/autojump"
+if which brew > /dev/null; then
+    if [ -f "$(brew --prefix)/etc/autojump" 2> /dev/null ]; then
+        _clear-line-echo "autojump..."
+        . "$(brew --prefix)/etc/autojump"
+    fi
 fi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+_clear-line-echo "＼＼\\└('ω')」//／／"
+echo
