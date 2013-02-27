@@ -75,7 +75,7 @@ set showmatch
 set nowarn
 set notagbsearch
 set updatetime=400
-set path^=lib,modules/*/lib
+set path^=lib,modules/*/lib,templates
 set wildmode=list:longest,list:full
 set wildmenu
 set wildignore=*.o,*.hi,*.obj,*.sw?,blib*,cover_db*
@@ -88,7 +88,7 @@ set ambiwidth=double
 set cmdheight=2
 set showcmd
 set laststatus=2
-set cpoptions+=WF
+set cpoptions+=F
 
 if exists('*GitBranch()')
     set statusline=[%n]%m\ %(%1*%{GitBranch()}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?&fenc:&enc}][%{&ff}]%=[%{Cwd()}]\ %l,%c%V\ %4P
@@ -128,6 +128,8 @@ nnoremap g<C-X> :<C-U>execute 'normal' '^' . v:count . "\<C-X>"<CR>
 
 nnoremap <silent> <ESC>z :pclose<CR>:cclose<CR>
 
+nnoremap <silent> <C-]> <C-]>zt
+
 inoremap <silent> <BS>  <C-G>u<BS>
 inoremap <silent> <C-H> <C-G>u<C-H>
 inoremap <silent> <C-W> <C-G>u<C-W>
@@ -137,6 +139,8 @@ inoremap <silent> <C-F> <Right>
 inoremap <silent> <C-B> <Left>
 
 inoremap <C-S> <C-O>:update<CR>
+
+inoremap <expr> <C-L> smartchr#one_of('->', '=>')
 
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
@@ -200,6 +204,8 @@ nnoremap QQ     :ll<Enter>
 nnoremap Q      <NOP>
 
 nnoremap Y y$
+
+cnoremap <expr> <C-G> "\<C-U>grep" . (len(@/) ? ' ' . substitute(@/, '^\\<\(.*\)\\>', '-w \1', '') : '')
 
 nmap <Space> [Space]
 nmap [Space] <NOP>
@@ -408,7 +414,8 @@ augroup vimrc-auto-mkdir
 augroup END
 
 " tmux
-command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args>, '%', expand('%'), '') . '; tmux copy-mode -t.1 \; send-keys C-y') : '' | let tmux_run_command = printf('tmux set-window-option remain-on-exit on \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -h -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
+"command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args>, '%', expand('%'), '') . '; tmux copy-mode -t.1 \; send-keys C-y') : '' | let tmux_run_command = printf('tmux set-window-option remain-on-exit on \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -h -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
+command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args>, '%', expand('%'), '')) : '' | let tmux_run_command = printf('tmux set-window-option remain-on-exit on \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -h -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
 nnoremap <Leader>! :TmuxSplitRun 
 
 nnoremap <ESC>m :update<Enter>:execute 'TmuxSplitRun' &makeprg<Enter>
@@ -470,6 +477,7 @@ function! Perldoc(args)
 
     enew
 
+    setlocal buftype=nofile
     silent execute '0read!perldoc -otext -T' a:args
 
     if v:shell_error
@@ -481,9 +489,9 @@ function! Perldoc(args)
     else
         let b:perldoc_args = a:args
         file `=bufname`
-        setlocal buftype=nofile noswapfile nomodifiable
+        setlocal noswapfile nomodifiable
         setfiletype man
-        nnoremap <buffer> S :split `=system('perldoc -l ' . b:perldoc_args)`<Enter>
+        nnoremap <buffer> s :edit `=system('perldoc -l ' . b:perldoc_args)`<Enter>
         0
     endif
 endfunction
