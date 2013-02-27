@@ -1,0 +1,60 @@
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	grep = auto
+[color "diff"]
+#	whitespace = normal
+[color "grep"]
+	function = blue
+#	match = reverse yellow
+	filename = cyan
+	linenumber = yellow
+	separator = white
+[user]
+	email = motemen@gmail.com
+	name = motemen
+[alias]
+	st = status -sb
+	co = checkout
+	com = checkout master
+	ci = commit -v
+	di = diff
+	br = branch
+	lg = log --decorate --graph --abbrev-commit --pretty=oneline
+	r = recent-branches --no-merged
+	psuh = push
+	o = browse-remote
+	ls-others = ls-files --others --exclude-standard
+[core]
+	excludesfile = ~/.gitignore
+#	whitespace = nowarn
+#	pager = less --quit-if-one-screen --RAW-CONTROL-CHARS --no-init
+	pager = less -+$LESS -FRX
+[push]
+	default = current
+[apply]
+#	whitespace = nowarn
+[help]
+#	autocorrect = 4
+[diff]
+	ignoreSubmodules = dirty
+#	wordRegex = [^[:space:]]
+[branch]
+	autosetuprebase = always
+[diff "gzip"]
+	textconv = gzcat
+[web]
+	browser = open
+[merge]
+	ff = false
+[gc]
+	auto = 0
+[diff "cartonlock"]
+	textconv = "perl -MJSON -0e \"\\$m = eval { decode_json(<>)->{modules} }; print qq(\\$_~\\$m->{\\$_}->{version}\\n) for sort keys %\\$m\""
+[filetype "compressed"]
+	binary = true
+[pull]
+	rebase = true
+[include]
+	path = ~/.gitconfig.local
