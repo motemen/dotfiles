@@ -242,7 +242,7 @@ function chpwd() {
 
 function precmd() {
     _update_prompt
-    echo -ne "\ek$(basename $(pwd))\e\\"
+    [ -n "$TMUX" ] && echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
 if [ -e ~/.zsh/local ]; then
