@@ -13,7 +13,7 @@ fi
 
 export MYSQL_PS1='\u@\h [\d]> '
 
-export ANDROID_SDK_ROOT=$HOME/lib/android-sdk/
+export ANDROID_SDK_ROOT=/usr/local/opt/android-sdk
 export NODE_PATH=/usr/local/lib/node_modules
 
 export EDITOR="$(which vim)"
