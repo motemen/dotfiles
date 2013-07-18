@@ -30,13 +30,24 @@ Bundle 'briancollins/vim-jst'
 
 Bundle 'groenewege/vim-less'
 
+Bundle 'slim-template/vim-slim'
+
 " Bundle 'Valloric/YouCompleteMe'
 
 " Bundle 'ervandew/supertab'
 
 Bundle 'VimClojure'
 
+Bundle 'closetag.vim'
+
+Bundle 'terryma/vim-expand-region'
 Bundle 'https://github.com/plasticboy/vim-markdown.git'
+
+Bundle 'kana/vim-textobj-user'
+Bundle 'kana/vim-textobj-syntax'
+Bundle 'kana/vim-textobj-lastpat'
+Bundle 'thinca/vim-textobj-function-perl'
+Bundle 'mjbrownie/html-textobjects'
 
 syntax on
 filetype plugin indent on
