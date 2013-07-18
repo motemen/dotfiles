@@ -110,7 +110,7 @@ else
 endif
 
 set cedit=<C-O>
-set history=10000
+set history=1000
 
 set shortmess+=A
 set splitright
@@ -127,6 +127,7 @@ iabbrev sfhti  <F10>shift<F10>
 iabbrev sfthi  <F10>shift<F10>
 iabbrev sefl   <F10>self<F10>
 iabbrev sned   <F10>send<F10>
+iabbrev arsg   <F10>args<F10>
 iabbrev lenght <F10>length<F10>
 iabbrev argumetns <F10>arguments<F10>
 
@@ -138,6 +139,8 @@ vnoremap <silent> k gk
 nnoremap g<Enter> :redraw!<Enter>:redrawstatus!<Enter>
 nnoremap g<C-A> :<C-U>execute 'normal' '^' . v:count . "\<C-A>"<CR>
 nnoremap g<C-X> :<C-U>execute 'normal' '^' . v:count . "\<C-X>"<CR>
+
+nnoremap gi :<C-U>!gi
 
 nnoremap <silent> <ESC>z :pclose<CR>:cclose<CR>
 
@@ -173,6 +176,7 @@ cnoremap <expr> <C-J>  getcmdline() == '' ? '!' : getcmdline() == '!' ? "\<C-U>T
 
 nnoremap <silent> gs0 :echo synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
 nnoremap <silent> gs1 :echo synIDattr(synID(line('.'), col('.'), 0), 'name')<CR>
+nnoremap gs <nop>
 
 nnoremap <silent> <TAB>      gt
 nnoremap <silent> <S-TAB>    gT
@@ -228,6 +232,10 @@ let mapleader='0'
 inoremap <silent> <expr> <C-]> gabbrev#i_start()
 let g:gabbrev#keyword_ch_pattern = '[[:alnum:]:]'
 " }}}
+
+" surround
+let g:surround_no_mappings = 1
+nmap      ds   <Plug>Dsurround
 
 " fuzzyfinder {{{
 let g:fuf_autoPreview = 0
@@ -479,12 +487,14 @@ augroup vimrc-add-highlights
         highlight Visual cterm=NONE ctermbg=yellow ctermfg=black
         highlight StatusLine ctermbg=236
         highlight StatusLineNC ctermbg=236
+        highlight Normal ctermbg=none
     endfunction
 augroup END
 
 colorscheme desert-warm-256
 
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
+command! -range GitBrowseRemote !git browse-remote --rev -L<line1> -- %
 
 function! PerlModules(arg_lead, cmd_line, cursor_ops)
     return system('pm-packages.pl')
