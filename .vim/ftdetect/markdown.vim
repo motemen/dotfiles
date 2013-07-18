@@ -1,1 +1,1 @@
-autocmd BufRead *.md set filetype=markdown
+autocmd BufRead *.md set filetype=mkd

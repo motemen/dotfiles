@@ -36,6 +36,8 @@ Bundle 'groenewege/vim-less'
 
 Bundle 'VimClojure'
 
+Bundle 'https://github.com/plasticboy/vim-markdown.git'
+
 syntax on
 filetype plugin indent on
 
