@@ -133,6 +133,7 @@ fi
 _clear-line-echo "aliasing..."
 
 alias rm='rm -i'
+alias mv='mv -i'
 
 ls=$(which gls > /dev/null 2>&1 && echo 'gls' || echo 'ls')
 if [ $(uname) = 'Darwin' -a "$ls" = 'ls' ]; then
@@ -237,7 +238,7 @@ function _update_prompt {
 
 function chpwd() {
     _update_prompt
-    ls
+    ls -t
 }
 
 function precmd() {

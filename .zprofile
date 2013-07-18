@@ -1,7 +1,7 @@
 export RLWRAP_HOME=~/.rlwrap
 
 export PATH=$PATH:/usr/sbin
-export PATH=/usr/local/bin/:$PATH
+export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/Cellar/python/2.7.1/bin/:$PATH
 # export PATH=/usr/local/Cellar/ruby/1.9.3-p0/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
