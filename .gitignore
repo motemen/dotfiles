@@ -1,1 +1,5 @@
 /.vim/bundle/
+.perl-version
+*.sw[ponl]
+/tags
+/.gitconfig.local
