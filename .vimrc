@@ -284,7 +284,6 @@ command! -range=% Source silent split `=tempname()` | silent put=getbufline('#',
 """ Plugin settings """
 
 " Git
-let git_bin = '/usr/local/bin/git'
 let git_highlight_blame = 1
 let git_no_map_default = 1
 nnoremap <Leader>gd :GitDiff -M --no-prefix<Enter>
@@ -449,8 +448,7 @@ augroup vimrc-auto-mkdir
 augroup END
 
 " tmux
-"command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args>, '%', expand('%'), '') . '; tmux copy-mode -t.1 \; send-keys C-y') : '' | let tmux_run_command = printf('tmux set-window-option remain-on-exit on \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -h -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
-command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args>, '%', expand('%'), '')) : '' | let tmux_run_command = printf('tmux set-window-option remain-on-exit on \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -h -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
+command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args> . '; read' , '%', expand('%'), '')) : '' | let tmux_run_command = printf('tmux if-shell "tmux select-pane -t.1" "send-keys ^C" \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -v -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
 nnoremap <Leader>! :TmuxSplitRun 
 
 nnoremap <ESC>m :update<Enter>:execute 'TmuxSplitRun' &makeprg<Enter>
