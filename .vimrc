@@ -494,6 +494,22 @@ colorscheme desert-warm-256
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
 command! -range GitBrowseRemote !git browse-remote --rev -L<line1> -- %
 
+nnoremap <silent> <C-]> :call UpdateCtags()<CR>:normal! <C-]><CR>
+
+function! UpdateCtags()
+    if stridx(expand('%:p'), getcwd()) != 0
+        return
+    end
+
+    for tagfile in tagfiles()
+        if getftime(tagfile) > getftime(expand('%'))
+            return
+        endif
+    endfor
+
+    !ctags -R $(git ls-tree --name-only HEAD)
+endfunction
+
 function! PerlModules(arg_lead, cmd_line, cursor_ops)
     return system('pm-packages.pl')
 endfunction
