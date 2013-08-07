@@ -246,6 +246,10 @@ function precmd() {
     [ -n "$TMUX" ] && echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
+function dic() {
+    open dict://"$*"
+}
+
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
 fi
