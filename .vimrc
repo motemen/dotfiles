@@ -49,6 +49,8 @@ Bundle 'kana/vim-textobj-lastpat'
 Bundle 'thinca/vim-textobj-function-perl'
 Bundle 'mjbrownie/html-textobjects'
 
+Bundle 'itchyny/lightline.vim'
+
 syntax on
 filetype plugin indent on
 
