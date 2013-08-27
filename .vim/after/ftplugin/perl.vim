@@ -44,5 +44,5 @@ endfunction
 nnoremap <ESC>t :update<Enter>:call <SID>test_class_test_method()<CR>
 
 if isdirectory('local/lib/perl5')
-    let b:tap_run_command = 'carton exec -- perl'
+    let b:tap_run_command = 'PERL5LIB=local/lib/perl5 perl'
 end

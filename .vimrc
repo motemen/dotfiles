@@ -530,8 +530,13 @@ function! Perldoc(args)
 
     enew
 
+    let perldoc = 'perldoc'
+    if isdirectory('local/lib/perl5')
+        let perldoc = 'PERL5OPT=-Ilocal/lib/perl5 ' . perldoc
+    end
+
     setlocal buftype=nofile
-    silent execute '0read!perldoc -otext -T' a:args
+    silent execute '0read!' . perldoc . ' -otext -T' a:args
 
     if v:shell_error
         let message = getline(1)
