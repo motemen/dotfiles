@@ -246,6 +246,18 @@ function precmd() {
     [ -n "$TMUX" ] && echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
+function sssh () {
+    tmux new-window "ssh $1"
+    shift
+
+    for host in "$*" ; do
+        tmux split-window "ssh $host || read"
+    done
+
+    tmux select-layout tiled > /dev/null
+    tmux select-pane -t 0 > /dev/null
+    tmux set-window-option synchronize-panes on > /dev/null
+}
 
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
