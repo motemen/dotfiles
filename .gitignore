@@ -3,3 +3,4 @@
 *.sw[ponl]
 /tags
 /.gitconfig.local
+*.pyc
