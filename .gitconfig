@@ -39,6 +39,7 @@
 #	autocorrect = 4
 [diff]
 	ignoreSubmodules = dirty
+	submodule = log
 #	wordRegex = [^[:space:]]
 [branch]
 	autosetuprebase = always
