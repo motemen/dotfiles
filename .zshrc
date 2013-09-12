@@ -232,8 +232,23 @@ function _update_prompt {
         PROMPT="$PROMPT  ${fg[white]}(${PERLBREW_PERL})${reset_color}"
     fi
     PROMPT="%D{%H:%M:%S} $PROMPT%E
-"
-    PROMPT="$PROMPT$HOST%# "
+$HOST%# "
+
+    jobs_suspended=$(( $(jobs -s | wc -l) ))
+    if [ $jobs_suspended != 0 ]; then
+        if [ $jobs_suspended = 1 ]; then
+            jobs_suspended=''
+        fi
+        PROMPT="$fg[yellow]${jobs_suspended}z${reset_color} $PROMPT"
+    fi
+
+    jobs_background=$(( $(jobs -r | wc -l) ))
+    if [ $jobs_background != 0 ]; then
+        if [ $jobs_background = 1 ]; then
+            jobs_background=''
+        fi
+        PROMPT="$fg[yellow]${jobs_background}&${reset_color} $PROMPT"
+    fi
 }
 
 function chpwd() {
