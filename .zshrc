@@ -265,7 +265,7 @@ function sssh () {
     tmux new-window "ssh $1"
     shift
 
-    for host in "$*" ; do
+    for host in $* ; do
         tmux split-window "ssh $host || read"
     done
 
