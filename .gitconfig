@@ -40,7 +40,8 @@
 [diff]
 	ignoreSubmodules = dirty
 	submodule = log
-#	wordRegex = [^[:space:]]
+	algorithm = patience
+	wordRegex = [[:alnum:]]+|[^[:space:]]
 [branch]
 	autosetuprebase = always
 [diff "gzip"]
