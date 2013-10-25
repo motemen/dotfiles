@@ -7,6 +7,8 @@ end
 
 if expand('%') =~ '^spec/'
     let &l:makeprg = b:bundle_prefix . 'rspec --format documentation %'
+else
+    let &l:makeprg = 'ruby %'
 endif
 
 setlocal includeexpr=substitute(system(b:bundle_prefix.'gem\ which\ '.v:fname.'\ 2>/dev/null'),'[\\r\\n]','','g')
