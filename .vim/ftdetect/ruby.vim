@@ -1,2 +1,1 @@
-autocmd BufRead Capfile setfiletype ruby
-autocmd BufRead Gemfile set ft=ruby
+autocmd BufRead Capfile,Gemfile,GuardFile set filetype=ruby
