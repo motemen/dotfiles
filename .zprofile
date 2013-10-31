@@ -21,7 +21,8 @@ export ANDROID_SDK_ROOT=/usr/local/opt/android-sdk
 export NODE_PATH=/usr/local/lib/node_modules
 
 export EDITOR="$(which vim)"
-export PAGER="$(which lv) -c -T8192"
+# export PAGER="$(which lv) -R"
+export PAGER="$(which less) -R"
 
 export PERL_REPL=rp
 

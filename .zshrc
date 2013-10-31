@@ -143,7 +143,8 @@ else
 fi
 alias ls="$ls $LS_OPTIONS"
 alias ll="$ls -hAlt"
-alias lv='lv -c -T8192'
+# alias lv='lv -c -T8192'
+# alias lv='lv -R'
 alias :e='vim'
 alias :q='exit'
 alias ssh="TERM=screen $(whence ssh)"
