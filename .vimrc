@@ -513,7 +513,7 @@ function! UpdateCtags()
 endfunction
 
 function! PerlModules(arg_lead, cmd_line, cursor_ops)
-    return system('pm-packages.pl')
+    return system('pm-packages.pl --local')
 endfunction
 
 function! Perldoc(args)
