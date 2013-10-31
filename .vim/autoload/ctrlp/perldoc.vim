@@ -44,7 +44,7 @@ endif
 "
 " Return: command
 function! ctrlp#perldoc#init()
-  return split(system('pm-packages.pl'), '\n')
+  return split(system('pm-packages.pl --local'), '\n')
 endfunction
 
 
