@@ -51,6 +51,14 @@ Bundle 'mjbrownie/html-textobjects'
 
 Bundle 'itchyny/lightline.vim'
 
+if strlen($GOROOT) > 0
+    set runtimepath+=$GOROOT/misc/vim
+endif
+
+if strlen($GOPATH) > 0
+    set runtimepath+=$GOPATH/src/github.com/nsf/gocode/vim
+end
+
 syntax on
 filetype plugin indent on
 
