@@ -31,6 +31,11 @@
 #	whitespace = nowarn
 #	pager = less --quit-if-one-screen --RAW-CONTROL-CHARS --no-init
 	pager = less -+$LESS -FRX
+[pager]
+# contrib/diff-highlight/diff-highlight
+	log  = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
 [push]
 	default = current
 [apply]
