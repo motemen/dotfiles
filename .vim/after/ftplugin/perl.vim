@@ -4,6 +4,8 @@ setlocal path^=t/lib
 setlocal path^=modules/*/lib
 setlocal path^=modules/*/t/lib
 setlocal path^=../../modules/*/lib
+setlocal path^=local/lib/perl5
+setlocal path^=local/lib/perl5/darwin-2level
 setlocal includeexpr=substitute(substitute(v:fname,'^.\\{-}\\([A-Za-z0-9_:]\\+\\)[^A-Za-z0-9_:]*$','\\1.pm',''),'::','/','g')
 setlocal suffixesadd=.pm
 
