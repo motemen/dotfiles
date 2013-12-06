@@ -151,79 +151,19 @@ alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
 alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
 
-EASYTETHER_EXT=/System/Library/Extensions/EasyTetherUSBEthernet.kext
-alias easytether-on="sudo kextload $EASYTETHER_EXT"
-alias easytether-off="sudo kextunload $EASYTETHER_EXT"
-alias easytether-status="kextstat |grep EasyTether"
-
 #
 # Functions
 #
 
-# http://d.hatena.ne.jp/ka-nacht/20090112/1231746120
-function _echo_git_head() {
-    local git_dir="$($GIT_BIN rev-parse --git-dir 2>/dev/null)"
-    if [ -z "$git_dir" ]; then
-        return 1
-    fi
+export GIT_PS1_SHOWUPSTREAM='verbose'
+export GIT_PS1_DESCRIBE_STYLE='branch'
+export GIT_PS1_SHOWDIRTYSTATE='yes'
+export GIT_PS1_SHOWCOLORHINTS='yes'
 
-    local head_name=''
-    local additional_info=''
-    if [ -d "$git_dir/rebase-apply" ]; then
-        if [ -f "$git_dir/rebase-apply/rebasing" ]; then
-            additional_info="REBASE"
-        elif [ -f "$git_dir/rebase-apply/applying" ]; then
-            additional_info="AM"
-        else
-            additional_info="AM/REBASE"
-        fi
-
-        local next="$(< "$git_dir/rebase-apply/next")"
-        local last="$(< "$git_dir/rebase-apply/last")"
-
-        if [ "$next" -a "$last" ]; then
-            next=$[ $next - 1]
-            additional_info="$additional_info ($next/$last)"
-        fi
-
-        head_name="$($GIT_BIN symbolic-ref HEAD 2>/dev/null)"
-    elif [ -d "$git_dir/rebase-merge" ]; then
-        if [ -f "$git_dir/rebase-merge/interactive" ]; then
-            additional_info="REBASE-i"
-            head_name="$(< "$git_dir/rebase-merge/head-name")"
-            local left="$(grep '^[pes]' $git_dir/rebase-merge/git-rebase-todo | wc -l)"
-            if [ "$left" ]; then
-                left=$[ $left + 1 ]
-                additional_info="$additional_info ($left left)"
-            fi
-        else
-            additional_info="REBASE-m"
-            head_name="$(< "$git_dir/rebase-merge/head-name")"
-        fi
-    elif [ -f "$git_dir/MERGE_HEAD" ]; then
-        additional_info="MERGING"
-        head_name="$($GIT_BIN symbolic-ref HEAD 2>/dev/null)"
-    else
-        head_name="$($GIT_BIN symbolic-ref HEAD 2>/dev/null)"
-    fi
-
-    if [ -z "$head_name" ]; then
-        head_name="$($GIT_BIN name-rev --name-only HEAD)"
-    fi
-
-    head_name="${head_name##refs/heads/}"
-
-    if [ -n "$additional_info" ]; then
-        additional_info=", $additional_info"
-    fi
-
-    echo "$head_name$additional_info"
-
-    return 0
-}
+. $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
 
 function _update_prompt {
-    GIT_BRANCH=$(_echo_git_head)
+    GIT_BRANCH=$(__git_ps1 '%s')
 
     PROMPT="[%{%(?.$fg_bold[green].$fg_bold[red])%}%(5~,%-2~/.../%2~,%~)${reset_color}]"
     if [ $GIT_BRANCH ]; then
