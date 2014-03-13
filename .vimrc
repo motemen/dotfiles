@@ -574,4 +574,9 @@ augroup pm-autoinsert-package
                 \ | set modified
 augroup END
 
+augroup gemfile-autoinsert-source
+    autocmd!
+    autocmd BufNewFile Gemfile call append(0, "source 'https://rubygems.org'") | set modified
+augroup END
+
 finish
