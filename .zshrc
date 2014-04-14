@@ -194,7 +194,8 @@ $HOST%# "
 
 function chpwd() {
     _update_prompt
-    ls -t
+    # ls -t
+    # k || ls -t
 }
 
 function precmd() {
@@ -217,6 +218,10 @@ function sssh () {
 
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
+fi
+
+if [ -e ~/.zsh.d/k/k.sh ]; then
+    source ~/.zsh.d/k/k.sh
 fi
 
 #

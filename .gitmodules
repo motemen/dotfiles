@@ -4,3 +4,6 @@
 [submodule ".zsh.d/zsh-notify"]
 	path = .zsh.d/zsh-notify
 	url = https://github.com/marzocchi/zsh-notify
+[submodule ".zsh.d/k"]
+	path = .zsh.d/k
+	url = https://github.com/supercrabtree/k
