@@ -440,20 +440,18 @@ augroup vimrc-cd-to-project-dir
     endfunction
 augroup END
 
-" TODO <expr> に
-function! InsertSpaceAsAbove()
+function! s:SpacesAsAbove()
     let [lnum, col] = getpos('.')[1:2]
     let line_above  = getline(lnum - 1)
+    if col >= len(line_above)
+        return "\<C-U>"
+    endif
     let string_ahead = matchstr(line_above, '\%' . (col + 1) . 'c\S*\s*')
     let len = strlen(string_ahead)
-    if strlen(getline('.'))
-        execute 'normal ' . len . 'a '
-    else
-        execute 'normal ' . (len + 1) . 'a '
-    endif
+    return repeat(' ', len + 1)
 endfunction
 
-inoremap <C-E> <ESC>:call InsertSpaceAsAbove()<CR>a
+inoremap <expr> <C-E> pumvisible() ? "\<C-E>" : <SID>SpacesAsAbove()
 
 augroup vimrc-auto-mkdir
     autocmd!
