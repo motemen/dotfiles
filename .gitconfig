@@ -1,69 +1,71 @@
 [color]
-	diff = auto
-	status = auto
-	branch = auto
-	grep = auto
+    diff = auto
+    status = auto
+    branch = auto
+    grep = auto
 [color "diff"]
 #	whitespace = normal
 [color "grep"]
-	function = blue
+    function = blue
 #	match = reverse yellow
-	filename = cyan
-	linenumber = yellow
-	separator = white
+    filename = cyan
+    linenumber = yellow
+    separator = white
 [user]
-	email = motemen@gmail.com
-	name = motemen
+    email = motemen@gmail.com
+    name = motemen
 [alias]
-	st = status -sb
-	co = checkout
-	com = checkout master
-	ci = commit -v
-	di = diff
-	br = branch
-	lg = log --decorate --graph --abbrev-commit --pretty=oneline
-	r = recent-branches --no-merged
-	psuh = push
-	o = browse-remote
-	ls-others = ls-files --others --exclude-standard
+    st = status --short --branch --ignore-submodules=dirty .
+    co = checkout
+    com = checkout master
+    ci = commit -v
+    di = diff
+    br = branch
+    lg = log --decorate --graph --abbrev-commit --pretty=oneline
+    # r = recent-branches --no-merged
+    r = !git reflog | perl -anal -e '$seen{$1}++ or print $1 if /checkout:.*to (.+)/' | head
+    psuh = push
+    o = browse-remote
+    ls-others = ls-files --others --exclude-standard
+    hub-pr-branch = !sh -c \"git name-rev --name-only --refs 'remotes/origin/*' $(git ls-remote origin refs/pull/$1/head | cut -f1) | sed 's:^origin/::'\" --
 [core]
-	excludesfile = ~/.gitignore
+    excludesfile = ~/.gitignore
 #	whitespace = nowarn
 #	pager = less --quit-if-one-screen --RAW-CONTROL-CHARS --no-init
-	pager = less -+$LESS -FRX
+    pager = less -+$LESS -FRX
 [pager]
 # contrib/diff-highlight/diff-highlight
-	log  = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
+    log  = diff-highlight | less -+$LESS -FRX
+    show = diff-highlight | less -+$LESS -FRX
+    diff = diff-highlight | less -+$LESS -FRX
 [push]
-	default = current
+    default = current
 [apply]
 #	whitespace = nowarn
 [help]
 #	autocorrect = 4
 [diff]
-	ignoreSubmodules = dirty
-	submodule = log
-	algorithm = patience
-	wordRegex = [[:alnum:]]+|[^[:space:]]
+#   ignoreSubmodules = dirty
+    submodule = log
+    algorithm = patience
+    wordRegex = [[:alnum:]]+|[^[:space:]]
 [branch]
-	autosetuprebase = always
+    autosetuprebase = always
 [diff "gzip"]
-	textconv = gzcat
+    textconv = gzcat
 [web]
-	browser = open
+    browser = open
 [merge]
-	ff = false
+    ff = false
 [gc]
-	auto = 0
+    auto = 0
 [diff "cartonlock"]
-	textconv = "perl -MJSON -0e \"\\$m = eval { decode_json(<>)->{modules} }; print qq(\\$_~\\$m->{\\$_}->{version}\\n) for sort keys %\\$m\""
+    textconv = "perl -MJSON -0e \"\\$m = eval { decode_json(<>)->{modules} }; print qq(\\$_~\\$m->{\\$_}->{version}\\n) for sort keys %\\$m\""
 [filetype "compressed"]
-	binary = true
+    binary = true
 [pull]
-	rebase = true
+    rebase = true
 [include]
-	path = ~/.gitconfig.local
+    path = ~/.gitconfig.local
 [interactive]
-	singlekey = true
+    singlekey = true
