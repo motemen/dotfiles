@@ -1,7 +1,7 @@
 /.vim/bundle/
 .perl-version
 .ruby-version
-*.sw[ponl]
 /tags
 /.gitconfig.local
 *.pyc
+.DS_Store
