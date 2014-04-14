@@ -50,6 +50,8 @@ Bundle 'thinca/vim-textobj-function-perl'
 Bundle 'mjbrownie/html-textobjects'
 
 Bundle 'itchyny/lightline.vim'
+Bundle 'leafgarland/typescript-vim'
+
 
 """ Go {{{
 
@@ -60,6 +62,8 @@ endif
 Bundle 'nsf/gocode', {'rtp': 'vim/'}
 
 """ }}}
+
+Bundle 'clausreinke/typescript-tools'
 
 syntax on
 filetype plugin indent on

@@ -8,3 +8,10 @@ syntax clear typeScriptPropietaryMethods
 syntax clear typeScriptEventListenerKeywords
 syntax clear typeScriptEventListenerMethods
 syntax clear typeScriptHtmlEvents
+
+highlight link typeScriptParens NONE
+highlight link typeScriptBraces NONE
+highlight link typeScriptEndColons NONE
+
+highlight link typeScriptFuncArg NONE
+highlight link typeScriptFuncDef NONE
