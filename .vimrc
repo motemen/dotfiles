@@ -55,11 +55,13 @@ Bundle 'leafgarland/typescript-vim'
 
 """ Go {{{
 
-if strlen($GOROOT) > 0
-    set runtimepath+=$GOROOT/misc/vim
-endif
+" if strlen($GOROOT) > 0
+"     set runtimepath+=$GOROOT/misc/vim
+" endif
+" 
+" Bundle 'nsf/gocode', {'rtp': 'vim/'}
 
-Bundle 'nsf/gocode', {'rtp': 'vim/'}
+Bundle 'fatih/vim-go'
 
 """ }}}
 
