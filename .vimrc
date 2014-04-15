@@ -66,6 +66,7 @@ Bundle 'fatih/vim-go'
 """ }}}
 
 Bundle 'clausreinke/typescript-tools'
+let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
 
 syntax on
 filetype plugin indent on
