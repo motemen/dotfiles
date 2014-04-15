@@ -162,10 +162,11 @@ nnoremap <silent> <ESC>z :pclose<CR>:cclose<CR>
 nnoremap <silent> <C-]> <C-]>zt
 
 inoremap <silent> <BS>  <C-G>u<BS>
-inoremap <silent> <C-H> <C-G>u<C-H>
-inoremap <silent> <C-W> <C-G>u<C-W>
-inoremap <silent> <C-U> <C-G>u<C-U>
-inoremap <silent> <C-R> <C-G>u<C-R>
+"inoremap <silent> <C-H> <C-G>u<C-H>
+"inoremap <silent> <C-W> <C-G>u<C-W>
+"inoremap <silent> <C-U> <C-G>u<C-U>
+"inoremap <silent> <C-R> <C-G>u<C-R>
+inoremap <silent> <CR>  <C-G>u<CR>
 inoremap <silent> <C-F> <Right>
 inoremap <silent> <C-B> <Left>
 
