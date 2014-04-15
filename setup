@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+cd $(dirname $0)
+base=$(pwd)
+
+echo '---> Making symlinks'
+
+for dotfile in .*; do
+    case $dotfile in
+        .|..|.git|.gitmodules)
+            ;;
+        *)
+            ( cd && ln -s -v $base/$dotfile ) || true
+            ;;
+    esac
+
+done
+
+echo '---> Updating Git submodules'
+
+git submodule update --init
+
+echo '---> Installing Vim bundles'
+
+vim +BundleInstall +qall
