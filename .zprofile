@@ -29,3 +29,5 @@ export PERL_REPL=rp
 export LANG=ja_JP.UTF-8
 
 export _JAVA_OPTIONS='-Dfile.encoding=UTF-8'
+
+autoload -U compinit; compinit

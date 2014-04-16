@@ -117,15 +117,10 @@ _clear-line-echo () {
 # Completion
 #
 
-_clear-line-echo "compinit..."
-
-autoload -U compinit; compinit
-
-# https://github.com/gitster/git/blob/master/contrib/completion/git-completion.bash
-if [ -e ~/.zsh/completion/git-completion.bash ]; then
-    _clear-line-echo "git-completion..."
-    source ~/.zsh/completion/git-completion.bash
-fi
+# XXX moved to zprofile
+# _clear-line-echo "compinit..."
+# 
+# autoload -U compinit; compinit
 
 #
 # Aliases
@@ -160,7 +155,11 @@ export GIT_PS1_DESCRIBE_STYLE='branch'
 export GIT_PS1_SHOWDIRTYSTATE='yes'
 export GIT_PS1_SHOWCOLORHINTS='yes'
 
-. $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
+if which brew > /dev/null; then
+    . $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
+elif [ -e /etc/bash_completion.d/git-prompt ]; then
+    . /etc/bash_completion.d/git-prompt
+fi
 
 function _update_prompt {
     GIT_BRANCH=$(__git_ps1 '%s')
