@@ -24,4 +24,8 @@ git submodule update --init
 
 echo '---> Installing Vim bundles'
 
-vim +BundleInstall +qall
+if [ -t 0 ]; then
+    vim -e +BundleInstall +qall!
+else
+    script -c 'vim -e +BundleInstall +qall!'
+fi
