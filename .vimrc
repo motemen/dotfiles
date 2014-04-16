@@ -49,7 +49,6 @@ Bundle 'kana/vim-textobj-lastpat'
 Bundle 'thinca/vim-textobj-function-perl'
 Bundle 'mjbrownie/html-textobjects'
 
-Bundle 'itchyny/lightline.vim'
 Bundle 'leafgarland/typescript-vim'
 
 
@@ -346,13 +345,37 @@ let g:ctrlp_max_depth = 10
 let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files']
 let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 1
-let g:ctrlp_map = ''
+let g:ctrlp_map = 'g<C-P>'
 
-nnoremap <silent>    :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
-nnoremap <silent>  :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
-nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
-nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
-nnoremap <silent> p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
+" lightline {{{
+Bundle 'itchyny/lightline.vim'
+let g:lightline = {}
+let g:lightline.component = { 'filename': '%f' }
+let g:lightline.active = {
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'bufnum', 'gitbranch' ],
+            \           [ 'readonly', 'filename', 'modified' ]
+            \         ],
+            \ 'right': [ [ 'cwd' ],
+            \            [ 'lineinfo' ],
+            \            [ 'fileformat', 'fileencoding', 'filetype' ]
+            \          ]
+            \ }
+let g:lightline.inactive = {
+            \ 'left': [ [ 'bufnum' ], [ 'filename' ] ]
+            \ }
+let g:lightline.component_function = {
+            \ 'cwd': 'Cwd',
+            \ 'gitbranch': 'GitBranch'
+            \ }
+" }}}
+
+" nnoremap <silent>    :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
+" nnoremap <silent>  :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
+" nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
+" nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
+" nnoremap <silent> p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
+nnoremap <silent> <C-P>p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
 
 " override
 runtime autoload/ctrlp.vim
