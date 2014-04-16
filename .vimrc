@@ -485,24 +485,14 @@ augroup vimrc-auto-mkdir
 augroup END
 
 " tmux
-command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args> . '; read' , '%', expand('%'), '')) : '' | let tmux_run_command = printf('tmux if-shell "tmux select-pane -t.1" "send-keys ^C" \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -v -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
+"command! -nargs=* -complete=shellcmd TmuxSplitRun let _cmd = len(<q-args>) ? shellescape(substitute(<q-args> . '; read' , '%', expand('%'), '')) : '' | let tmux_run_command = printf('tmux if-shell "tmux select-pane -t.1" "send-keys ^C" \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -v -p 30 %s"', _cmd, _cmd) | ruby `#{VIM::evaluate('tmux_run_command')}`
+command! -nargs=* -complete=shellcmd -bang TmuxSplitRun
+            \ let _cmd = len(<q-args>) ? shellescape(substitute(<q-args> . '; read' , '%', expand('%'), '')) : '' |
+            \ let tmux_cmd = printf('tmux if-shell "tmux select-pane -t.1" "send-keys ^C" \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -v -p 30 %s"%s', _cmd, _cmd, len('<bang>') ? ' \; resize-pane -Z' : '') |
+            \ call system(tmux_cmd)
 nnoremap <Leader>! :TmuxSplitRun 
 
 nnoremap <ESC>m :update<Enter>:execute 'TmuxSplitRun' &makeprg<Enter>
-
-" augroup vimrc-follow-symlnik
-"     autocmd!
-"     autocmd BufReadPost * call s:follow_symlink()
-"     function! s:follow_symlink()
-"         let file = expand('%')
-"         if getftype(file) == 'link'
-"             bwipeout
-"             execute 'edit' resolve(file)
-"             filetype detect
-"             echo 'following symlink ' . file . ' -> ' . expand('%')
-"         endif
-"     endfunction
-" augroup END
 
 augroup vimrc-add-highlights
     autocmd!
