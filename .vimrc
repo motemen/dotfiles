@@ -115,7 +115,10 @@ set path^=lib,modules/*/lib,templates
 set wildmode=list:longest,list:full
 set wildmenu
 set wildignore=*.o,*.hi,*.obj,*.sw?,blib*,cover_db*
+
 set complete-=i
+set completeopt=menu,longest
+
 set fileencodings=ucs-bom,utf-8,euc-jp,cp932 ",ucs-2le,utf-16
 set fileformats=unix,dos
 set termencoding=utf-8
