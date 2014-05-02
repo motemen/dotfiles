@@ -251,8 +251,6 @@ if which brew > /dev/null; then
     fi
 fi
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
 
 . $(brew --prefix)/share/zsh/site-functions/go
 
@@ -260,6 +258,13 @@ export GOROOT=$(brew --prefix go)
 export GOPATH=$HOME/.go
 
 export PATH=$PATH:$GOPATH/bin
+
+# testing
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
+zstyle ':completion:*' group-name ''
 
 _clear-line-echo "＼＼\\└('ω')」//／／"
 echo
