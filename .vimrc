@@ -51,6 +51,11 @@ Bundle 'mjbrownie/html-textobjects'
 
 Bundle 'leafgarland/typescript-vim'
 
+" auto-pairs {{{
+Bundle 'motemen/auto-pairs'
+let g:AutoPairsSkipToNextClosedPair = 0
+let g:AutoPairsDisableJustBeforeChar = 1
+" }}}
 
 """ Go {{{
 
