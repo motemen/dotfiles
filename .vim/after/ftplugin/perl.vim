@@ -28,7 +28,7 @@ function! s:perl_package()
 endfunction
 
 inoremap <buffer> <silent> <expr> <C-]> gabbrev#i_start()
-setlocal completefunc=gabbrev#complete
+" setlocal completefunc=gabbrev#complete
 
 function! s:test_class_test_method()
     let re = 'sub\s\+\(\S\+\)\s*:\s*Test'
@@ -46,5 +46,5 @@ endfunction
 nnoremap <ESC>t :update<Enter>:call <SID>test_class_test_method()<CR>
 
 if isdirectory('local/lib/perl5')
-    let b:tap_run_command = 'PERL5LIB=local/lib/perl5 perl'
+    let b:tap_run_command = 'PERL5LIB=local/lib/perl5 perl -Ilib'
 end
