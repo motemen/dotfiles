@@ -20,6 +20,7 @@
     com = checkout master
     ci = commit -v
     di = diff
+    dc = diff --cached
     br = branch
     lg = log --decorate --graph --abbrev-commit --pretty=oneline
     # r = recent-branches --no-merged
@@ -27,7 +28,8 @@
     psuh = push
     o = browse-remote
     ls-others = ls-files --others --exclude-standard
-    hub-pr-branch = !sh -c \"git name-rev --name-only --refs 'remotes/origin/*' $(git ls-remote origin refs/pull/$1/head | cut -f1) | sed 's:^origin/::'\" --
+    pr-branch = "!f() { git rev-parse --abbrev-ref $(git name-rev --name-only $(git ls-remote origin refs/pull/$1/head | cut -f1)) | sed s/^origin\\\\///; }; f"
+    co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
 [core]
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
