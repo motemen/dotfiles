@@ -193,6 +193,18 @@ $HOST%# "
         fi
         PROMPT="$fg[yellow]${jobs_background}&${reset_color} $PROMPT"
     fi
+
+    shell_level=$(( $SHLVL - 1 ))
+    if [ -n "$TMUX" ]; then
+        shell_level=$(( $shell_level - 1 ))
+    fi
+
+    if [ $shell_level -ge 1 ]; then
+        if [ $shell_level = 1 ]; then
+            shell_level=''
+        fi
+        PROMPT="$fg[blue]$shell_level\$${reset_color} $PROMPT"
+    fi
 }
 
 function chpwd() {
