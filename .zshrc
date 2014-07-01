@@ -171,6 +171,10 @@ function _update_prompt {
     if [ $PERLBREW_PERL ]; then
         PROMPT="$PROMPT  ${fg[white]}(${PERLBREW_PERL})${reset_color}"
     fi
+    if [ -d .github-commit-status ] && which github-commit-status-mark > /dev/null 2>&1; then
+        github-commit-status-mark >/dev/null &!
+        PROMPT="$PROMPT $(github-commit-status-mark -cached)"
+    fi
     PROMPT="%D{%H:%M:%S} $PROMPT%E
 $HOST%# "
 
