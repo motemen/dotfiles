@@ -51,6 +51,7 @@
     submodule = log
     algorithm = patience
     wordRegex = [[:alnum:]]+|[^[:space:]]
+    renames = copies
 [branch]
     autosetuprebase = always
 [diff "gzip"]
