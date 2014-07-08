@@ -60,6 +60,7 @@
     browser = open
 [merge]
     ff = false
+    conflictstyle = diff3
 [gc]
     auto = 0
 [diff "cartonlock"]
