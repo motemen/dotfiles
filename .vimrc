@@ -274,16 +274,24 @@ let g:fuf_enumeratingLimit = 300
 let g:fuf_maxMenuWidth = 100
 let g:fuf_splitPathMatching = 0
 
-nnoremap <silent> <C-S>  :FufFile<CR>
-nnoremap <silent> g<C-S> :FufFileWithCurrentBufferDir<CR>
-nnoremap <silent> m<C-S> :FufMruFile<CR>
-nnoremap <silent> t<C-S> :FufTab<CR>
-nnoremap <silent> q<C-S> :FufQuickfix<CR>
-nnoremap <silent> <C-B>  :FufBuffer<CR>
+nnoremap <silent> <C-S>      :FufFile<CR>
+nnoremap <silent> <C-P>      :FufVCSAll<CR>
+nnoremap <silent> <C-P><C-P> :FufVCSAll<CR>
+nnoremap <silent> g<C-S>     :FufFileWithCurrentBufferDir<CR>
+nnoremap <silent> m<C-S>     :FufMruFile<CR>
+nnoremap <silent> t<C-S>     :FufTab<CR>
+nnoremap <silent> q<C-S>     :FufQuickfix<CR>
+nnoremap <silent> <C-B>      :FufBuffer<CR>
 cnoremap <silent> <expr> <C-S> getcmdtype() =~ '[/?]' ? "<C-C>:FufLine! " . getcmdline() . "<CR>" : ''
 
-autocmd FileType fuf inoremap <buffer> <C-C> <ESC>
-autocmd FileType fuf inoremap <buffer> <C-D> <C-O>:FufRenewCache<CR><C-X><C-N>
+augroup vimrc-fuf
+    autocmd!
+    autocmd FileType fuf inoremap <buffer> <C-C> <ESC>
+    " autocmd FileType fuf inoremap <buffer> <C-D> <C-O>:FufRenewCache<CR><C-X><C-N>
+    autocmd FileType fuf inoremap <buffer> <F5>  <C-O>:FufRenewCache<CR><C-X><C-N>
+    autocmd FileType fuf inoremap <buffer> <C-S> <C-R>=fuf#launch('coveragefile', '', '') ? '' : ''<CR>
+    autocmd FileType fuf inoremap <buffer> <C-D> <C-R>=fuf#file#renewCache() ? '' : ''<CR>
+augroup END
 
 if exists('*neocomplcache#disable')
     autocmd BufEnter \[fuf\] silent call neocomplcache#disable()
@@ -292,6 +300,10 @@ endif
 if exists('*fuf#addMode')
     autocmd VimEnter * call fuf#addMode('tab')
 endif
+
+let g:fuf_modesDisable = ['mrucmd','coveragefile','bookmarkfile','bookmarkdir']
+
+autocmd VimEnter * call fuf#addMode('vcsall')
 " }}}
 
 " tap.vim {{{
