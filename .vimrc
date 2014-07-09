@@ -179,7 +179,10 @@ inoremap <silent> <C-B> <Left>
 
 inoremap <C-S> <C-O>:update<CR>
 
-inoremap <expr> <C-L> smartchr#one_of('->', '=>')
+inoremap <expr> <C-L> pumvisible() ? "\<C-L>" : smartchr#one_of('->', '=>')
+
+" inoremap <expr> <C-N> pumvisible() ? "\<Down>" : "\<C-N>"
+" inoremap <expr> <C-P> pumvisible() ? "\<Up>"   : "\<C-P>"
 
 cnoremap <C-A>      <Home>
 cnoremap <C-B>      <Left>
