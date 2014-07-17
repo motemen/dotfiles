@@ -57,6 +57,8 @@ let g:AutoPairsSkipToNextClosedPair = 0
 let g:AutoPairsDisableJustBeforeChar = 1
 " }}}
 
+Bundle 'editorconfig/editorconfig-vim'
+
 """ Go {{{
 
 " if strlen($GOROOT) > 0
@@ -69,8 +71,10 @@ Bundle 'fatih/vim-go'
 
 """ }}}
 
+" TypeScript {{{
 Bundle 'clausreinke/typescript-tools'
 let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
+" }}}
 
 syntax on
 filetype plugin indent on
