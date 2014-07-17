@@ -284,3 +284,15 @@ zstyle ':completion:*' group-name ''
 
 _clear-line-echo "＼＼\\└('ω')」//／／"
 echo
+
+g () {
+    cd $(ghq list -p | fzf --extended-exact --select-1 --query="$1" --delimiter=/ --nth=5,6,7,8,9)
+}
+
+_g() {
+    local -a __repos
+    __repos=( ${(@f)"$({ ghq list | cut -d/ -f3;  } | sort | uniq)"} )
+    _describe Repositories __repos
+}
+
+compdef _g g
