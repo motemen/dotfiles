@@ -183,6 +183,7 @@ nnoremap g<C-A> :<C-U>execute 'normal' '^' . v:count . "\<C-A>"<CR>
 nnoremap g<C-X> :<C-U>execute 'normal' '^' . v:count . "\<C-X>"<CR>
 
 nnoremap gi :<C-U>!gi
+nnoremap gI gi
 
 nnoremap <silent> <ESC>z :pclose<CR>:cclose<CR>
 
