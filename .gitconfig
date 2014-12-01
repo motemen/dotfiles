@@ -30,6 +30,7 @@
     ls-others = ls-files --others --exclude-standard
     pr-branch = "!f() { git rev-parse --abbrev-ref $(git name-rev --name-only $(git ls-remote origin refs/pull/$1/head | cut -f1)) | sed s/^origin\\\\///; }; f"
     co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
+    when-merged = "!f() { git log --pretty=format:%H --reverse --ancestry-path --merges $1... | head -1; }; f"
 [core]
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
@@ -73,3 +74,25 @@
     path = ~/.gitconfig.local
 [interactive]
     singlekey = true
+[url "git@github.com:motemen/"]
+    insteadOf = https://github.com/motemen/
+[url "git@gist.github.com:"]
+    insteadOf = https://gist.github.com/motemen/
+[advice]
+    detachedHead = false
+[ghq]
+    root = ~/dev/src
+[ghq "import"]
+    pocket = !pocket list --domain github.com --format '{{.URL}}'
+    starred = !github-list-starred
+[ghq "https://svn.code.sf.net"]
+    vcs = git-svn
+[github]
+    user = motemen
+[ghi]
+    token = !security find-internet-password -a motemen -s github.com -l 'ghi token' -w
+[browse-remote "bitbucket.org"]
+    top = https://{host}/{path}
+    ref = https://{host}/{path}/tree/{short_ref}
+    rev = https://{host}/{path}/commit/{commit}
+    file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
