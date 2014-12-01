@@ -548,10 +548,10 @@ augroup vimrc-add-highlights
         highlight MatchParen term=bold gui=bold cterm=bold
         highlight CursorLine ctermbg=NONE
         highlight CursorColumn ctermbg=NONE
-        highlight Pmenu ctermbg=grey ctermfg=black
-        highlight Pmenusel ctermbg=lightblue ctermfg=black
+        highlight Pmenu ctermbg=grey ctermfg=236
+        highlight Pmenusel ctermbg=lightblue ctermfg=236
         highlight Pmenuselbar ctermbg=grey
-        highlight Folded ctermbg=black ctermfg=white cterm=NONE
+        highlight Folded ctermbg=240 ctermfg=252 cterm=NONE
         highlight TabLine cterm=underline ctermbg=NONE
         highlight Title cterm=underline
         highlight Search ctermbg=cyan ctermfg=black
@@ -559,6 +559,8 @@ augroup vimrc-add-highlights
         highlight StatusLine ctermbg=236
         highlight StatusLineNC ctermbg=236
         highlight Normal ctermbg=none
+        highlight User1 ctermbg=NONE ctermfg=2
+        highlight SpecialKey ctermfg=DarkGray
     endfunction
 augroup END
 
