@@ -90,6 +90,8 @@ Bundle 'junegunn/fzf'
 
 Bundle 'wellle/targets.vim'
 
+Bundle 'mattn/ctrlp-ghq'
+
 syntax on
 filetype plugin indent on
 
@@ -351,7 +353,7 @@ nnoremap <Leader>gc :GitCommit<Enter>
 nnoremap <Leader>gp :GitPullRebase<Enter>
 
 " CtrlP
-let g:ctrlp_extensions = ['quickfix', 'cmdline', 'yankring', 'tag', 'perldoc']
+let g:ctrlp_extensions = ['ghq', 'quickfix', 'cmdline', 'yankring', 'tag', 'perldoc']
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>','<c-h>'],
   \ 'PrtDelete()':          ['<del>'],
@@ -417,6 +419,7 @@ let g:lightline.component_function = {
 " nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
 " nnoremap <silent> p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
 nnoremap <silent> <C-P>p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
+nnoremap <silent> <C-P>g  :call ctrlp#init(ctrlp#ghq#id())<CR>
 
 " override
 runtime autoload/ctrlp.vim
