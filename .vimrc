@@ -567,7 +567,7 @@ augroup END
 colorscheme desert-warm-256
 
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
-command! -range GitBrowseRemote !git browse-remote --rev -L<line1> -- %
+command! -nargs=* -range GitBrowseRemote !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
 
 " nnoremap <silent> <C-]> :call UpdateCtags()<CR>:normal! \<C-]\><CR>
 
