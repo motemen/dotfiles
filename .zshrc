@@ -12,7 +12,7 @@ setopt pushd_ignore_dups
 setopt auto_menu
 setopt equals
 setopt no_flow_control
-setopt no_hup
+# setopt no_hup
 setopt brace_ccl        # {a-c} -> a b c
 setopt extended_glob
 setopt list_types
@@ -28,6 +28,7 @@ setopt null_glob
 
 # export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export WORDCHARS=${WORDCHARS//[\/]}
+REPORTTIME=5
 
 #
 # Prompt
@@ -52,8 +53,9 @@ may_fg () {
     if [ -z "$(jobs -s)" ]; then
         tmux last-pane
     else
-        fg
+        builtin fg
     fi
+    _update_prompt
     zle reset-prompt
 }
 zle -N may_fg
@@ -120,7 +122,7 @@ _clear-line-echo () {
 # XXX moved to zprofile
 # _clear-line-echo "compinit..."
 # 
-# autoload -U compinit; compinit
+autoload -U compinit; compinit
 
 #
 # Aliases
@@ -145,6 +147,9 @@ alias :q='exit'
 alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
 alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
+alias git='noglob git'
+alias curl='noglob curl'
+alias vim='stty -ixon -ixoff; vim'
 
 #
 # Functions
@@ -157,6 +162,8 @@ export GIT_PS1_SHOWCOLORHINTS='yes'
 
 if which brew > /dev/null; then
     . $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
+    fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+    autoload -U compinit; compinit
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
@@ -250,7 +257,8 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
             local -a cmd; cmd=(${(z)2})
 
             if [[ $cmd[1] = 'fg' ]]; then
-                echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
+                # echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
+                echo -ne "\ek%$(ps -o command= $(builtin jobs -l %+ 2> /dev/null | awk '{print $3}') 2>/dev/null)\e\\" 2> /dev/null
             elif [[ $cmd[1] = 'ssh' ]]; then
                 echo -ne "\ek%$cmd[2]\e\\"
             else
@@ -261,19 +269,13 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
 fi
 
 if which brew > /dev/null; then
-    if [ -f "$(brew --prefix)/etc/autojump" 2> /dev/null ]; then
+    if [ -f "$(brew --prefix)/etc/autojump.sh" 2> /dev/null ]; then
         _clear-line-echo "autojump..."
-        . "$(brew --prefix)/etc/autojump"
+        . "$(brew --prefix)/etc/autojump.sh"
     fi
 fi
 
-
-. $(brew --prefix)/share/zsh/site-functions/go
-
-export GOROOT=$(brew --prefix go)
-export GOPATH=$HOME/.go
-
-export PATH=$PATH:$GOPATH/bin
+export XML_CATALOG_FILES=$(brew --prefix)/etc/xml/catalog
 
 # testing
 zstyle ':completion:*' verbose yes
@@ -285,14 +287,39 @@ zstyle ':completion:*' group-name ''
 _clear-line-echo "＼＼\\└('ω')」//／／"
 echo
 
+# source ~/.zsh.d/.fzf.zsh
+
+# ghq
+# if [ -e $GOPATH/src/github.com/motemen/ghq/zsh/ghq ]; then
+#     . $GOPATH/src/github.com/motemen/ghq/zsh/ghq
+# fi
+
+# if [ -e $GOPATH/src/github.com/motemen/ghq/zsh/_ghq ]; then
+#     fpath=($GOPATH/src/github.com/motemen/ghq/zsh $fpath)
+#     autoload -U compinit; compinit
+# fi
+
 g () {
-    cd $(ghq list -p | fzf --extended-exact --select-1 --query="$1" --delimiter=/ --nth=5,6,7,8,9)
+    dir=$(ghq list -p | fzf --extended-exact --select-1 --query="$1" --delimiter=/ --nth=5,6,7,8,9)
+    test -z "$dir" && return 1
+    cd $dir
 }
 
 _g() {
     local -a __repos
-    __repos=( ${(@f)"$({ ghq list | cut -d/ -f3;  } | sort | uniq)"} )
+    # __repos=( ${(@f)"$({ ghq list | cut -d/ -f2,3; ghq list | cut -d/ -f3;  } | sort | uniq)"} )
+    # __repos=( ${(@f)"$({ ghq list | cut -d/ -f3;  } | sort | uniq)"} )
+    __repos=( ${(@f)"$({ ghq list | perl -F/ -anal -e 'print $F[-1]';  } | sort | uniq)"} )
     _describe Repositories __repos
 }
 
 compdef _g g
+
+ghq () {
+    if [ "$1" = look -a -n "$2" ]; then
+        cd $(command ghq list -p $2)
+        return
+    fi
+
+    command ghq "$@"
+}
