@@ -301,6 +301,7 @@ nnoremap <silent> <C-P><C-P> :FufVCSAll<CR>
 nnoremap <silent> g<C-S>     :FufFileWithCurrentBufferDir<CR>
 nnoremap <silent> m<C-S>     :FufMruFile<CR>
 nnoremap <silent> t<C-S>     :FufTab<CR>
+nnoremap <silent> ]<C-S>     :FufTag<CR>
 nnoremap <silent> q<C-S>     :FufQuickfix<CR>
 nnoremap <silent> <C-B>      :FufBuffer<CR>
 cnoremap <silent> <expr> <C-S> getcmdtype() =~ '[/?]' ? "<C-C>:FufLine! " . getcmdline() . "<CR>" : ''
@@ -566,16 +567,16 @@ colorscheme desert-warm-256
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
 command! -range GitBrowseRemote !git browse-remote --rev -L<line1> -- %
 
-nnoremap <silent> <C-]> :call UpdateCtags()<CR>:normal! <C-]><CR>
+" nnoremap <silent> <C-]> :call UpdateCtags()<CR>:normal! \<C-]\><CR>
 
 function! UpdateCtags()
     if stridx(expand('%:p'), getcwd()) != 0
-        return
+        return 0
     end
 
     for tagfile in tagfiles()
         if getftime(tagfile) > getftime(expand('%'))
-            return
+            return 0
         endif
     endfor
 
