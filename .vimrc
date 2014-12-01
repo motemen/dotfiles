@@ -143,7 +143,7 @@ set fileencodings=ucs-bom,utf-8,euc-jp,cp932 ",ucs-2le,utf-16
 set fileformats=unix,dos
 set termencoding=utf-8
 set encoding=utf-8
-set ambiwidth=double
+set ambiwidth=single
 set cmdheight=2
 set showcmd
 set laststatus=2
