@@ -51,13 +51,23 @@ Bundle 'mjbrownie/html-textobjects'
 
 Bundle 'leafgarland/typescript-vim'
 
+Bundle 'motemen/vim-help-random'
+
+Bundle 'motemen/vim-syntax-dockerfile'
+
+Bundle 'gre/play2vim'
+
 " auto-pairs {{{
 Bundle 'motemen/auto-pairs'
 let g:AutoPairsSkipToNextClosedPair = 0
 let g:AutoPairsDisableJustBeforeChar = 1
+let g:AutoPairsMapCR = 0
+let g:AutoPairsMapSpace = 0
 " }}}
 
 Bundle 'editorconfig/editorconfig-vim'
+
+Bundle 'thinca/vim-qfreplace'
 
 """ Go {{{
 
@@ -75,6 +85,10 @@ Bundle 'fatih/vim-go'
 Bundle 'clausreinke/typescript-tools'
 let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
 " }}}
+
+Bundle 'junegunn/fzf'
+
+Bundle 'wellle/targets.vim'
 
 syntax on
 filetype plugin indent on
