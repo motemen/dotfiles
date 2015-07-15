@@ -55,19 +55,25 @@
     algorithm = patience
     wordRegex = [[:alnum:]]+|[^[:space:]]
     renames = copies
-[branch]
-    autosetuprebase = always
+    tool = icdiff
+    mnemonicprefix
+    # noprefix
 [diff "gzip"]
     textconv = gzcat
+[difftool "icdiff"]
+    cmd = icdiff $LOCAL $REMOTE
+[diff "cartonlock"]
+    textconv = "perl -MJSON -0e \"\\$m = eval { decode_json(<>)->{modules} }; print qq(\\$_~\\$m->{\\$_}->{version}\\n) for sort keys %\\$m\""
+[branch]
+    autosetuprebase = always
 [web]
     browser = open
 [merge]
     ff = false
-    conflictstyle = diff3
+    # conflictstyle = diff3
+    tool = vimdiff
 [gc]
     auto = 0
-[diff "cartonlock"]
-    textconv = "perl -MJSON -0e \"\\$m = eval { decode_json(<>)->{modules} }; print qq(\\$_~\\$m->{\\$_}->{version}\\n) for sort keys %\\$m\""
 [filetype "compressed"]
     binary = true
 [pull]
@@ -77,13 +83,14 @@
 [interactive]
     singlekey = true
 [url "git@github.com:motemen/"]
-    insteadOf = https://github.com/motemen/
+    pushInsteadOf = https://github.com/motemen/
 [url "git@gist.github.com:"]
     insteadOf = https://gist.github.com/motemen/
 [advice]
     detachedHead = false
 [ghq]
     root = ~/dev/src
+    root = ~/dev/go/src
 [ghq "import"]
     pocket = !pocket list --domain github.com --format '{{.URL}}'
     starred = !github-list-starred
