@@ -17,20 +17,22 @@
 [alias]
     st = status --short --branch --ignore-submodules=dirty .
     co = checkout
-    com = checkout master
+    com = "!f() { remote_head=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null); remote_head=${remote_head#refs/remotes/origin/}; git checkout ${remote_head:-master}; }; f"
     ci = commit -v
     di = diff
     dc = diff --cached
     br = branch
     lg = log --decorate --graph --abbrev-commit --pretty=oneline
     # r = recent-branches --no-merged
-    r = !git reflog | perl -anal -e '$seen{$1}++ or print $1 if /checkout:.*to (.+)/' | head
+    r = !git reflog | head -n 200 | perl -anal -e '$seen{$1}++ or print $1 if /checkout:.*to (.+)/'
     psuh = push
     o = browse-remote
+    pr = browse-remote --pr
     ls-others = ls-files --others --exclude-standard
-    pr-branch = "!f() { git rev-parse --abbrev-ref $(git name-rev --name-only $(git ls-remote origin refs/pull/$1/head | cut -f1)) | sed s/^origin\\\\///; }; f"
-    co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
-    when-merged = "!f() { git log --pretty=format:%H --reverse --ancestry-path --merges $1... | head -1; }; f"
+    co-pr = "!f() { remote_url=$(git config remote.origin.url); user=$1; branch=$2; git fetch https://github.com/$user/${remote_url##*/} $branch; git checkout -b $user/$branch FETCH_HEAD; }; f"
+    # pr-branch = "!f() { git rev-parse --abbrev-ref $(git name-rev --name-only $(git ls-remote origin refs/pull/$1/head | cut -f1)) | sed s/^origin\\\\///; }; f"
+    # co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
+    # when-merged = "!f() { git log --pretty=format:%H --reverse --ancestry-path --merges $1... | head -1; }; f"
 [core]
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
