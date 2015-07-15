@@ -4,70 +4,72 @@ filetype off
 set runtimepath+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'L9'
-Bundle 'FuzzyFinder'
-Bundle 'surround.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'sgur/ctrlp-extensions.vim'
-Bundle 'kana/vim-metarw'
-Bundle 'kana/vim-metarw-git'
-Bundle 'motemen/git-vim'
-Bundle 'motemen/vim-guess-abbrev'
-Bundle 'motemen/tap-vim'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'wombat256.vim'
-Bundle 'desert-warm-256'
-Bundle 'vim-coffee-script'
-Bundle 'surround.vim'
-Bundle 'nginx.vim'
-Bundle 'scala.vim'
-Bundle 'smartchr'
+set spellfile=~/.vim/spell/en.utf-8.add
 
-Bundle 'petdance/vim-perl'
+Plugin 'L9'
+Plugin 'FuzzyFinder'
+Plugin 'kien/ctrlp.vim'
+Plugin 'sgur/ctrlp-extensions.vim'
+Plugin 'kana/vim-metarw'
+Plugin 'kana/vim-metarw-git'
+Plugin 'motemen/git-vim'
+Plugin 'motemen/vim-guess-abbrev'
+Plugin 'motemen/tap-vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'wombat256.vim'
+Plugin 'desert-warm-256'
+Plugin 'vim-coffee-script'
+Plugin 'surround.vim'
+Plugin 'nginx.vim'
+Plugin 'scala.vim'
+Plugin 'smartchr'
 
-Bundle 'pangloss/vim-javascript'
-Bundle 'briancollins/vim-jst'
+Plugin 'petdance/vim-perl'
 
-Bundle 'groenewege/vim-less'
+Plugin 'pangloss/vim-javascript'
+Plugin 'briancollins/vim-jst'
 
-Bundle 'slim-template/vim-slim'
+Plugin 'groenewege/vim-less'
+
+Plugin 'slim-template/vim-slim'
 
 " Bundle 'Valloric/YouCompleteMe'
 
 " Bundle 'ervandew/supertab'
 
-Bundle 'VimClojure'
+Plugin 'VimClojure'
 
-Bundle 'closetag.vim'
+Plugin 'closetag.vim'
 
-Bundle 'terryma/vim-expand-region'
-Bundle 'https://github.com/plasticboy/vim-markdown.git'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+let g:vim_markdown_frontmatter = 1
 
-Bundle 'kana/vim-textobj-user'
-Bundle 'kana/vim-textobj-syntax'
-Bundle 'kana/vim-textobj-lastpat'
-Bundle 'thinca/vim-textobj-function-perl'
-Bundle 'mjbrownie/html-textobjects'
+Plugin 'kana/vim-textobj-user'
+Plugin 'kana/vim-textobj-syntax'
+Plugin 'kana/vim-textobj-lastpat'
+Plugin 'thinca/vim-textobj-function-perl'
+Plugin 'mjbrownie/html-textobjects'
 
-Bundle 'leafgarland/typescript-vim'
+Plugin 'leafgarland/typescript-vim'
 
-Bundle 'motemen/vim-help-random'
+Plugin 'motemen/vim-help-random'
 
-Bundle 'motemen/vim-syntax-dockerfile'
+Plugin 'motemen/vim-syntax-dockerfile'
 
-Bundle 'gre/play2vim'
+Plugin 'gre/play2vim'
 
 " auto-pairs {{{
-Bundle 'motemen/auto-pairs'
+Plugin 'motemen/auto-pairs'
 let g:AutoPairsSkipToNextClosedPair = 0
 let g:AutoPairsDisableJustBeforeChar = 1
 let g:AutoPairsMapCR = 0
 let g:AutoPairsMapSpace = 0
 " }}}
 
-Bundle 'editorconfig/editorconfig-vim'
+Plugin 'editorconfig/editorconfig-vim'
 
-Bundle 'thinca/vim-qfreplace'
+Plugin 'thinca/vim-qfreplace'
 
 """ Go {{{
 
@@ -77,20 +79,21 @@ Bundle 'thinca/vim-qfreplace'
 " 
 " Bundle 'nsf/gocode', {'rtp': 'vim/'}
 
-Bundle 'fatih/vim-go'
+Plugin 'fatih/vim-go'
 
 """ }}}
 
 " TypeScript {{{
-Bundle 'clausreinke/typescript-tools'
+" Bundle 'clausreinke/typescript-tools'
+Plugin 'clausreinke/typescript-tools.vim'
 let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
 " }}}
 
-Bundle 'junegunn/fzf'
+Plugin 'junegunn/fzf'
 
-Bundle 'wellle/targets.vim'
+Plugin 'wellle/targets.vim'
 
-Bundle 'mattn/ctrlp-ghq'
+Plugin 'mattn/ctrlp-ghq'
 
 syntax on
 filetype plugin indent on
@@ -393,7 +396,7 @@ let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_map = 'g<C-P>'
 
 " lightline {{{
-Bundle 'itchyny/lightline.vim'
+Plugin 'itchyny/lightline.vim'
 let g:lightline = {}
 let g:lightline.component = { 'filename': '%f' }
 let g:lightline.active = {
