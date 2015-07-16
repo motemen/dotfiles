@@ -1,6 +1,8 @@
 set nocompatible
 filetype off
 
+scriptencoding utf-8
+
 set runtimepath+=~/.vim/bundle/vundle/
 call vundle#rc()
 
