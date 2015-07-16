@@ -147,7 +147,6 @@ else
     export LS_OPTIONS='--color -F'
 fi
 alias ls="$ls $LS_OPTIONS"
-alias ll="$ls -hAlt"
 # alias lv='lv -c -T8192'
 # alias lv='lv -R'
 alias :e='vim'
@@ -155,9 +154,7 @@ alias :q='exit'
 alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
 alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
-alias git='noglob git'
 alias curl='noglob curl'
-alias vim='stty -ixon -ixoff; vim'
 
 #
 # Functions
