@@ -31,10 +31,20 @@ export WORDCHARS=${WORDCHARS//[\/]}
 REPORTTIME=5
 
 #
-# Prompt
+# Completion
 #
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# zstyle ':completion:*' verbose yes
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*:descriptions' format '%B%d%b'
+# zstyle ':completion:*:messages' format '%d'
+# zstyle ':completion:*:warnings' format 'No matches for: %d'
+if [ -d ~/.zsh/cache ]; then
+    zstyle ':completion:*' use-cache yes
+    zstyle ':completion:*' cache-path ~/.zsh/cache
+fi
 
 #
 # Key binding
@@ -101,8 +111,6 @@ _quote-previous-word-in-single() {
 }
 zle -N _quote-previous-word-in-single
 bindkey '^[s' _quote-previous-word-in-single
-
-zstyle ':completion:*:default' menu select=1
 
 _vim-this() {
     modify-current-argument 'vim ${(Q)ARG}'
@@ -276,13 +284,6 @@ if which brew > /dev/null; then
 fi
 
 export XML_CATALOG_FILES=$(brew --prefix)/etc/xml/catalog
-
-# testing
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:descriptions' format '%B%d%b'
-zstyle ':completion:*:messages' format '%d'
-zstyle ':completion:*:warnings' format 'No matches for: %d'
-zstyle ':completion:*' group-name ''
 
 _clear-line-echo "＼＼\\└('ω')」//／／"
 echo
