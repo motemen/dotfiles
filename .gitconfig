@@ -85,7 +85,7 @@
 [url "git@github.com:motemen/"]
     pushInsteadOf = https://github.com/motemen/
 [url "git@gist.github.com:"]
-    insteadOf = https://gist.github.com/motemen/
+    pushInsteadOf = https://gist.github.com/motemen/
 [advice]
     detachedHead = false
 [ghq]
