@@ -191,7 +191,7 @@ function _update_prompt {
         PROMPT="$PROMPT  ${fg[white]}(${PERLBREW_PERL})${reset_color}"
     fi
     if [ -d .github-commit-status ] && which github-commit-status-mark > /dev/null 2>&1; then
-        github-commit-status-mark >/dev/null &!
+        github-commit-status-mark >/dev/null 2>&1 &!
         PROMPT="$PROMPT $(github-commit-status-mark -cached)"
     fi
     PROMPT="%D{%H:%M:%S} $PROMPT%E
@@ -308,3 +308,36 @@ ghq () {
 
     command ghq "$@"
 }
+
+### experimental
+
+## cdr
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':chpwd:*' recent-dirs-max 1000
+
+_fuzzy-cdr () {
+    local r=$(cdr -l | awk '{ print $2 }' | fzf)
+    if [ -n "$r" ]; then
+        zle autosuggest-suspend
+        BUFFER="cd -- $r"
+        zle accept-line
+    fi
+    zle reset-prompt
+}
+zle -N _fuzzy-cdr
+bindkey '^x^b' _fuzzy-cdr
+
+_fuzzy-ghq () {
+    local r=$(ghq list | fzf --extended-exact --delimiter=/ --nth=2,3,4,5)
+    if [ -n "$r" ]; then
+        r=$(ghq list -e -p $r)
+
+        zle autosuggest-suspend
+        BUFFER="cd -- $r"
+        zle accept-line
+    fi
+    zle reset-prompt
+}
+zle -N _fuzzy-ghq
+bindkey '^x^g' _fuzzy-ghq
