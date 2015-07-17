@@ -309,7 +309,33 @@ ghq () {
     command ghq "$@"
 }
 
+e () {
+    cmd=''
+    if [ -e Gemfile.lock ]; then
+        cmd="bundle exec $cmd"
+    fi
+    if [ -d local/lib/perl5 ]; then
+        cmd="carton exec -- $cmd"
+    fi
+    eval "$cmd $@"
+}
+
 ### experimental
+
+## zgen
+
+source ~/.zsh.d/zgen/zgen.zsh
+
+if ! zgen saved; then
+  zgen load zsh-users/zsh-syntax-highlighting
+  ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
+  ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
+
+  zgen load tarruda/zsh-autosuggestions
+
+  zgen save
+fi
+
 
 ## cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
@@ -341,3 +367,8 @@ _fuzzy-ghq () {
 }
 zle -N _fuzzy-ghq
 bindkey '^x^g' _fuzzy-ghq
+
+zle-line-init() {
+    zle autosuggest-start
+}
+zle -N zle-line-init
