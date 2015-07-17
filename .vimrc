@@ -142,7 +142,7 @@ set wildmenu
 set wildignore=*.o,*.hi,*.obj,*.sw?,blib*,cover_db*
 
 set complete-=i
-set completeopt=menu,longest
+set completeopt=menu,longest,menuone,preview
 
 set fileencodings=ucs-bom,utf-8,euc-jp,cp932 ",ucs-2le,utf-16
 set fileformats=unix,dos
@@ -161,8 +161,10 @@ set history=1000
 
 set shortmess+=A
 set splitright
-set grepprg=git\ grep\ -n
+set grepprg=git\ grep\ --line-number\ -I
 set pastetoggle=<F10>
+set display=lastline
+set pumheight=15
 
 nnoremap <silent> cd    :lcd %:p:h<Return>
 nnoremap          <C-J> :
@@ -248,10 +250,10 @@ nnoremap <ESC>m :update<Enter>:make<Enter>
 
 nnoremap <ESC> <C-W>
 
-nnoremap <C-Q> :set hlsearch!<Enter>
-nnoremap /     :set hlsearch<Enter>/
-nnoremap ?     :set hlsearch<Enter>?
-nnoremap *     :set hlsearch<Enter>*
+" nnoremap <C-Q> :set hlsearch!<Enter>
+" nnoremap /     :set hlsearch<Enter>/
+" nnoremap ?     :set hlsearch<Enter>?
+" nnoremap *     :set hlsearch<Enter>*
 
 nnoremap qo     :botright copen<Enter>
 nnoremap qc     :cclose<Enter>
@@ -408,16 +410,21 @@ let g:lightline.active = {
             \         ],
             \ 'right': [ [ 'cwd' ],
             \            [ 'lineinfo' ],
-            \            [ 'fileformat', 'fileencoding', 'filetype' ]
+            \            [ 'preview', 'fileencoding', 'filetype' ]
             \          ]
             \ }
 let g:lightline.inactive = {
-            \ 'left': [ [ 'bufnum' ], [ 'filename' ] ]
+            \ 'left': [ [ 'bufnum' ], [ 'filename' ], [ 'preview' ] ]
             \ }
 let g:lightline.component_function = {
             \ 'cwd': 'Cwd',
-            \ 'gitbranch': 'GitBranch'
+            \ 'gitbranch': 'GitBranch',
+            \ 'preview': 'LightLine_Preview'
             \ }
+
+function! LightLine_Preview()
+    return &previewwindow ? '*PREVIEW*' : ''
+endfunction
 " }}}
 
 " nnoremap <silent>    :let g:ctrlp_default_input = 0<CR>:CtrlPMixed<CR>
@@ -454,6 +461,11 @@ let g:is_bash = 1
 let html_number_lines = 0
 let html_use_css = 1
 
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
+
 autocmd BufRead *.tt      setfiletype html
 autocmd BufNewFile,BufReadPost *.t   setlocal filetype=perl
 autocmd BufRead *.psgi    setfiletype perl
@@ -461,7 +473,7 @@ autocmd BufRead *.psgi    setfiletype perl
 """ autocmds """
 autocmd BufWritePost,FileWritePost {*.vim,*vimrc} if &autoread | source <afile> | endif
 autocmd Filetype html,xml,xsl,xhtml,markdown runtime plugin/closetag.vim | inoremap <silent> <C-_> <C-R>=GetCloseTag()<CR>
-autocmd QuickFixCmdPre * silent botright pedit \*preview\* | 99wincmd w | silent enew
+" autocmd QuickFixCmdPre * silent botright pedit \*preview\* | 99wincmd w | silent enew
 autocmd QuickFixCmdPost {make*,grep*,vim*,c*} if len(filter(getqflist(), 'v:val.bufnr')) | else | pclose | endif
 
 autocmd InsertLeave * set nopaste
@@ -541,7 +553,15 @@ command! -nargs=* -complete=shellcmd -bang TmuxSplitRun
             \ let _cmd = len(<q-args>) ? shellescape(substitute(<q-args> . '; read' , '%', expand('%'), '')) : '' |
             \ let tmux_cmd = printf('tmux if-shell "tmux select-pane -t.1" "send-keys ^C" \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -v -p 30 %s"%s', _cmd, _cmd, len('<bang>') ? ' \; resize-pane -Z' : '') |
             \ call system(tmux_cmd)
-nnoremap <Leader>! :TmuxSplitRun 
+" nnoremap <Leader>! :TmuxSplitRun 
+
+nnoremap <Leader>c :call QlistFromTmux()<CR>
+function! QlistFromTmux()
+    let tmpfile = tempname()
+    echo system("tmux 'capture-pane' '-t:.+' '-S -50' ';' 'save-buffer' " . tmpfile)
+    execute 'cfile' tmpfile
+    clast
+endfunction
 
 nnoremap <ESC>m :update<Enter>:execute 'TmuxSplitRun' &makeprg<Enter>
 
@@ -553,7 +573,7 @@ augroup vimrc-add-highlights
         highlight MatchParen term=bold gui=bold cterm=bold
         highlight CursorLine ctermbg=NONE
         highlight CursorColumn ctermbg=NONE
-        highlight Pmenu ctermbg=grey ctermfg=236
+        highlight Pmenu ctermbg=grey ctermfg=236 guibg=grey guifg=#111111
         highlight Pmenusel ctermbg=lightblue ctermfg=236
         highlight Pmenuselbar ctermbg=grey
         highlight Folded ctermbg=240 ctermfg=252 cterm=NONE
@@ -627,7 +647,7 @@ function! Perldoc(args)
         file `=bufname`
         setlocal noswapfile nomodifiable
         setfiletype man
-        nnoremap <buffer> s :edit `=system('perldoc -l ' . b:perldoc_args)`<Enter>
+        execute "nnoremap <buffer> s :edit `=system('" . perldoc . " -l ' . b:perldoc_args)`<Enter>"
         0
     endif
 endfunction
