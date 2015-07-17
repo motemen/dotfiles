@@ -1,11 +1,11 @@
-highlight CmdLine font-size: 14pt; padding: 5px;
+highlight CmdLine font-size: 14pt; padding: 5px; z-index: 9999; background-color: rgba(255, 255, 255, 0.8); transition: background-color: 2s;
 highlight InfoMsg font-size: 12pt; color: green;
 highlight CmdLine>* font-family: Menlo, monospace;
 highlight StatusLine font-size: 14pt;
 highlight CmdOutput font-size: 12pt;
 highlight CompItem font-size: 12pt;
 highlight CompTitle font-size: 12pt;
-highlight Hint font-family: monospace; font-size: 10pt; text-transform: uppercase; color: black; background-color: rgba(255, 255, 255, 0.8); border: 1px solid grey; padding: 0 2px; border-radius: 3px;
+highlight Hint font-family: monospace; font-size: 10pt; text-transform: uppercase; color: black; background-color: #FFF; border: 1px solid grey; padding: 2px 4px; border-radius: 1px; transition: all 1s; min-width: 1.5em; min-height: 1.2em; text-align: center; box-shadow: 1px 1px #333; opacity: 0.9;
 
 nnoremap <C-j> :
 nnoremap , H
@@ -24,5 +24,8 @@ set gui+=nonavigation
 set focuscontent
 set hinttags+='| //*[@ng-click]'
 set complete+=bS
+
+ignorekeys add mail\\.google\\.com
+ignorekeys add inbox\\.google\\.com
 
 " vim: set ft=vim:
