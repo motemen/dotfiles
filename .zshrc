@@ -159,20 +159,27 @@ alias curl='noglob curl'
 #
 # Functions
 #
+_clear-line-echo "functions..."
 
 export GIT_PS1_SHOWUPSTREAM='verbose'
 export GIT_PS1_DESCRIBE_STYLE='branch'
 export GIT_PS1_SHOWDIRTYSTATE='yes'
 export GIT_PS1_SHOWCOLORHINTS='yes'
 
-if which brew > /dev/null; then
-    . $(brew --prefix)/etc/bash_completion.d/git-prompt.sh
-    fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+brew_prefix=''
+if type brew > /dev/null; then
+    brew_prefix="$(brew --prefix)"
+fi
+
+if [ -n "$brew_prefix" ]; then
+    . "$brew_prefix/etc/bash_completion.d/git-prompt.sh"
+    fpath=("$brew_prefix/share/zsh/site-functions" $fpath)
     autoload -U compinit; compinit
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
 
+_clear-line-echo "functions... _update_prompt"
 function _update_prompt {
     GIT_BRANCH=$(__git_ps1 '%s')
 
@@ -243,12 +250,9 @@ function sssh () {
     tmux set-window-option synchronize-panes on > /dev/null
 }
 
+_clear-line-echo "local ..."
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
-fi
-
-if [ -e ~/.zsh.d/k/k.sh ]; then
-    source ~/.zsh.d/k/k.sh
 fi
 
 #
@@ -273,29 +277,12 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
     }
 fi
 
-if which brew > /dev/null; then
-    if [ -f "$(brew --prefix)/etc/autojump.sh" 2> /dev/null ]; then
-        _clear-line-echo "autojump..."
-        . "$(brew --prefix)/etc/autojump.sh"
-    fi
+if [ -n "$brew_prefix" ]; then
+    export XML_CATALOG_FILES="$brew_prefix/etc/xml/catalog"
 fi
-
-export XML_CATALOG_FILES=$(brew --prefix)/etc/xml/catalog
 
 _clear-line-echo "＼＼\\└('ω')」//／／"
 echo
-
-# source ~/.zsh.d/.fzf.zsh
-
-# ghq
-# if [ -e $GOPATH/src/github.com/motemen/ghq/zsh/ghq ]; then
-#     . $GOPATH/src/github.com/motemen/ghq/zsh/ghq
-# fi
-
-# if [ -e $GOPATH/src/github.com/motemen/ghq/zsh/_ghq ]; then
-#     fpath=($GOPATH/src/github.com/motemen/ghq/zsh $fpath)
-#     autoload -U compinit; compinit
-# fi
 
 g () {
     dir=$(ghq list -p | fzf --extended-exact --select-1 --query="$1" --delimiter=/ --nth=5,6,7,8,9)
