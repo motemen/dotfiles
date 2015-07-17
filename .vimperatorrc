@@ -1,0 +1,28 @@
+highlight CmdLine font-size: 14pt; padding: 5px;
+highlight InfoMsg font-size: 12pt; color: green;
+highlight CmdLine>* font-family: Menlo, monospace;
+highlight StatusLine font-size: 14pt;
+highlight CmdOutput font-size: 12pt;
+highlight CompItem font-size: 12pt;
+highlight CompTitle font-size: 12pt;
+highlight Hint font-family: monospace; font-size: 10pt; text-transform: uppercase; color: black; background-color: rgba(255, 255, 255, 0.8); border: 1px solid grey; padding: 0 2px; border-radius: 3px;
+
+nnoremap <C-j> :
+nnoremap , H
+nnoremap . L
+
+nnoremap j <down><down><down>
+nnoremap k <up><up><up>
+nnoremap <C-d> <down><down><down><down><down><down><down><down><down><down>
+nnoremap <C-u> <up><up><up><up><up><up><up><up><up><up>
+nnoremap Y y
+nnoremap x ojavascript:(function(){var%20e=function(t,n,r,i,s){var%20o=[5247646,3206950,2052704,3947754,5768217,3280511,5828021,3363630,4718705,1587401];var%20i=i||0,u=0,n=n||[],r=r||0,s=s||0;var%20a={'a':97,'b':98,'c':99,'d':100,'e':101,'f':102,'g':103,'h':104,'i':105,'j':106,'k':107,'l':108,'m':109,'n':110,'o':111,'p':112,'q':113,'r':114,'s':115,'t':116,'u':117,'v':118,'w':119,'x':120,'y':121,'z':122,'A':65,'B':66,'C':67,'D':68,'E':69,'F':70,'G':71,'H':72,'I':73,'J':74,'K':75,'L':76,'M':77,'N':78,'O':79,'P':80,'Q':81,'R':82,'S':83,'T':84,'U':85,'V':86,'W':87,'X':88,'Y':89,'Z':90,'0':48,'1':49,'2':50,'3':51,'4':52,'5':53,'6':54,'7':55,'8':56,'9':57,'\/':47,':':58,'?':63,'=':61,'-':45,'_':95,'&':38,'$':36,'!':33,'.':46};if(!s||s==0){t=o[0]+t}for(var%20f=0;f<t.length;f++){var%20l=function(e,t){return%20a[e[t]]?a[e[t]]:e.charCodeAt(t)}(t,f);if(!l*1)l=3;var%20c=l*(o[i]+l*o[u%o.length]);n[r]=(n[r]?n[r]+c:c)+s+u;var%20p=c%(50*1);if(n[p]){var%20d=n[r];n[r]=n[p];n[p]=d}u+=c;r=r==50?0:r+1;i=i==o.length-1?0:i+1}if(s==117){var%20v='';for(var%20f=0;f<n.length;f++){v+=String.fromCharCode(n[f]%(25*1)+97)}o=function(){};return%20v+'d3a386f663'}else{return%20e(u+'',n,r,i,s+1)}};var%20t=document,n=t.location.href,r=t.title;var%20i=e(n);var%20s=t.createElement('script');s.type='text/javascript';s.src='https://getpocket.com/b/r4.js?h='+i+'&u='+encodeURIComponent(n)+'&t='+encodeURIComponent(r);e=i=function(){};var%20o=t.getElementsByTagName('head')[0]||t.documentElement;o.appendChild(s)})()<CR>
+
+javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
+
+set gui+=nonavigation
+set focuscontent
+set hinttags+='| //*[@ng-click]'
+set complete+=bS
+
+" vim: set ft=vim:
