@@ -328,14 +328,24 @@ source ~/.zsh.d/zgen/zgen.zsh
 
 if ! zgen saved; then
   zgen load zsh-users/zsh-syntax-highlighting
-  ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
-  ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
 
   zgen load tarruda/zsh-autosuggestions
+
+  # zgen load hchbaw/auto-fu.zsh
+  # function zle-line-init () {
+  #     auto-fu-init
+  # }
+  # zle -N zle-line-init
+  # zstyle ':completion:*' completer _oldlist _complete
+
+  zgen load zsh-users/zsh-completions src
 
   zgen save
 fi
 
+ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
+ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
+ZSH_HIGHLIGHT_STYLES[path_approx]='none'
 
 ## cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
