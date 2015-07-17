@@ -667,4 +667,7 @@ augroup gemfile-autoinsert-source
     autocmd BufNewFile Gemfile call append(0, "source 'https://rubygems.org'") | set modified
 augroup END
 
+Plugin 'osyo-manga/vim-over'
+cnoremap <C-S> <C-U>OverCommandLine<CR>
+
 finish
