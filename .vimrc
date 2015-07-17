@@ -670,4 +670,18 @@ augroup END
 Plugin 'osyo-manga/vim-over'
 cnoremap <C-S> <C-U>OverCommandLine<CR>
 
+Plugin 'haya14busa/incsearch.vim'
+let g:incsearch#auto_nohlsearch = 1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+
+Plugin 'haya14busa/vim-asterisk'
+map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+
 finish
