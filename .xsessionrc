@@ -1,0 +1,3 @@
+if type xflux > /dev/null; then
+    xflux -l 35
+fi
