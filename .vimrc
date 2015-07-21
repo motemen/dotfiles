@@ -684,4 +684,10 @@ map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
 map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
 map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
+Plugin 'tpope/vim-dispatch'
+
+Plugin 'terryma/vim-expand-region'
+
+vmap v <Plug>(expand_region_expand)
+
 finish
