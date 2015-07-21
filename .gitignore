@@ -10,3 +10,4 @@
 /.github-commit-status/
 # http://qiita.com/uasi/items/cedae627b7596a837c57
 ,*
+/.vim/.netrwhist
