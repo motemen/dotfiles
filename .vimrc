@@ -161,7 +161,7 @@ set history=1000
 
 set shortmess+=A
 set splitright
-set grepprg=git\ grep\ --line-number\ -I
+set grepprg=git\ grep\ --line-number\ -I\ --no-index\ --exclude-standard
 set pastetoggle=<F10>
 set display=lastline
 set pumheight=15
