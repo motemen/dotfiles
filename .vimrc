@@ -172,6 +172,7 @@ set pumheight=15
 nnoremap <silent> cd    :lcd %:p:h<Return>
 nnoremap          <C-J> :
 vnoremap          <C-J> :
+inoremap          <C-J> <C-O>:
 
 iabbrev shfit  <F10>shift<F10>
 iabbrev sfhit  <F10>shift<F10>
@@ -182,6 +183,7 @@ iabbrev sned   <F10>send<F10>
 iabbrev arsg   <F10>args<F10>
 iabbrev lenght <F10>length<F10>
 iabbrev argumetns <F10>arguments<F10>
+iabbrev serach <F10>search<F10>
 
 nnoremap <silent> j gj
 nnoremap <silent> k gk
