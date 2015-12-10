@@ -33,6 +33,7 @@ Plugin 'briancollins/vim-jst'
 Plugin 'groenewege/vim-less'
 
 Plugin 'slim-template/vim-slim'
+Plugin 'udalov/kotlin-vim'
 
 " Bundle 'Valloric/YouCompleteMe'
 
@@ -42,7 +43,6 @@ Plugin 'VimClojure'
 
 Plugin 'closetag.vim'
 
-Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_frontmatter = 1
 
@@ -61,11 +61,11 @@ Plugin 'motemen/vim-syntax-dockerfile'
 Plugin 'gre/play2vim'
 
 " auto-pairs {{{
-Plugin 'motemen/auto-pairs'
-let g:AutoPairsSkipToNextClosedPair = 0
-let g:AutoPairsDisableJustBeforeChar = 1
-let g:AutoPairsMapCR = 0
-let g:AutoPairsMapSpace = 0
+" Plugin 'motemen/auto-pairs'
+" let g:AutoPairsSkipToNextClosedPair = 0
+" let g:AutoPairsDisableJustBeforeChar = 1
+" let g:AutoPairsMapCR = 0
+" let g:AutoPairsMapSpace = 0
 " }}}
 
 Plugin 'editorconfig/editorconfig-vim'
@@ -87,7 +87,8 @@ Plugin 'fatih/vim-go'
 " TypeScript {{{
 " Bundle 'clausreinke/typescript-tools'
 Plugin 'clausreinke/typescript-tools.vim'
-let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
+" let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
+let g:TSS = [ 'tss', '--project', '.' ]
 " }}}
 
 Plugin 'junegunn/fzf'
@@ -398,8 +399,7 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_map = 'g<C-P>'
 
-" lightline {{{
-Plugin 'itchyny/lightline.vim'
+Plugin 'itchyny/lightline.vim' " {{{
 let g:lightline = {}
 let g:lightline.component = { 'filename': '%f' }
 let g:lightline.active = {
