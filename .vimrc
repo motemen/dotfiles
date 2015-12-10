@@ -781,8 +781,21 @@ map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
 Plugin 'tpope/vim-dispatch'
 
+command! -range GitLogRange TmuxSplitRun git log -p -L <line1>,<line2>:%
+
 Plugin 'terryma/vim-expand-region'
 
 vmap v <Plug>(expand_region_expand)
+
+Plugin 'junegunn/vim-easy-align'
+vmap <Enter> <Plug>(EasyAlign)
+
+Plugin 'keith/swift.vim'
+
+Plugin 'garyburd/go-explorer'
+
+Plugin 'derekwyatt/vim-scala'
+
+Plugin 'Townk/vim-autoclose'
 
 finish
