@@ -17,7 +17,6 @@ Plugin 'kana/vim-metarw-git'
 Plugin 'motemen/git-vim'
 Plugin 'motemen/vim-guess-abbrev'
 Plugin 'motemen/tap-vim'
-Plugin 'Lokaltog/vim-easymotion'
 Plugin 'wombat256.vim'
 Plugin 'desert-warm-256'
 Plugin 'vim-coffee-script'
@@ -450,7 +449,7 @@ function! ctrlp#buffers(...)
     retu a:0 && a:1 == 'id' ? ids : map(ids, 'fnamemodify(bufname(v:val), ":.")')
 endf
 
-" easymotion
+Plugin 'Lokaltog/vim-easymotion'
 let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz0123456789'
 let g:EasyMotion_grouping = 1
 
