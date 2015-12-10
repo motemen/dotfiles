@@ -1,5 +1,6 @@
 export PATH=$PATH:/usr/sbin
 export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/go/bin:$PATH
 export PATH=$HOME/homebrew/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
 export PATH=$HOME/bin:$HOME/dev/bin:$HOME/sbin:$PATH
@@ -23,6 +24,7 @@ fi
 export EDITOR="$(which vim)"
 export LESS='--ignore-case --raw-control-chars --status-column --HILITE-UNREAD --LONG-PROMPT --force'
 export PAGER="$(which less)"
+export FILTER=fzf
 
 export PERL_REPL=rp
 
