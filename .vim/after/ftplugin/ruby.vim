@@ -1,4 +1,4 @@
-setlocal softtabstop=2 shiftwidth=2
+setlocal softtabstop=2 shiftwidth=2 tabstop=2
 
 let b:bundle_prefix = ''
 if len(glob('Gemfile')) > 0
