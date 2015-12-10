@@ -24,9 +24,14 @@ javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://h
 set gui+=nonavigation
 set focuscontent
 set hinttags+='| //*[@ng-click]'
+set hinttags+='| //*[@oncommand]'
 set complete+=bS
 
 ignorekeys add mail\\.google\\.com
 ignorekeys add inbox\\.google\\.com
+ignorekeys add \\.slack\\.com
+ignorekeys add docs\\.google\\.com
+
+set defsearch=g
 
 " vim: set ft=vim:
