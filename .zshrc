@@ -87,6 +87,7 @@ if [ -e "$HOME/perl5/perlbrew/etc/bashrc" ]; then
     source "$HOME/perl5/perlbrew/etc/bashrc"
 fi
 
+export FZF_DEFAULT_OPTS='+2 -x'
 #
 # History
 #
@@ -127,9 +128,7 @@ _clear-line-echo () {
 # Completion
 #
 
-# XXX moved to zprofile
-# _clear-line-echo "compinit..."
-# 
+_clear-line-echo "compinit..."
 autoload -U compinit; compinit
 
 #
@@ -224,19 +223,29 @@ $HOST%# "
         fi
         PROMPT="$fg[blue]$shell_level\$${reset_color} $PROMPT"
     fi
+
+    if [ -n "$DYLD_INSERT_LIBRARIES" ]; then
+        PROMPT="🚇 $PROMPT"
+    fi
 }
 
+_clear-line-echo "functions... chpwd"
 function chpwd() {
     _update_prompt
-    # ls -t
-    # k || ls -t
 }
 
-function precmd() {
-    _update_prompt
+autoload -U add-zsh-hook
+
+add-zsh-hook precmd _update_prompt
+
+_clear-line-echo "functions... _tmux_echo_pwd"
+function _tmux_echo_pwd() {
     [ -n "$TMUX" ] && echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
+add-zsh-hook precmd _tmux_echo_pwd
+
+_clear-line-echo "functions... sssh"
 function sssh () {
     tmux new-window "ssh $1"
     shift
@@ -307,17 +316,6 @@ ghq () {
     fi
 
     command ghq "$@"
-}
-
-e () {
-    cmd=''
-    if [ -e Gemfile.lock ]; then
-        cmd="bundle exec $cmd"
-    fi
-    if [ -d local/lib/perl5 ]; then
-        cmd="carton exec -- $cmd"
-    fi
-    eval "$cmd $@"
 }
 
 ### experimental
