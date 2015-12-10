@@ -96,6 +96,9 @@ Plugin 'junegunn/fzf'
 Plugin 'wellle/targets.vim'
 
 Plugin 'mattn/ctrlp-ghq'
+let g:ctrlp_ghq_default_action='tabedit'
+
+let g:ftplugin_sql_omni_key = '<C-K>'
 
 syntax on
 filetype plugin indent on
@@ -149,7 +152,7 @@ set fileformats=unix,dos
 set termencoding=utf-8
 set encoding=utf-8
 set ambiwidth=single
-set cmdheight=2
+set cmdheight=3
 set showcmd
 set laststatus=2
 set cpoptions+=F
@@ -196,18 +199,19 @@ nnoremap <silent> <ESC>z :pclose<CR>:cclose<CR>
 
 nnoremap <silent> <C-]> <C-]>zt
 
-inoremap <silent> <BS>  <C-G>u<BS>
+" inoremap <silent> <BS>  <C-G>u<BS>
 "inoremap <silent> <C-H> <C-G>u<C-H>
 "inoremap <silent> <C-W> <C-G>u<C-W>
 "inoremap <silent> <C-U> <C-G>u<C-U>
 "inoremap <silent> <C-R> <C-G>u<C-R>
-inoremap <silent> <CR>  <C-G>u<CR>
+" inoremap <silent> <CR>  <C-G>u<CR>
 inoremap <silent> <C-F> <Right>
 inoremap <silent> <C-B> <Left>
 
 inoremap <C-S> <C-O>:update<CR>
 
-inoremap <expr> <C-L> pumvisible() ? "\<C-L>" : smartchr#one_of('->', '=>')
+" inoremap <expr> <C-L> pumvisible() ? "\<C-L>" : smartchr#one_of('->', '=>')
+inoremap <expr> <C-K> smartchr#one_of('->', '=>', '=')
 
 " inoremap <expr> <C-N> pumvisible() ? "\<Down>" : "\<C-N>"
 " inoremap <expr> <C-P> pumvisible() ? "\<Up>"   : "\<C-P>"
@@ -460,10 +464,10 @@ let g:is_bash = 1
 let html_number_lines = 0
 let html_use_css = 1
 
-omap ab <Plug>(textobj-multiblock-a)
-omap ib <Plug>(textobj-multiblock-i)
-vmap ab <Plug>(textobj-multiblock-a)
-vmap ib <Plug>(textobj-multiblock-i)
+" omap ab <Plug>(textobj-multiblock-a)
+" omap ib <Plug>(textobj-multiblock-i)
+" vmap ab <Plug>(textobj-multiblock-a)
+" vmap ib <Plug>(textobj-multiblock-i)
 
 autocmd BufRead *.tt      setfiletype html
 autocmd BufNewFile,BufReadPost *.t   setlocal filetype=perl
@@ -666,16 +670,106 @@ augroup gemfile-autoinsert-source
     autocmd BufNewFile Gemfile call append(0, "source 'https://rubygems.org'") | set modified
 augroup END
 
+function! ReadVimCommand(command)
+    let f = tempname()
+    execute 'redir >' f
+    execute a:command
+    redir END
+    execute 'split' f
+endfunction
+
+""" Experimental zone
+
+Plugin 'tpope/vim-abolish'
+
+" Bundle "osyo-manga/vim-textobj-multiblock"
+" Bundle 'c9s/perlomni.vim'
+Plugin 'LeafCage/yankround.vim'
+nmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+nmap <C-p> <Plug>(yankround-prev)
+nmap <C-n> <Plug>(yankround-next)
+
 Plugin 'osyo-manga/vim-over'
 cnoremap <C-S> <C-U>OverCommandLine<CR>
+
+nnoremap m* :<C-U>grep <cword><CR>
+vnoremap m* :<C-U>let x_save = @x <Bar> normal "xy <Bar> grep <C-R>x<CR> <Bar> let @x = x_save
+
+Plugin 'severin-lemaignan/vim-minimap'
+
+Plugin 'majutsushi/tagbar' "{{{
+
+let g:tagbar_sort = 0
+let g:tagbar_iconchars = ['▸', '▾']
+let g:tagbar_type_javascript = {
+    \ 'ctagstype' : 'JavaScript',
+    \ 'kinds'     : [
+        \ 'f:functions',
+        \ 'c:classes',
+        \ 'm:methods',
+        \ 'p:properties',
+        \ 'v:global variables',
+        \ 'C:Angular controllers',
+        \ 'S:Angular services',
+        \ 'D:Angular directives',
+        \ 'F:Angular factories'
+    \ ],
+    \ 'replace': 1
+\ }
+
+let g:tagbar_type_scala = {
+    \ 'ctagstype' : 'scala',
+    \ 'kinds'     : [
+        \ 'c:Classes',
+        \ 'o:Objects',
+        \ 'C:Case classes',
+        \ 'O:Case objects',
+        \ 't:Traits',
+        \ 'T:Types',
+        \ 'm:Methods',
+        \ 'v:Values',
+        \ 'V:Variables',
+        \ 'p:Packages'
+    \ ]
+\ }
+
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:Package',
+        \ 'i:Imports:1',
+        \ 'c:Constants',
+        \ 'v:Variables',
+        \ 't:Types',
+        \ 'n:Interfaces',
+        \ 'w:Fields',
+        \ 'e:Embedded',
+        \ 'm:Methods',
+        \ 'r:Constructor',
+        \ 'f:Functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+" }}}
 
 Plugin 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
+nnoremap g/ /
 
 Plugin 'haya14busa/vim-asterisk'
 map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
