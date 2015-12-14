@@ -33,7 +33,7 @@
     co-pr = "!f() { remote_url=$(git config remote.origin.url); user=$1; branch=$2; git fetch https://github.com/$user/${remote_url##*/} $branch; git checkout -b $user/$branch FETCH_HEAD; }; f"
     # pr-branch = "!f() { git rev-parse --abbrev-ref $(git name-rev --name-only $(git ls-remote origin refs/pull/$1/head | cut -f1)) | sed s/^origin\\\\///; }; f"
     # co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
-    # when-merged = "!f() { git log --pretty=format:%H --reverse --ancestry-path --merges $1... | head -1; }; f"
+    when-merged = "!f() { git rev-list --reverse --ancestry-path --merges $1.. | head -1; }; f"
     u = remote update
 [core]
     excludesfile = ~/.gitignore
