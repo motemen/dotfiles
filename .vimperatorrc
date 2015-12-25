@@ -1,10 +1,11 @@
-highlight CmdLine font-size: 14pt; padding: 5px; z-index: 9999; background-color: rgba(255, 255, 255, 0.8); transition: background-color: 2s;
+highlight CmdLine font-size: 12pt; padding: 5px; z-index: 9999; background-color: rgba(255, 255, 255, 0.8); transition: background-color: 2s;
 highlight InfoMsg font-size: 12pt; color: green;
-highlight CmdLine>* font-family: Menlo, monospace;
-highlight StatusLine font-size: 14pt;
+highlight CmdLine>* font-family: "Source Code Pro", Menlo, monospace;
+highlight StatusLine font-size: 10pt; font-family: "Avenir Next", "Lucida Grande", sans-serif;
 highlight CmdOutput font-size: 12pt;
-highlight CompItem font-size: 12pt;
-highlight CompTitle font-size: 12pt;
+highlight CompItem font-size: 12pt; font-family: "Source Code Pro", Menlo, monospace;
+highlight CompTitle font-size: 12pt; font-weight: bold;
+highlight CompTitle>* text-shadow: none; padding: 3px;
 highlight Hint font-family: monospace; font-size: 8pt; text-transform: uppercase; color: black; background-color: #FFF; border: 1px solid grey; padding: 2px 4px; border-radius: 1px; transition: all 1s; min-width: 1.5em; min-height: 1.2em; text-align: center; box-shadow: 1px 1px #333; opacity: 0.9;
 
 nnoremap <C-j> :
@@ -21,7 +22,7 @@ nnoremap x ojavascript:(function(){var%20e=function(t,n,r,i,s){var%20o=[5247646,
 
 javascript if (typeof hBookmark != 'undefined') liberator.loadScript('chrome://hatenabookmark/content/vimperator/plugin/hatenabookmark.js', {__proto__: this});
 
-set gui+=nonavigation
+" set gui+=nonavigation
 set focuscontent
 set hinttags+='| //*[@ng-click]'
 set hinttags+='| //*[@oncommand]'
