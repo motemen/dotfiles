@@ -26,6 +26,8 @@ echo '---> Installing Vim bundles'
 
 if [ -t 0 ]; then
     vim -e +BundleInstall +qall!
+elif [ "$(uname)" = Darwin ]; then
+    script 'vim -e +BundleInstall +qall!'
 else
     script -c 'vim -e +BundleInstall +qall!'
 fi
