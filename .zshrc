@@ -125,13 +125,6 @@ _clear-line-echo () {
 }
 
 #
-# Completion
-#
-
-_clear-line-echo "compinit..."
-autoload -U compinit; compinit
-
-#
 # Aliases
 #
 _clear-line-echo "aliasing..."
@@ -173,7 +166,6 @@ fi
 if [ -n "$brew_prefix" ]; then
     . "$brew_prefix/etc/bash_completion.d/git-prompt.sh"
     fpath=("$brew_prefix/share/zsh/site-functions" $fpath)
-    autoload -U compinit; compinit
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
@@ -262,6 +254,10 @@ function sssh () {
 _clear-line-echo "local ..."
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
+fi
+
+if functions p > /dev/null; then
+    compdef _precommand p
 fi
 
 #
@@ -380,3 +376,6 @@ zle-line-init() {
     zle autosuggest-start
 }
 zle -N zle-line-init
+
+_clear-line-echo "compinit..."
+autoload -U compinit; compinit
