@@ -88,7 +88,6 @@
     singlekey = true
 [url "git@github.com:motemen/"]
     pushInsteadOf = https://github.com/motemen/
-    insteadOf = https://github.com/motemen/
 [url "git@gist.github.com:"]
     pushInsteadOf = https://gist.github.com/motemen/
 [advice]
