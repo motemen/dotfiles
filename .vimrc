@@ -799,4 +799,6 @@ Plugin 'derekwyatt/vim-scala'
 
 Plugin 'Townk/vim-autoclose'
 
+Plugin 'digitaltoad/vim-jade'
+
 finish
