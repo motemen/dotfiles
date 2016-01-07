@@ -92,6 +92,7 @@ let g:TSS = [ 'tss', '--project', '.' ]
 " }}}
 
 Plugin 'junegunn/fzf'
+nnoremap <C-P><C-F> :FZF<CR>
 
 Plugin 'wellle/targets.vim'
 
