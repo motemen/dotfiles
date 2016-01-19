@@ -18,6 +18,8 @@ for dotfile in .*; do
 
 done
 
+touch ~/.tmux.local.conf
+
 echo '---> Updating Git submodules'
 
 git submodule update --init
