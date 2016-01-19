@@ -31,9 +31,9 @@ export PERL_REPL=rp
 export LANG=ja_JP.UTF-8
 
 # export _JAVA_OPTIONS='-Dfile.encoding=UTF-8'
-if [ -x /usr/libexec/java_home ]; then
-    export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
-fi
+# if [ -x /usr/libexec/java_home ]; then
+#     export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+# fi
 
 autoload -U compinit; compinit
 
