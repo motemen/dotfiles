@@ -82,12 +82,8 @@ tm () {
     fi
 }
 
-# perlbrew
-if [ -e "$HOME/perl5/perlbrew/etc/bashrc" ]; then
-    source "$HOME/perl5/perlbrew/etc/bashrc"
-fi
-
 export FZF_DEFAULT_OPTS='+2 -x'
+
 #
 # History
 #
@@ -147,6 +143,7 @@ alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
 alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
 alias curl='noglob curl'
+alias s='git status --short --branch --untracked-files=no'
 
 #
 # Functions
@@ -178,15 +175,12 @@ function _update_prompt {
     if [ $GIT_BRANCH ]; then
         PROMPT="$PROMPT ${fg[yellow]}$GIT_BRANCH${reset_color}"
     fi
-    if [ $PERLBREW_PERL ]; then
-        PROMPT="$PROMPT  ${fg[white]}(${PERLBREW_PERL})${reset_color}"
-    fi
     if [ -d .github-commit-status ] && which github-commit-status-mark > /dev/null 2>&1; then
         github-commit-status-mark >/dev/null 2>&1 &!
         PROMPT="$PROMPT $(github-commit-status-mark -cached)"
     fi
     PROMPT="%D{%H:%M:%S} $PROMPT%E
-$HOST%# "
+%# "
 
     jobs_suspended=$(( $(jobs -s | wc -l) ))
     if [ $jobs_suspended != 0 ]; then
@@ -244,6 +238,7 @@ function sssh () {
 
     for host in $* ; do
         tmux split-window "ssh $host || read"
+        tmux select-layout tiled > /dev/null
     done
 
     tmux select-layout tiled > /dev/null
@@ -255,9 +250,20 @@ _clear-line-echo "local ..."
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
 fi
+if [ -e ~/.zsh.d/local ]; then
+    source ~/.zsh.d/local
+fi
+
+if ! whence compdef > /dev/null; then
+    autoload -U compinit; compinit
+fi
 
 if functions p > /dev/null; then
     compdef _precommand p
+fi
+
+if whence e > /dev/null; then
+    compdef _precommand e
 fi
 
 #
@@ -265,7 +271,7 @@ fi
 #
 # From <http://www.nijino.com/ari/diary/?20020614&to=200206141S1#200206141S1>
 if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
-    preexec() {
+    _preexec_tmux() {
         if [ -n "$TMUX" ]; then
             emulate -L zsh
             local -a cmd; cmd=(${(z)2})
@@ -280,6 +286,7 @@ if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
             fi
         fi
     }
+    add-zsh-hook preexec _preexec_tmux
 fi
 
 if [ -n "$brew_prefix" ]; then
@@ -302,8 +309,6 @@ _g() {
     __repos=( ${(@f)"$({ ghq list | perl -F/ -anal -e 'print $F[-1]';  } | sort | uniq)"} )
     _describe Repositories __repos
 }
-
-compdef _g g
 
 ghq () {
     if [ "$1" = look -a -n "$2" ]; then
@@ -379,3 +384,5 @@ zle -N zle-line-init
 
 _clear-line-echo "compinit..."
 autoload -U compinit; compinit
+
+compdef _g g
