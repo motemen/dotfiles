@@ -798,10 +798,16 @@ Plugin 'keith/swift.vim'
 
 Plugin 'garyburd/go-explorer'
 
-Plugin 'derekwyatt/vim-scala'
+" Plugin 'derekwyatt/vim-scala'
 
 Plugin 'Townk/vim-autoclose'
 
 Plugin 'digitaltoad/vim-jade'
+
+let g:loaded_matchparen = 1
+Plugin 'itchyny/vim-parenmatch'
+Plugin 'itchyny/vim-cursorword'
+
+Plugin 'motemen/hatena-vim'
 
 finish
