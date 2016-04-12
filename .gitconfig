@@ -40,7 +40,6 @@
 #	whitespace = nowarn
 #	pager = less --quit-if-one-screen --RAW-CONTROL-CHARS --no-init
     pager = less -+$LESS -FRX
-	editor = vim +startinsert!
 [pager]
 # contrib/diff-highlight/diff-highlight
     log  = diff-highlight | less -+$LESS -FRX
@@ -82,7 +81,7 @@
 [filetype "compressed"]
     binary = true
 [pull]
-    rebase = true
+	rebase = preserve
 [include]
     path = ~/.gitconfig.local
 [interactive]
@@ -111,6 +110,9 @@
     rev = https://{host}/{path}/commit/{commit}
     file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
 [rerere]
-	enabled = true
+    enabled = true
 [rebase]
-	autosquash = true
+    autosquash = true
+    stat = true
+[log]
+    follow = true
