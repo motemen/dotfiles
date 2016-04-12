@@ -45,6 +45,7 @@ Plugin 'closetag.vim'
 
 Plugin 'plasticboy/vim-markdown'
 let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_folding_disabled = 1
 
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-syntax'
@@ -165,7 +166,8 @@ set history=1000
 
 set shortmess+=A
 set splitright
-set grepprg=git\ grep\ --line-number\ -I\ --no-index\ --exclude-standard
+" set grepprg=git\ grep\ --line-number\ -I\ --no-index\ --exclude-standard
+set grepprg=pt\ --nogroup
 set pastetoggle=<F10>
 set display=lastline
 set pumheight=15
@@ -305,6 +307,7 @@ let g:fuf_smartBs = 0
 let g:fuf_keyOpenTabpage = '<C-]>'
 let g:fuf_keyPreview = '<C-I>'
 let g:fuf_buffer_keyDelete = '<C-L>'
+let g:fuf_mrufile_keyExpand = '<C-L>'
 let g:fuf_enumeratingLimit = 300
 let g:fuf_maxMenuWidth = 100
 let g:fuf_splitPathMatching = 0
