@@ -53,8 +53,6 @@ Plugin 'kana/vim-textobj-lastpat'
 Plugin 'thinca/vim-textobj-function-perl'
 Plugin 'mjbrownie/html-textobjects'
 
-Plugin 'leafgarland/typescript-vim'
-
 Plugin 'motemen/vim-help-random'
 
 Plugin 'motemen/vim-syntax-dockerfile'
@@ -87,9 +85,11 @@ Plugin 'fatih/vim-go'
 
 " TypeScript {{{
 " Bundle 'clausreinke/typescript-tools'
-Plugin 'clausreinke/typescript-tools.vim'
-" let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
-let g:TSS = [ 'tss', '--project', '.' ]
+" Plugin 'clausreinke/typescript-tools.vim'
+" " let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
+" let g:TSS = [ 'tss', '--project', '.' ]
+Plugin 'leafgarland/typescript-vim'
+
 " }}}
 
 Plugin 'junegunn/fzf'
@@ -813,5 +813,12 @@ Plugin 'motemen/hatena-vim'
 """ Scala
 
 Plugin 'derekwyatt/vim-scala'
+
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Quramy/tsuquyomi'
+" let g:tsuquyomi_use_local_typescript = 0 " XXX Cannot work with tsserver 1.8.10, install tsserver 1.6 globally
+" let g:tsuquyomi_disable_quickfix = 1
+let g:tsuquyomi_disable_default_mappings = 1
+
 
 finish
