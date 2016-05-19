@@ -179,7 +179,7 @@ function _update_prompt {
         github-commit-status-mark >/dev/null 2>&1 &!
         PROMPT="$PROMPT $(github-commit-status-mark -cached)"
     fi
-    PROMPT="%D{%H:%M:%S} $PROMPT%E
+    PROMPT="$PROMPT%E
 %# "
 
     jobs_suspended=$(( $(jobs -s | wc -l) ))
