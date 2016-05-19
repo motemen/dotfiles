@@ -22,7 +22,7 @@ Plugin 'desert-warm-256'
 Plugin 'vim-coffee-script'
 Plugin 'surround.vim'
 Plugin 'nginx.vim'
-Plugin 'scala.vim'
+" Plugin 'scala.vim'
 Plugin 'smartchr'
 
 Plugin 'petdance/vim-perl'
@@ -809,5 +809,9 @@ Plugin 'itchyny/vim-parenmatch'
 Plugin 'itchyny/vim-cursorword'
 
 Plugin 'motemen/hatena-vim'
+
+""" Scala
+
+Plugin 'derekwyatt/vim-scala'
 
 finish
