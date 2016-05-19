@@ -328,7 +328,9 @@ source ~/.zsh.d/zgen/zgen.zsh
 if ! zgen saved; then
   zgen load zsh-users/zsh-syntax-highlighting
 
-  zgen load tarruda/zsh-autosuggestions
+  # zgen load tarruda/zsh-autosuggestions
+
+  zgen load zsh-users/zsh-autosuggestions
 
   # zgen load hchbaw/auto-fu.zsh
   # function zle-line-init () {
@@ -345,6 +347,19 @@ fi
 ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
 ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
 ZSH_HIGHLIGHT_STYLES[path_approx]='none'
+
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(
+    end-of-line
+)
+
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
+    forward-word
+    forward-char
+    vi-forward-word
+    vi-forward-word-end
+    vi-forward-blank-word
+    vi-forward-blank-word-end
+)
 
 ## cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
@@ -377,10 +392,10 @@ _fuzzy-ghq () {
 zle -N _fuzzy-ghq
 bindkey '^x^g' _fuzzy-ghq
 
-zle-line-init() {
-    zle autosuggest-start
-}
-zle -N zle-line-init
+# zle-line-init() {
+#     zle autosuggest-start
+# }
+# zle -N zle-line-init
 
 _clear-line-echo "compinit..."
 autoload -U compinit; compinit
