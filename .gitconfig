@@ -116,3 +116,5 @@
     stat = true
 [log]
     follow = true
+[http]
+	cookiefile = /Users/motemen/.gitcookies
