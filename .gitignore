@@ -1,6 +1,4 @@
 /.vim/bundle/
-.perl-version
-.ruby-version
 *.sw?
 /tags
 /.gitconfig.local
@@ -11,3 +9,5 @@
 # http://qiita.com/uasi/items/cedae627b7596a837c57
 ,*
 /.vim/.netrwhist
+/.vagrant
+/.env
