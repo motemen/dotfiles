@@ -1,7 +1,8 @@
 export PATH=$PATH:/usr/sbin
 export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/go/bin:$PATH
+# export PATH=/usr/local/go/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
 
 export RLWRAP_HOME=~/.rlwrap
@@ -33,7 +34,7 @@ export LANG=ja_JP.UTF-8
 #     export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
 # fi
 
-autoload -U compinit; compinit
+# autoload -U compinit; compinit
 
 export GOPATH=$HOME/dev/go:$HOME/dev
 export PATH=$PATH:$HOME/dev/bin:$HOME/dev/go/bin:$(go env GOROOT)/bin
@@ -49,15 +50,19 @@ if [ -e ~/.zsh/local.profile ]; then
 fi
 
 if which plenv > /dev/null; then
-    eval "$(plenv init -)"
+    eval "$(plenv init - --no-rehash)"
 fi
 
 if which rbenv > /dev/null; then
-    eval "$(rbenv init -)"
+    eval "$(rbenv init - --no-rehash)"
 fi
 
 if which nodenv > /dev/null; then
-    eval "$(nodenv init -)"
+    eval "$(nodenv init - --no-rehash)"
 fi
 
 export PATH=$HOME/bin:$PATH
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src

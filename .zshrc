@@ -3,6 +3,8 @@ stty -ixon -ixoff
 
 autoload -U colors; colors
 
+autoload -Uz compinit && compinit -C
+
 # PATH 指定前に
 GIT_BIN="$(which git)"
 
@@ -21,7 +23,6 @@ setopt numeric_glob_sort
 setopt no_promptcr
 setopt pushd_ignore_dups
 setopt auto_resume
-setopt extended_history
 setopt no_auto_remove_slash
 setopt interactive_comments
 setopt null_glob
@@ -82,7 +83,8 @@ tm () {
     fi
 }
 
-export FZF_DEFAULT_OPTS='+2 -x'
+# export FZF_DEFAULT_OPTS='--preview="cat {}" --bind "tab:execute(less {})"'
+export FZF_DEFAULT_OPTS='--bind "tab:execute(less {})"'
 
 #
 # History
@@ -92,6 +94,7 @@ HISTSIZE=100000
 SAVEHIST=100000
 setopt append_history
 setopt share_history
+setopt extended_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
 
@@ -117,8 +120,13 @@ zle -N _vim-this
 bindkey '^[v' _vim-this
 
 _clear-line-echo () {
-    printf "%-${COLUMNS}s\r" $1
+    # printf "%-${COLUMNS}s\r" $1
 }
+
+# http://chneukirchen.org/blog/archive/2013/03/10-fresh-zsh-tricks-you-may-not-know.html
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+bindkey "^[m" copy-earlier-word
 
 #
 # Aliases
@@ -144,6 +152,7 @@ alias vi='vim'
 alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
 alias curl='noglob curl'
 alias s='git status --short --branch --untracked-files=no'
+alias l='exa --long --git'
 
 #
 # Functions
@@ -180,7 +189,7 @@ function _update_prompt {
         PROMPT="$PROMPT $(github-commit-status-mark -cached)"
     fi
     PROMPT="$PROMPT%E
-%# "
+%m%# "
 
     jobs_suspended=$(( $(jobs -s | wc -l) ))
     if [ $jobs_suspended != 0 ]; then
@@ -231,21 +240,6 @@ function _tmux_echo_pwd() {
 
 add-zsh-hook precmd _tmux_echo_pwd
 
-_clear-line-echo "functions... sssh"
-function sssh () {
-    tmux new-window "ssh $1"
-    shift
-
-    for host in $* ; do
-        tmux split-window "ssh $host || read"
-        tmux select-layout tiled > /dev/null
-    done
-
-    tmux select-layout tiled > /dev/null
-    tmux select-pane -t 0 > /dev/null
-    tmux set-window-option synchronize-panes on > /dev/null
-}
-
 _clear-line-echo "local ..."
 if [ -e ~/.zsh/local ]; then
     source ~/.zsh/local
@@ -293,8 +287,8 @@ if [ -n "$brew_prefix" ]; then
     export XML_CATALOG_FILES="$brew_prefix/etc/xml/catalog"
 fi
 
-_clear-line-echo "＼＼\\└('ω')」//／／"
-echo
+# _clear-line-echo "＼＼\\└('ω')」//／／"
+# echo
 
 g () {
     dir=$(ghq list -p | fzf --extended-exact --select-1 --query="$1" --delimiter=/ --nth=5,6,7,8,9)
@@ -321,53 +315,13 @@ ghq () {
 
 ### experimental
 
-## zgen
-
-source ~/.zsh.d/zgen/zgen.zsh
-
-if ! zgen saved; then
-  zgen load zsh-users/zsh-syntax-highlighting
-
-  # zgen load tarruda/zsh-autosuggestions
-
-  zgen load zsh-users/zsh-autosuggestions
-
-  # zgen load hchbaw/auto-fu.zsh
-  # function zle-line-init () {
-  #     auto-fu-init
-  # }
-  # zle -N zle-line-init
-  # zstyle ':completion:*' completer _oldlist _complete
-
-  zgen load zsh-users/zsh-completions src
-
-  zgen save
-fi
-
-ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
-ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
-ZSH_HIGHLIGHT_STYLES[path_approx]='none'
-
-ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(
-    end-of-line
-)
-
-ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
-    forward-word
-    forward-char
-    vi-forward-word
-    vi-forward-word-end
-    vi-forward-blank-word
-    vi-forward-blank-word-end
-)
-
 ## cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ':chpwd:*' recent-dirs-max 1000
 
 _fuzzy-cdr () {
-    local r=$({ cdr -l | awk '{ print $2 }' & ghq list -p | sed "s#^$HOME#~#" } | PLENV_VERSION=system perl -anal -e '$h{$_}++ or print' | fzf)
+    local r=$({ cdr -l | awk '{ print $2 }' & ghq list -p | sed "s#^$HOME#~#" & } | PLENV_VERSION=system perl -anal -e '$h{$_}++ or print' | fzf --no-preview)
     if [ -n "$r" ]; then
         zle autosuggest-suspend
         BUFFER="cd -- $r"
@@ -379,7 +333,7 @@ zle -N _fuzzy-cdr
 bindkey '^x^b' _fuzzy-cdr
 
 _fuzzy-ghq () {
-    local r=$(ghq list | fzf --extended-exact --delimiter=/ --nth=2,3,4,5)
+    local r=$(ghq list | fzf --no-preview --extended-exact --delimiter=/ --nth=2,3,4,5)
     if [ -n "$r" ]; then
         r=$(ghq list -e -p $r)
 
@@ -397,7 +351,52 @@ bindkey '^x^g' _fuzzy-ghq
 # }
 # zle -N zle-line-init
 
-_clear-line-echo "compinit..."
-autoload -U compinit; compinit
+# _clear-line-echo "compinit..."
+# autoload -U compinit; compinit
 
 compdef _g g
+
+if type zprof > /dev/null 2>&1; then
+  zprof | less
+fi
+
+source ~/.zsh.d/zplug/init.zsh
+
+# zplug zsh-users/zsh-autosuggestions
+
+zplug zsh-users/zsh-completions
+
+# zplug zsh-users/zsh-syntax-highlighting, defer:2
+# typeset -A ZSH_HIGHLIGHT_STYLES
+# ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
+# ZSH_HIGHLIGHT_STYLES[alias]='fg=green,bold'
+# ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
+# ZSH_HIGHLIGHT_STYLES[builtin]='fg=blue,bold'
+# ZSH_HIGHLIGHT_STYLES[path_approx]='none'
+
+zplug zsh-users/zsh-history-substring-search
+
+zplug greymd/tmux-xpanes
+
+zplug check || zplug install
+zplug load
+
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,underline'
+
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(
+    end-of-line
+)
+
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
+    forward-word
+    forward-char
+    vi-forward-word
+    vi-forward-word-end
+    vi-forward-blank-word
+    vi-forward-blank-word-end
+)
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
