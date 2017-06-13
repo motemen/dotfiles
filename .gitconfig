@@ -16,7 +16,7 @@
     name = motemen
     homepage = https://motemen.github.io/
 [alias]
-    st = status --short --branch --ignore-submodules=dirty .
+    st = status --short --branch . # --ignore-submodules=dirty .
     co = checkout
     com = "!f() { remote_head=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null); remote_head=${remote_head#refs/remotes/origin/}; git checkout ${remote_head:-master}; }; f"
     ci = commit -v
@@ -35,6 +35,8 @@
     # co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
     when-merged = "!f() { git rev-list --reverse --ancestry-path --merges $1.. | head -1; }; f"
     u = remote update
+    sel-revision = !git log --oneline -50 | fzf | cut -f1 -d' '
+    fixit = commit --amend --no-edit
 [core]
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
@@ -52,12 +54,12 @@
 [help]
 #	autocorrect = 4
 [diff]
-#   ignoreSubmodules = dirty
+    ignoreSubmodules = dirty
     submodule = log
     algorithm = patience
     wordRegex = [[:alnum:]]+|[^[:space:]]
     renames = copies
-    tool = icdiff
+	tool = vimdiff
     mnemonicprefix
     # noprefix
 [diff "gzip"]
@@ -81,7 +83,7 @@
 [filetype "compressed"]
     binary = true
 [pull]
-	rebase = preserve
+    rebase = preserve
 [include]
     path = ~/.gitconfig.local
 [interactive]
@@ -114,7 +116,8 @@
 [rebase]
     autosquash = true
     stat = true
+    autoStash = true
 [log]
     follow = true
 [http]
-	cookiefile = /Users/motemen/.gitcookies
+    cookiefile = /Users/motemen/.gitcookies
