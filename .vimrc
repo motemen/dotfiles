@@ -8,19 +8,14 @@ call vundle#rc()
 
 set spellfile=~/.vim/spell/en.utf-8.add
 
-Plugin 'L9'
-Plugin 'FuzzyFinder'
-Plugin 'kien/ctrlp.vim'
-Plugin 'sgur/ctrlp-extensions.vim'
+set directory=~/.vim/swap
+
 Plugin 'kana/vim-metarw'
 Plugin 'kana/vim-metarw-git'
-Plugin 'motemen/git-vim'
-Plugin 'motemen/vim-guess-abbrev'
-Plugin 'motemen/tap-vim'
+" Plugin 'motemen/git-vim'
 Plugin 'wombat256.vim'
 Plugin 'desert-warm-256'
 Plugin 'vim-coffee-script'
-Plugin 'surround.vim'
 Plugin 'nginx.vim'
 " Plugin 'scala.vim'
 Plugin 'smartchr'
@@ -34,10 +29,6 @@ Plugin 'groenewege/vim-less'
 
 Plugin 'slim-template/vim-slim'
 Plugin 'udalov/kotlin-vim'
-
-" Bundle 'Valloric/YouCompleteMe'
-
-" Bundle 'ervandew/supertab'
 
 Plugin 'VimClojure'
 
@@ -59,46 +50,56 @@ Plugin 'motemen/vim-syntax-dockerfile'
 
 Plugin 'gre/play2vim'
 
-" auto-pairs {{{
-" Plugin 'motemen/auto-pairs'
-" let g:AutoPairsSkipToNextClosedPair = 0
-" let g:AutoPairsDisableJustBeforeChar = 1
-" let g:AutoPairsMapCR = 0
-" let g:AutoPairsMapSpace = 0
-" }}}
-
 Plugin 'editorconfig/editorconfig-vim'
 
 Plugin 'thinca/vim-qfreplace'
 
-""" Go {{{
-
-" if strlen($GOROOT) > 0
-"     set runtimepath+=$GOROOT/misc/vim
-" endif
-" 
-" Bundle 'nsf/gocode', {'rtp': 'vim/'}
-
 Plugin 'fatih/vim-go'
+let g:go_template_autocreate = 0
+let g:go_list_type = 'quickfix'
 
-""" }}}
-
-" TypeScript {{{
-" Bundle 'clausreinke/typescript-tools'
-" Plugin 'clausreinke/typescript-tools.vim'
-" " let g:TSS = [ expand('~/.vim/bundle/typescript-tools/bin/tss') ]
-" let g:TSS = [ 'tss', '--project', '.' ]
 Plugin 'leafgarland/typescript-vim'
 
-" }}}
-
 Plugin 'junegunn/fzf'
-nnoremap <C-P><C-F> :FZF<CR>
+Plugin 'junegunn/fzf.vim'
+let g:fzf_command_prefix = 'Fzf'
+let g:fzf_action = {
+  \ 'ctrl-k': 'vsplit',
+  \ 'ctrl-j': 'split',
+  \ 'ctrl-t': 'tab split',
+  \ 'tab': 'tab split' }
+
+nnoremap <silent> <C-S>  :FzfFiles<CR>
+nnoremap <silent> <C-B>  :FzfBuffers<CR>
+nnoremap <silent> ]<C-S> :FzfTags<CR>
+nnoremap <silent> m<C-S> :FzfHistory<CR>
+nnoremap g<C-S> :FzfFiles =expand('%:h').'/'<CR>
+command! -nargs=* FzfGrep call fzf#vim#grep('pt ' . <q-args>, 1)
+command FzfPtFiles call fzf#vim#grep('pt -g ""', 0)
+nnoremap <silent> '<C-S> :FzfMarks<CR>
+nnoremap <silent> =<C-S> :call Fzf_ghq()<CR>
+
+function! Fzf_ghq()
+    call fzf#run(fzf#wrap({
+        \ 'source': "ghq list -p | PLENV_VERSION=system perl -ple 'BEGIN { $re = join q(|), sort { length $a <=> length $b } split /\n/, qx(ghq root --all) } s/$/ $_/; s<^(?:$re)/><>'",
+        \ 'options': ' --with-nth=1' . fzf#wrap()['options'],
+        \ 'sink': funcref('Fzf_ghq_sink')
+    \ }))
+endfunction
+
+function! Fzf_ghq_sink(lines)
+    echo a:lines
+    echo split(a:lines, ' ')
+    let parts = split(a:lines, ' ')
+    if len(parts) == 0
+        return
+    endif
+    execute 'tabedit' parts[1]
+    " echo split(a:lines, ' ')[1]
+    " execute 'tabedit' split(a:lines, ' ')[1]
+endfunction
 
 Plugin 'wellle/targets.vim'
-
-Plugin 'mattn/ctrlp-ghq'
-let g:ctrlp_ghq_default_action='tabedit'
 
 let g:ftplugin_sql_omni_key = '<C-K>'
 
@@ -145,6 +146,7 @@ set path^=lib,modules/*/lib,templates
 set wildmode=list:longest,list:full
 set wildmenu
 set wildignore=*.o,*.hi,*.obj,*.sw?,blib*,cover_db*
+set mouse=a
 
 set complete-=i
 set completeopt=menu,longest,menuone,preview
@@ -159,7 +161,7 @@ set showcmd
 set laststatus=2
 set cpoptions+=F
 
-set statusline=[%n]%m\ %(%1*%{GitBranch()}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?&fenc:&enc}][%{&ff}]%=[%{Cwd()}]\ %l,%c%V\ %4P
+set statusline=[%n]%m\ %(%1*%{fugitive#head(6)}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?&fenc:&enc}][%{&ff}]%=[%{Cwd()}]\ %l,%c%V\ %4P
 
 set cedit=<C-O>
 set history=1000
@@ -175,7 +177,7 @@ set pumheight=15
 nnoremap <silent> cd    :lcd %:p:h<Return>
 nnoremap          <C-J> :
 vnoremap          <C-J> :
-inoremap          <C-J> <C-O>:
+inoremap          <C-J> <ESC>
 
 iabbrev shfit  <F10>shift<F10>
 iabbrev sfhit  <F10>shift<F10>
@@ -255,7 +257,7 @@ nnoremap gq q
 nnoremap <ESC>. :cnext<Enter>
 nnoremap <ESC>, :cprev<Enter>
 nnoremap <ESC>u :update<Enter>
-nnoremap <ESC>m :update<Enter>:make<Enter>
+nnoremap <ESC>m :update<Enter>:Make<Enter>
 
 nnoremap <ESC> <C-W>
 
@@ -291,16 +293,17 @@ nmap <Space> [Space]
 nmap [Space] <NOP>
 let mapleader='0'
 
-" gabbrev {{{
+Plugin 'motemen/vim-guess-abbrev'
 inoremap <silent> <expr> <C-]> gabbrev#i_start()
 let g:gabbrev#keyword_ch_pattern = '[[:alnum:]:]'
-" }}}
 
-" surround
+Plugin 'surround.vim'
 let g:surround_no_mappings = 1
 nmap      ds   <Plug>Dsurround
 
 " fuzzyfinder {{{
+Plugin 'L9'
+Plugin 'FuzzyFinder'
 let g:fuf_autoPreview = 0
 let g:fuf_previewHeight = 5
 let g:fuf_smartBs = 0
@@ -311,17 +314,6 @@ let g:fuf_mrufile_keyExpand = '<C-L>'
 let g:fuf_enumeratingLimit = 300
 let g:fuf_maxMenuWidth = 100
 let g:fuf_splitPathMatching = 0
-
-nnoremap <silent> <C-S>      :FufFile<CR>
-nnoremap <silent> <C-P>      :FufVCSAll<CR>
-nnoremap <silent> <C-P><C-P> :FufVCSAll<CR>
-nnoremap <silent> g<C-S>     :FufFileWithCurrentBufferDir<CR>
-nnoremap <silent> m<C-S>     :FufMruFile<CR>
-nnoremap <silent> t<C-S>     :FufTab<CR>
-nnoremap <silent> ]<C-S>     :FufTag<CR>
-nnoremap <silent> q<C-S>     :FufQuickfix<CR>
-nnoremap <silent> <C-B>      :FufBuffer<CR>
-cnoremap <silent> <expr> <C-S> getcmdtype() =~ '[/?]' ? "<C-C>:FufLine! " . getcmdline() . "<CR>" : ''
 
 augroup vimrc-fuf
     autocmd!
@@ -346,6 +338,7 @@ autocmd VimEnter * call fuf#addMode('vcsall')
 " }}}
 
 " tap.vim {{{
+Plugin 'motemen/tap-vim'
 autocmd FileType tap-result nnoremap <buffer> <ESC>m :call tap#prove(b:tap_arg)<CR>
 " }}}
 
@@ -360,19 +353,10 @@ command! -range=% Source silent split `=tempname()` | silent put=getbufline('#',
 
 """ Plugin settings """
 
-" Git
-let git_highlight_blame = 1
-let git_no_map_default = 1
-nnoremap <Leader>gd :GitDiff -M --no-prefix<Enter>
-nnoremap <Leader>gD :GitDiff -M --cached --no-prefix<Enter>
-nnoremap <Leader>gs :GitStatus<Enter>
-nnoremap <Leader>ga :GitAdd<Enter>
-nnoremap <Leader>gA :GitAdd -u<Enter>
-nnoremap <Leader>gc :GitCommit<Enter>
-nnoremap <Leader>gp :GitPullRebase<Enter>
-
 " CtrlP
-let g:ctrlp_extensions = ['ghq', 'quickfix', 'cmdline', 'yankring', 'tag', 'perldoc']
+Plugin 'kien/ctrlp.vim'
+Plugin 'sgur/ctrlp-extensions.vim'
+let g:ctrlp_extensions = ['ghq', 'quickfix', 'cmdline', 'yankring', 'tag' ]
 let g:ctrlp_prompt_mappings = {
   \ 'PrtBS()':              ['<bs>','<c-h>'],
   \ 'PrtDelete()':          ['<del>'],
@@ -409,16 +393,19 @@ let g:ctrlp_use_caching = 1
 let g:ctrlp_clear_cache_on_exit = 1
 let g:ctrlp_map = 'g<C-P>'
 
+Plugin 'mattn/ctrlp-ghq'
+let g:ctrlp_ghq_default_action='tabedit'
+
 Plugin 'itchyny/lightline.vim' " {{{
 let g:lightline = {}
 let g:lightline.component = { 'filename': '%f' }
 let g:lightline.active = {
             \ 'left': [ [ 'mode', 'paste' ],
-            \           [ 'bufnum', 'gitbranch' ],
+            \           [ 'bufnum' ],
             \           [ 'readonly', 'filename', 'modified' ]
             \         ],
             \ 'right': [ [ 'cwd' ],
-            \            [ 'lineinfo' ],
+            \            [ 'lineinfo', 'gitbranch' ],
             \            [ 'preview', 'fileencoding', 'filetype' ]
             \          ]
             \ }
@@ -427,9 +414,15 @@ let g:lightline.inactive = {
             \ }
 let g:lightline.component_function = {
             \ 'cwd': 'Cwd',
-            \ 'gitbranch': 'GitBranch',
+            \ 'gitbranch': 'LightlineFugitive',
             \ 'preview': 'LightLine_Preview'
             \ }
+function! LightlineFugitive()
+    if exists('*fugitive#head')
+        return fugitive#head(6)
+    endif
+    return ''
+endfunction
 
 function! LightLine_Preview()
     return &previewwindow ? '*PREVIEW*' : ''
@@ -441,7 +434,7 @@ endfunction
 " nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
 " nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
 " nnoremap <silent> p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
-nnoremap <silent> <C-P>p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
+" nnoremap <silent> <C-P>p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
 nnoremap <silent> <C-P>g  :call ctrlp#init(ctrlp#ghq#id())<CR>
 
 " override
@@ -478,6 +471,7 @@ let html_use_css = 1
 autocmd BufRead *.tt      setfiletype html
 autocmd BufNewFile,BufReadPost *.t   setlocal filetype=perl
 autocmd BufRead *.psgi    setfiletype perl
+autocmd BufReadPost GIT_COMMIT set fileencoding=utf-8
 
 """ autocmds """
 autocmd BufWritePost,FileWritePost {*.vim,*vimrc} if &autoread | source <afile> | endif
@@ -529,6 +523,9 @@ augroup vimrc-cd-to-project-dir
             if exists('b:git_dir')
                 unlet b:git_dir
             endif
+            if filereadable('package.json')
+                compiler npm
+            endif
         endif
     endfunction
 augroup END
@@ -562,14 +559,13 @@ command! -nargs=* -complete=shellcmd -bang TmuxSplitRun
             \ let _cmd = len(<q-args>) ? shellescape(substitute(<q-args> . '; read' , '%', expand('%'), '')) : '' |
             \ let tmux_cmd = printf('tmux if-shell "tmux select-pane -t.1" "send-keys ^C" \; if-shell "tmux respawn-pane -t.1 %s" "select-window" "split-window -d -v -p 30 %s"%s', _cmd, _cmd, len('<bang>') ? ' \; resize-pane -Z' : '') |
             \ call system(tmux_cmd)
-" nnoremap <Leader>! :TmuxSplitRun 
+" nnoremap <Leader>! :TmuxSplitRun
 
 nnoremap <Leader>c :call QlistFromTmux()<CR>
 function! QlistFromTmux()
     let tmpfile = tempname()
-    echo system("tmux 'capture-pane' '-t:.+' '-S -50' ';' 'save-buffer' " . tmpfile)
+    echo system("tmux 'capture-pane' '-t:.+' ';' 'save-buffer' " . tmpfile)
     execute 'cfile' tmpfile
-    clast
 endfunction
 
 nnoremap <ESC>m :update<Enter>:execute 'TmuxSplitRun' &makeprg<Enter>
@@ -602,6 +598,24 @@ colorscheme desert-warm-256
 
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
 command! -nargs=* -range GitBrowseRemote !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
+command! -nargs=* -range GitBrowseRemoteCopy !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
+" vnoremap <silent> u :<C-U>let @+ = split(system('git browse-remote --rev -L' . line("'<") . ',' . line("'>") . ' --stdout -- ' . expand('%')), '\n')[0]<CR>:echo 'Copied "' . @+ . '" to clipboard'<CR>
+vnoremap <silent> u :<C-U>call CopyGitReference()<CR>
+
+function! CopyGitReference()
+    let text = split(system('git browse-remote --rev -L' . line("'<") . ',' . line("'>") . ' --stdout -- ' . expand('%')), '\n')[0]
+    let text = substitute(text, '#L1$', '', '')
+    if visualmode() ==# 'v'
+        normal! gv"xy
+        let m = matchlist(getline(1), 'package \([^;]\+\)')
+        if len(m)
+            let @x = m[1] . '#' . @x
+        endif
+        let text = '<code>[' . text . ':title=' . @x . ']</code>'
+    endif
+    let @+ = text
+    echo 'Copied "' . @+ . '" to clipboard'
+endfunction
 
 " nnoremap <silent> <C-]> :call UpdateCtags()<CR>:normal! \<C-]\><CR>
 
@@ -674,6 +688,11 @@ augroup END
 augroup gemfile-autoinsert-source
     autocmd!
     autocmd BufNewFile Gemfile call append(0, "source 'https://rubygems.org'") | set modified
+augroup END
+
+augroup maincpp--autoinsert
+    autocmd!
+    autocmd BufNewFile main.cpp call append(0, [ '#include <iostream>', '', 'using namespace std;', '', 'int main() {', '}' ]) | set modified | delete | normal! k
 augroup END
 
 function! ReadVimCommand(command)
@@ -814,11 +833,71 @@ Plugin 'motemen/hatena-vim'
 
 Plugin 'derekwyatt/vim-scala'
 
-Plugin 'Shougo/vimproc.vim'
+" Plugin 'vim-syntastic/syntastic' " {{{
+" let g:syntastic_typescript_checkers = ['tslint']
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" " }}}
+
+Plugin 'w0rp/ale'
+let g:ale_linters = {
+            \ 'perl': [],
+            \ 'ruby': [],
+            \ }
+
+" Plugin 'ensime/ensime-vim'
+
+" Plugin 'Shougo/vimproc.vim'
 Plugin 'Quramy/tsuquyomi'
 " let g:tsuquyomi_use_local_typescript = 0 " XXX Cannot work with tsserver 1.8.10, install tsserver 1.6 globally
-" let g:tsuquyomi_disable_quickfix = 1
+let g:tsuquyomi_disable_quickfix = 1
 let g:tsuquyomi_disable_default_mappings = 1
+let g:tsuquyomi_completion_preview = 1
+let g:tsuquyomi_completion_detail = 1
 
+Plugin 'runoshun/vim-alloy'
+
+autocmd! filetypedetect BufReadPost *.run
+
+Plugin 'tmux-plugins/vim-tmux'
+
+Plugin 'vim-scripts/nagios-syntax'
+
+Plugin 'lambdatoast/elm.vim'
+
+Plugin 'eagletmt/ghcmod-vim'
+
+Plugin 'rust-lang/rust.vim'
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
+
+" test!!!
+" inoremap jj <ESC>
+
+Plugin 'tpope/vim-fugitive.git'
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+
+Plugin 'cespare/vim-toml'
+
+Plugin 'racer-rust/vim-racer'
+let g:racer_cmd = '$HOME/.cargo/bin/racer'
+
+Plugin 'glidenote/keepalived-syntax.vim'
+
+Plugin 'davidhalter/jedi-vim'
+
+" Plugin 'maralla/completor.vim'
+" let g:completor_completion_delay = 300
+
+Plugin 'vim-airline/vim-airline'
+let g:airline#extensions#whitespace#checks = []
+let g:airline#extensions#tagbar#enabled = 0
+let g:airline_symbols = {
+    \ 'maxlinenr': ''
+    \ }
+
+Plugin 'tomlion/vim-solidity'
 
 finish

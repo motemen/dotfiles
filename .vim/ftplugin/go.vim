@@ -1,5 +1,5 @@
 setlocal ignorecase
 
-if has('mac')
-    nnoremap <silent> K :call system('open dash://go:' . expand('<cword>'))<CR>
-endif
+nnoremap gK :<C-U>GoDocBrowser<CR>
+
+inoremap <silent> <C-L> <ESC>viWd:GoImport <C-R>"<CR>a<C-R>=substitute(@", ".*/", "", "")<CR>.<C-X><C-O>
