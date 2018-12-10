@@ -135,6 +135,8 @@ _clear-line-echo "aliasing..."
 
 alias rm='rm -i'
 alias mv='mv -i'
+alias cp='cp -i'
+alias gj='git jump'
 
 ls=$(which gls > /dev/null 2>&1 && echo 'gls' || echo 'ls')
 if [ $(uname) = 'Darwin' -a "$ls" = 'ls' ]; then
@@ -143,6 +145,11 @@ else
     export LS_OPTIONS='--color -F'
 fi
 alias ls="$ls $LS_OPTIONS"
+
+if which gdircolors > /dev/null 2>&1; then
+    eval $(gdircolors)
+fi
+
 # alias lv='lv -c -T8192'
 # alias lv='lv -R'
 alias :e='vim'
@@ -162,7 +169,10 @@ _clear-line-echo "functions..."
 export GIT_PS1_SHOWUPSTREAM='verbose'
 export GIT_PS1_DESCRIBE_STYLE='branch'
 export GIT_PS1_SHOWDIRTYSTATE='yes'
+export GIT_PS1_SHOWSTASHSTATE='yes'
 export GIT_PS1_SHOWCOLORHINTS='yes'
+
+export HOMEBREW_NO_AUTO_UPDATE=1
 
 brew_prefix=''
 if type brew > /dev/null; then
@@ -171,10 +181,13 @@ fi
 
 if [ -n "$brew_prefix" ]; then
     . "$brew_prefix/etc/bash_completion.d/git-prompt.sh"
+    test -e "$brew_prefix/share/zsh/site-functions/aws_zsh_completer.sh" && . "$brew_prefix/share/zsh/site-functions/aws_zsh_completer.sh"
     fpath=("$brew_prefix/share/zsh/site-functions" $fpath)
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
+
+fpath=(~/.zsh.d/fpath ~/dev/go/src/github.com/motemen/hub-pr/zsh $fpath)
 
 _clear-line-echo "functions... _update_prompt"
 function _update_prompt {
@@ -187,6 +200,9 @@ function _update_prompt {
     if [ -d .github-commit-status ] && which github-commit-status-mark > /dev/null 2>&1; then
         github-commit-status-mark >/dev/null 2>&1 &!
         PROMPT="$PROMPT $(github-commit-status-mark -cached)"
+    fi
+    if [ "$VIRTUAL_ENV" ]; then
+        PROMPT="$PROMPT ${fg[cyan]}$(basename "$VIRTUAL_ENV")${reset_color}"
     fi
     PROMPT="$PROMPT%E
 %m%# "
@@ -235,7 +251,7 @@ add-zsh-hook precmd _update_prompt
 
 _clear-line-echo "functions... _tmux_echo_pwd"
 function _tmux_echo_pwd() {
-    [ -n "$TMUX" ] && echo -ne "\ek$(basename $(pwd))\e\\"
+    [ -n "$TMUX" ] && [ -z "$VIM" ] && echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
 add-zsh-hook precmd _tmux_echo_pwd
@@ -398,5 +414,3 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

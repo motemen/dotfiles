@@ -42,7 +42,7 @@ Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-syntax'
 Plugin 'kana/vim-textobj-lastpat'
 Plugin 'thinca/vim-textobj-function-perl'
-Plugin 'mjbrownie/html-textobjects'
+" Plugin 'mjbrownie/html-textobjects'
 
 Plugin 'motemen/vim-help-random'
 
@@ -195,11 +195,11 @@ nnoremap <silent> k gk
 vnoremap <silent> j gj
 vnoremap <silent> k gk
 
-nnoremap g<Enter> :redraw!<Enter>:redrawstatus!<Enter>
+nnoremap g<Enter> :redraw!<Enter>:redrawstatus!<Enter>:syntax sync fromstart<Enter>
 nnoremap g<C-A> :<C-U>execute 'normal' '^' . v:count . "\<C-A>"<CR>
 nnoremap g<C-X> :<C-U>execute 'normal' '^' . v:count . "\<C-X>"<CR>
 
-nnoremap gi :<C-U>!gi
+nnoremap gi :<C-U>terminal gi
 nnoremap gI gi
 
 nnoremap <silent> <ESC>z :pclose<CR>:cclose<CR>
@@ -237,7 +237,13 @@ cnoremap <C-S>      <cword>
 cnoremap <C-X>      =expand('%:h').'/'<Enter>
 cnoremap <C-CR>     =getcmdtype()=='/'?'/0':''<Enter>:nohlsearch<Enter>
 
-cnoremap <expr> <C-J>  getcmdline() == '' ? '!' : getcmdline() == '!' ? "\<C-U>TmuxSplitRun " : "\<CR>"
+if has('nvim')
+    cnoremap <expr> <C-J>  getcmdline() == '' ? '!' : getcmdline() == '!' ? "\<C-U>belowright split term://zsh " : "\<CR>"
+    autocmd BufNew,BufEnter term://* startinsert
+    autocmd BufLeave term://* stopinsert
+else
+    cnoremap <expr> <C-J>  getcmdline() == '' ? '!' : getcmdline() == '!' ? "\<C-U>TmuxSplitRun " : "\<CR>"
+endif
 
 nnoremap <silent> gs0 :echo synIDattr(synID(line('.'), col('.'), 1), 'name')<CR>
 nnoremap <silent> gs1 :echo synIDattr(synID(line('.'), col('.'), 0), 'name')<CR>
@@ -259,7 +265,23 @@ nnoremap <ESC>, :cprev<Enter>
 nnoremap <ESC>u :update<Enter>
 nnoremap <ESC>m :update<Enter>:Make<Enter>
 
+nnoremap <A-u> :update<Enter>
+nnoremap <A-.> :cnext<Enter>
+nnoremap <A-,> :cprev<Enter>
+
 nnoremap <ESC> <C-W>
+
+nnoremap <A-q> <C-W>q
+nnoremap <A-o> <C-W>o
+nnoremap <A-j> <C-W>j
+nnoremap <A-k> <C-W>k
+nnoremap <A-h> <C-W>h
+nnoremap <A-l> <C-W>l
+nnoremap <A-z> <C-W>z
+nnoremap <A-J> <C-W>J
+nnoremap <A-K> <C-W>K
+nnoremap <A-H> <C-W>H
+nnoremap <A-L> <C-W>L
 
 " nnoremap <C-Q> :set hlsearch!<Enter>
 " nnoremap /     :set hlsearch<Enter>/
@@ -472,9 +494,10 @@ autocmd BufRead *.tt      setfiletype html
 autocmd BufNewFile,BufReadPost *.t   setlocal filetype=perl
 autocmd BufRead *.psgi    setfiletype perl
 autocmd BufReadPost GIT_COMMIT set fileencoding=utf-8
+autocmd BufReadPost COMMIT_EDITMSG set fileencoding=utf-8
 
 """ autocmds """
-autocmd BufWritePost,FileWritePost {*.vim,*vimrc} if &autoread | source <afile> | endif
+" autocmd BufWritePost,FileWritePost {*.vim,*vimrc} if &autoread | source <afile> | endif
 autocmd Filetype html,xml,xsl,xhtml,markdown runtime plugin/closetag.vim | inoremap <silent> <C-_> <C-R>=GetCloseTag()<CR>
 " autocmd QuickFixCmdPre * silent botright pedit \*preview\* | 99wincmd w | silent enew
 autocmd QuickFixCmdPost {make*,grep*,vim*,c*} if len(filter(getqflist(), 'v:val.bufnr')) | else | pclose | endif
@@ -591,10 +614,13 @@ augroup vimrc-add-highlights
         highlight Normal ctermbg=none
         highlight User1 ctermbg=NONE ctermfg=2
         highlight SpecialKey ctermfg=DarkGray
+        highlight SpellBad ctermbg=NONE ctermfg=red cterm=underline
+        highlight SpellCap ctermbg=Blue ctermfg=Black
     endfunction
 augroup END
 
-colorscheme desert-warm-256
+" colorscheme desert-warm-256
+colorscheme wombat256mod
 
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
 command! -nargs=* -range GitBrowseRemote !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
@@ -843,17 +869,22 @@ Plugin 'w0rp/ale'
 let g:ale_linters = {
             \ 'perl': [],
             \ 'ruby': [],
+            \ 'java': [],
             \ }
 
 " Plugin 'ensime/ensime-vim'
 
-" Plugin 'Shougo/vimproc.vim'
+if has('nvim')
+  Plugin 'Shougo/vimproc.vim'
+endif
+
 Plugin 'Quramy/tsuquyomi'
 " let g:tsuquyomi_use_local_typescript = 0 " XXX Cannot work with tsserver 1.8.10, install tsserver 1.6 globally
 let g:tsuquyomi_disable_quickfix = 1
 let g:tsuquyomi_disable_default_mappings = 1
 let g:tsuquyomi_completion_preview = 1
 let g:tsuquyomi_completion_detail = 1
+autocmd FileType typescript nmap <buffer> <Leader>t :<C-u>echo tsuquyomi#hint()<CR>
 
 Plugin 'runoshun/vim-alloy'
 
@@ -886,7 +917,9 @@ let g:racer_cmd = '$HOME/.cargo/bin/racer'
 
 Plugin 'glidenote/keepalived-syntax.vim'
 
-Plugin 'davidhalter/jedi-vim'
+if !has('nvim')
+    Plugin 'davidhalter/jedi-vim'
+endif
 
 " Plugin 'maralla/completor.vim'
 " let g:completor_completion_delay = 300
@@ -899,5 +932,12 @@ let g:airline_symbols = {
     \ }
 
 Plugin 'tomlion/vim-solidity'
+
+Plugin 'aklt/plantuml-syntax'
+
+Plugin 'jparise/vim-graphql'
+autocmd BufRead *.graphql set filetype=graphql
+
+Plugin 'pedrohdz/vim-yaml-folds'
 
 finish

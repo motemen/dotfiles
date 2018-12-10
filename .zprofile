@@ -20,7 +20,7 @@ export ANDROID_SDK_ROOT=/usr/local/opt/android-sdk
 #     export NODE_PATH=$NODE_PATH:$(brew --prefix)/lib/node_modules
 # fi
 
-export EDITOR="$(which vim)"
+export EDITOR="$(which nvim)"
 export LESS='--ignore-case --raw-control-chars --status-column --HILITE-UNREAD --LONG-PROMPT --force'
 export PAGER="$(which less)"
 export FILTER=fzf
@@ -66,3 +66,4 @@ export PATH=$HOME/bin:$PATH
 export PATH="$HOME/.cargo/bin:$PATH"
 
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
+export RIPGREP_CONFIG_PATH=~/.ripgreprc

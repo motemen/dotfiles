@@ -11,3 +11,5 @@
 /.vim/.netrwhist
 /.vagrant
 /.env
+/.venv
+/.vscode

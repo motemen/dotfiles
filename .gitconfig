@@ -30,13 +30,16 @@
     o = browse-remote
     pr = browse-remote --pr
     ls-others = ls-files --others --exclude-standard
-    co-pr = "!f() { remote_url=$(git config remote.origin.url); user=$1; branch=$2; git fetch https://github.com/$user/${remote_url##*/} $branch; git checkout -b $user/$branch FETCH_HEAD; }; f"
-    # pr-branch = "!f() { git rev-parse --abbrev-ref $(git name-rev --name-only $(git ls-remote origin refs/pull/$1/head | cut -f1)) | sed s/^origin\\\\///; }; f"
-    # co-pr = "!f() { git checkout $(git pr-branch $1); }; f"
+    pr-branch = "!f() { git ls-remote --heads origin | fgrep \"$(git ls-remote origin \"refs/pull/$1/head\" | cut -f1)\" | cut -f2 | sed 's:^refs/heads/::'; }; f"
+    co-pr = "!f() { git checkout \"$(git pr-branch \"$1\")\"; }; f"
     when-merged = "!f() { git rev-list --reverse --ancestry-path --merges $1.. | head -1; }; f"
     u = remote update
     sel-revision = !git log --oneline -50 | fzf | cut -f1 -d' '
     fixit = commit --amend --no-edit
+    sha = "!f() { git rev-parse \"${1-HEAD}\"; }; f"
+    tig = !tig
+    su = submodule update
+    pu = pull
 [core]
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
@@ -78,6 +81,7 @@
     ff = false
     # conflictstyle = diff3
     tool = vimdiff
+    verbosity = 10
 [gc]
     auto = 0
 [filetype "compressed"]
@@ -90,6 +94,7 @@
     singlekey = true
 [url "git@github.com:motemen/"]
     pushInsteadOf = https://github.com/motemen/
+    insteadOf = https://github.com/motemen/
 [url "git@gist.github.com:"]
     pushInsteadOf = https://gist.github.com/motemen/
 [advice]
@@ -111,13 +116,14 @@
     ref = https://{host}/{path}/tree/{short_ref}
     rev = https://{host}/{path}/commit/{commit}
     file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
-[rerere]
-    enabled = true
+# [rerere]
+#     enabled = true
 [rebase]
     autosquash = true
     stat = true
     autoStash = true
 [log]
     follow = true
+    date = iso
 [http]
     cookiefile = /Users/motemen/.gitcookies

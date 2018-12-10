@@ -1,10 +1,12 @@
-slate.bind('u:ctrl;cmd', slate.operation('focus', { app: 'IntelliJ IDEA' }));
-slate.bind('u:ctrl;cmd', slate.operation('focus', { app: 'Android Studio' }));
+// slate.bind('u:ctrl;cmd', slate.operation('focus', { app: 'IntelliJ IDEA' }));
+// slate.bind('u:ctrl;cmd', slate.operation('focus', { app: 'Android Studio' }));
+slate.bind('u:ctrl;cmd', slate.operation('focus', { app: 'Code' }));
 // slate.bind('y:ctrl;cmd', slate.operation('focus', { app: 'Firefox' }));
 slate.bind('y:ctrl;cmd', slate.operation('focus', { app: 'Google Chrome' }));
+// slate.bind('y:ctrl;cmd', slate.operation('focus', { app: 'Vivaldi' }));
 slate.bind('i:ctrl;cmd', slate.operation('focus', { app: 'iTerm2' }));
 // slate.bind('i:ctrl;cmd', slate.operation('focus', { app: 'ターミナル' }));
 slate.bind('l:ctrl;cmd', slate.operation('focus', { app: 'Slack' }));
 // slate.bind('h:ctrl;cmd', slate.operation('focus', { app: 'Firefox' }));
-slate.bind('h:ctrl;cmd', slate.operation('focus', { app: 'Google Chrome' }));
-slate.bind('k:ctrl;cmd', slate.operation('focus', { app: 'LimeChat' }));
+slate.bind('h:ctrl;cmd', slate.operation('focus', { app: 'Firefox' }));
+// slate.bind('k:ctrl;cmd', slate.operation('focus', { app: 'LimeChat' }));
