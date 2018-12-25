@@ -13,3 +13,7 @@ end)
 hs.hotkey.bind({"cmd","ctrl"}, "H", function()
     hs.application.launchOrFocus("Firefox")
 end)
+
+hs.hotkey.bind({"cmd","ctrl"}, "U", function()
+    hs.application.launchOrFocus("Visual Studio Code")
+end)
