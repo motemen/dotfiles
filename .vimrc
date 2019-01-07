@@ -239,8 +239,7 @@ cnoremap <C-CR>     =getcmdtype()=='/'?'/0':''<Enter>:nohlsearch<Enter>
 
 if has('nvim')
     cnoremap <expr> <C-J>  getcmdline() == '' ? '!' : getcmdline() == '!' ? "\<C-U>belowright split term://zsh " : "\<CR>"
-    autocmd BufNew,BufEnter term://* startinsert
-    autocmd BufLeave term://* stopinsert
+    autocmd TermOpen * startinsert
 else
     cnoremap <expr> <C-J>  getcmdline() == '' ? '!' : getcmdline() == '!' ? "\<C-U>TmuxSplitRun " : "\<CR>"
 endif
