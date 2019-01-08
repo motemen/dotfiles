@@ -1,12 +1,11 @@
 # Vim で Ctrl-Q, Ctrl-S が効くように
 stty -ixon -ixoff
 
+PATH=/usr/local/bin:$PATH
+
 autoload -U colors; colors
 
 autoload -Uz compinit && compinit -C
-
-# PATH 指定前に
-GIT_BIN="$(which git)"
 
 setopt auto_cd
 setopt auto_pushd
@@ -172,8 +171,6 @@ export GIT_PS1_SHOWDIRTYSTATE='yes'
 export GIT_PS1_SHOWSTASHSTATE='yes'
 export GIT_PS1_SHOWCOLORHINTS='yes'
 
-export HOMEBREW_NO_AUTO_UPDATE=1
-
 brew_prefix=''
 if type brew > /dev/null; then
     brew_prefix="$(brew --prefix)"
@@ -186,6 +183,8 @@ if [ -n "$brew_prefix" ]; then
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
+
+PATH=$PATH:$brew_prefix/opt/git/share/git-core/contrib/diff-highlight
 
 fpath=(~/.zsh.d/fpath ~/dev/go/src/github.com/motemen/hub-pr/zsh $fpath)
 
