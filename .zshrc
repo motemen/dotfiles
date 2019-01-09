@@ -386,6 +386,7 @@ zplug zsh-users/zsh-history-substring-search
 zplug greymd/tmux-xpanes
 
 zplug momo-lab/zsh-abbrev-alias
+bindkey -M isearch " " magic-space # https://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
 
 zplug check || zplug install
 zplug load
