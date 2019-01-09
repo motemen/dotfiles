@@ -255,14 +255,6 @@ function _tmux_echo_pwd() {
 
 add-zsh-hook precmd _tmux_echo_pwd
 
-_clear-line-echo "local ..."
-if [ -e ~/.zsh/local ]; then
-    source ~/.zsh/local
-fi
-if [ -e ~/.zsh.d/local ]; then
-    source ~/.zsh.d/local
-fi
-
 if ! whence compdef > /dev/null; then
     autoload -U compinit; compinit
 fi
@@ -393,6 +385,8 @@ zplug zsh-users/zsh-history-substring-search
 
 zplug greymd/tmux-xpanes
 
+zplug momo-lab/zsh-abbrev-alias
+
 zplug check || zplug install
 zplug load
 
@@ -413,3 +407,8 @@ ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+_clear-line-echo "local ..."
+if [ -e ~/.zsh.d/local ]; then
+    source ~/.zsh.d/local
+fi
