@@ -1,0 +1,9 @@
+# http://d.hatena.ne.jp/hirose31/20090531/1243777478
+
+mysql:bind '^W' ed-delete-prev-word
+
+mysql:bind -s '^Xd' '^USHOW DATABASES;'
+mysql:bind -s '^Xt' '^USHOW TABLES;'
+mysql:bind -s '^Xe' '^AEXPLAIN ^E';
+mysql:bind "^R" em-inc-search-prev
+mysql:bind "\\t" rl_complete
