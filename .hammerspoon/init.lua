@@ -3,7 +3,10 @@ hs.hotkey.bind({"cmd","ctrl"}, "Y", function()
 end)
 
 hs.hotkey.bind({"cmd","ctrl"}, "L", function()
-    hs.application.launchOrFocus("Slack")
+    local slack = hs.appfinder.appFromName("Slack")
+    if slack then
+        slack:activate()
+    end
 end)
 
 hs.hotkey.bind({"cmd","ctrl"}, "I", function()
