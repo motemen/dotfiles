@@ -185,6 +185,7 @@ elif [ -e /etc/bash_completion.d/git-prompt ]; then
 fi
 
 PATH=$PATH:$brew_prefix/opt/git/share/git-core/contrib/diff-highlight
+PATH=$PATH:$brew_prefix/opt/git/share/git-core/contrib/git-jump
 
 fpath=(~/.zsh.d/fpath ~/dev/go/src/github.com/motemen/hub-pr/zsh $fpath)
 
