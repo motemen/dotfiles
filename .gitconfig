@@ -38,8 +38,8 @@
     fixit = commit --amend --no-edit
     sha = "!f() { git rev-parse \"${1-HEAD}\"; }; f"
     tig = !tig
-    su = submodule update
-    pu = pull
+    su = shared-submodule-update --init
+    pu = pull --prune
 [core]
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
