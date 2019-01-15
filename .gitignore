@@ -12,4 +12,4 @@
 /.vagrant
 /.env
 /.venv
-/.vscode
+.vscode
