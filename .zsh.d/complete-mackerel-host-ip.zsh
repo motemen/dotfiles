@@ -27,10 +27,10 @@ complete-mackerel-host-ip () {
     fi
 
     envchain=
-    if [ which envchain > /dev/null ]; then
+    if which envchain > /dev/null 2>&1; then
         envchain="envchain mackerel"
     fi
-    res=$(eval "$envchain env MACKEREL_APIKEY=${apikey:-$MACKEREL_APIKEY} MACKEREL_APIKEY_NAME=${apikey_name:-$MACKEREL_APIKEY_NAME} mkr-hosts-tsv" | eval $filter "$query_arg")
+    res=$(eval "env MACKEREL_APIKEY=${apikey:-$MACKEREL_APIKEY} MACKEREL_APIKEY_NAME=${apikey_name:-$MACKEREL_APIKEY_NAME} $envchain mkr-hosts-tsv" | eval $filter "$query_arg")
     if [ -z "$res" ]; then
         zle reset-prompt
         return 1
