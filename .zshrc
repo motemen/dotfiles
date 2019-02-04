@@ -46,6 +46,9 @@ if [ -d ~/.zsh/cache ]; then
     zstyle ':completion:*' cache-path ~/.zsh/cache
 fi
 
+# https://unix.stackexchange.com/a/174641
+ZLE_SPACE_SUFFIX_CHARS=$'|&'
+
 #
 # Key binding
 #
@@ -135,7 +138,6 @@ _clear-line-echo "aliasing..."
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-alias gj='git jump'
 
 ls=$(which gls > /dev/null 2>&1 && echo 'gls' || echo 'ls')
 if [ $(uname) = 'Darwin' -a "$ls" = 'ls' ]; then
@@ -155,10 +157,9 @@ alias :e='vim'
 alias :q='exit'
 alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
-alias vicat='if [ -p /dev/stdin ]; then vim -R -; else TEMPFILE=$(gmktemp) && vim $TEMPFILE && cat $TEMPFILE; fi'
 alias curl='noglob curl'
 alias s='git status --short --branch --untracked-files=no'
-alias l='exa --long --git'
+alias l='k --human --almost-all'
 
 #
 # Functions
@@ -388,6 +389,8 @@ zplug greymd/tmux-xpanes
 
 zplug momo-lab/zsh-abbrev-alias
 bindkey -M isearch " " magic-space # https://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
+
+zplug supercrabtree/k
 
 zplug check || zplug install
 zplug load
