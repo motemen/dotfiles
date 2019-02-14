@@ -25,6 +25,7 @@ setopt auto_resume
 setopt no_auto_remove_slash
 setopt interactive_comments
 setopt null_glob
+setopt inc_append_history
 
 # export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export WORDCHARS=${WORDCHARS//[\/]}
@@ -78,7 +79,7 @@ bindkey '^Z' may_fg
 tm () {
     if [ -z $TMUX ]; then
         if tmux has-session 2> /dev/null; then
-            tmux -2 attach $*
+            tmux attach $*
         else
             tmux -2 $*
         fi
