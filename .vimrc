@@ -323,39 +323,39 @@ let g:surround_no_mappings = 1
 nmap      ds   <Plug>Dsurround
 
 " fuzzyfinder {{{
-Plugin 'L9'
-Plugin 'FuzzyFinder'
-let g:fuf_autoPreview = 0
-let g:fuf_previewHeight = 5
-let g:fuf_smartBs = 0
-let g:fuf_keyOpenTabpage = '<C-]>'
-let g:fuf_keyPreview = '<C-I>'
-let g:fuf_buffer_keyDelete = '<C-L>'
-let g:fuf_mrufile_keyExpand = '<C-L>'
-let g:fuf_enumeratingLimit = 300
-let g:fuf_maxMenuWidth = 100
-let g:fuf_splitPathMatching = 0
-
-augroup vimrc-fuf
-    autocmd!
-    autocmd FileType fuf inoremap <buffer> <C-C> <ESC>
-    " autocmd FileType fuf inoremap <buffer> <C-D> <C-O>:FufRenewCache<CR><C-X><C-N>
-    autocmd FileType fuf inoremap <buffer> <F5>  <C-O>:FufRenewCache<CR><C-X><C-N>
-    autocmd FileType fuf inoremap <buffer> <C-S> <C-R>=fuf#launch('coveragefile', '', '') ? '' : ''<CR>
-    autocmd FileType fuf inoremap <buffer> <C-D> <C-R>=fuf#file#renewCache() ? '' : ''<CR>
-augroup END
-
-if exists('*neocomplcache#disable')
-    autocmd BufEnter \[fuf\] silent call neocomplcache#disable()
-endif
-
-if exists('*fuf#addMode')
-    autocmd VimEnter * call fuf#addMode('tab')
-endif
-
-let g:fuf_modesDisable = ['mrucmd','coveragefile','bookmarkfile','bookmarkdir']
-
-autocmd VimEnter * call fuf#addMode('vcsall')
+" Plugin 'L9'
+" Plugin 'FuzzyFinder'
+" let g:fuf_autoPreview = 0
+" let g:fuf_previewHeight = 5
+" let g:fuf_smartBs = 0
+" let g:fuf_keyOpenTabpage = '<C-]>'
+" let g:fuf_keyPreview = '<C-I>'
+" let g:fuf_buffer_keyDelete = '<C-L>'
+" let g:fuf_mrufile_keyExpand = '<C-L>'
+" let g:fuf_enumeratingLimit = 300
+" let g:fuf_maxMenuWidth = 100
+" let g:fuf_splitPathMatching = 0
+" 
+" augroup vimrc-fuf
+"     autocmd!
+"     autocmd FileType fuf inoremap <buffer> <C-C> <ESC>
+"     " autocmd FileType fuf inoremap <buffer> <C-D> <C-O>:FufRenewCache<CR><C-X><C-N>
+"     autocmd FileType fuf inoremap <buffer> <F5>  <C-O>:FufRenewCache<CR><C-X><C-N>
+"     autocmd FileType fuf inoremap <buffer> <C-S> <C-R>=fuf#launch('coveragefile', '', '') ? '' : ''<CR>
+"     autocmd FileType fuf inoremap <buffer> <C-D> <C-R>=fuf#file#renewCache() ? '' : ''<CR>
+" augroup END
+"
+" if exists('*neocomplcache#disable')
+"     autocmd BufEnter \[fuf\] silent call neocomplcache#disable()
+" endif
+"
+" if exists('*fuf#addMode')
+"     autocmd VimEnter * call fuf#addMode('tab')
+" endif
+"
+" let g:fuf_modesDisable = ['mrucmd','coveragefile','bookmarkfile','bookmarkdir']
+"
+" autocmd VimEnter * call fuf#addMode('vcsall')
 " }}}
 
 " tap.vim {{{
@@ -937,6 +937,6 @@ Plugin 'aklt/plantuml-syntax'
 Plugin 'jparise/vim-graphql'
 autocmd BufRead *.graphql set filetype=graphql
 
-Plugin 'pedrohdz/vim-yaml-folds'
+" Plugin 'pedrohdz/vim-yaml-folds'
 
 finish

@@ -418,3 +418,14 @@ _clear-line-echo "local ..."
 if [ -e ~/.zsh.d/local ]; then
     source ~/.zsh.d/local
 fi
+
+abbrev-alias -g B='bundle exec'
+abbrev-alias -g F='furo2 exec'
+abbrev-alias -g C='carton exec'
+abbrev-alias -g K='kubectl'
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+if whence kubectl > /dev/null; then
+    source <(kubectl completion zsh)
+fi

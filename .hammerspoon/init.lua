@@ -1,5 +1,9 @@
 hs.hotkey.bind({"cmd","ctrl"}, "Y", function()
-    hs.application.launchOrFocus("Google Chrome")
+    -- hs.application.launchOrFocus("Google Chrome")
+    local chrome = hs.appfinder.appFromName("Google Chrome")
+    if chrome then
+        chrome:activate()
+    end
 end)
 
 hs.hotkey.bind({"cmd","ctrl"}, "L", function()
