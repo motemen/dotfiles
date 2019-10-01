@@ -618,8 +618,9 @@ augroup vimrc-add-highlights
     endfunction
 augroup END
 
-" colorscheme desert-warm-256
-colorscheme wombat256mod
+set termguicolors
+colorscheme desert-warm-256
+" colorscheme wombat256mod
 
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
 command! -nargs=* -range GitBrowseRemote !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
@@ -864,12 +865,12 @@ Plugin 'derekwyatt/vim-scala'
 " let g:syntastic_check_on_wq = 0
 " " }}}
 
-Plugin 'w0rp/ale'
-let g:ale_linters = {
-            \ 'perl': [],
-            \ 'ruby': [],
-            \ 'java': [],
-            \ }
+" Plugin 'w0rp/ale'
+" let g:ale_linters = {
+"             \ 'perl': [],
+"             \ 'ruby': [],
+"             \ 'java': [],
+"             \ }
 
 " Plugin 'ensime/ensime-vim'
 
@@ -877,13 +878,13 @@ if has('nvim')
   Plugin 'Shougo/vimproc.vim'
 endif
 
-Plugin 'Quramy/tsuquyomi'
+" Plugin 'Quramy/tsuquyomi'
 " let g:tsuquyomi_use_local_typescript = 0 " XXX Cannot work with tsserver 1.8.10, install tsserver 1.6 globally
-let g:tsuquyomi_disable_quickfix = 1
-let g:tsuquyomi_disable_default_mappings = 1
-let g:tsuquyomi_completion_preview = 1
-let g:tsuquyomi_completion_detail = 1
-autocmd FileType typescript nmap <buffer> <Leader>t :<C-u>echo tsuquyomi#hint()<CR>
+" let g:tsuquyomi_disable_quickfix = 1
+" let g:tsuquyomi_disable_default_mappings = 1
+" let g:tsuquyomi_completion_preview = 1
+" let g:tsuquyomi_completion_detail = 1
+" autocmd FileType typescript nmap <buffer> <Leader>t :<C-u>echo tsuquyomi#hint()<CR>
 
 Plugin 'runoshun/vim-alloy'
 
@@ -938,5 +939,58 @@ Plugin 'jparise/vim-graphql'
 autocmd BufRead *.graphql set filetype=graphql
 
 " Plugin 'pedrohdz/vim-yaml-folds'
+
+Plugin 'prabirshrestha/async.vim'
+Plugin 'prabirshrestha/vim-lsp'
+
+let g:lsp_async_completion = 1
+let g:lsp_signs_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_signs_error   = {'text': 'x'}
+let g:lsp_signs_warning = {'text': '!'}
+let g:lsp_signs_hint    = {'text': 'o'}
+
+highlight clear LspErrorHighlight
+highlight LspErrorHighlight ctermfg=9 ctermbg=None
+
+highlight clear LspErrorText
+highlight LspErrorText ctermfg=246 ctermbg=None
+
+highlight clear LspHintText
+highlight LspHintText ctermfg=246 ctermbg=None
+
+if executable('gopls')
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+        \ 'whitelist': ['go'],
+        \ })
+    autocmd BufWritePre *.go LspDocumentFormatSync
+endif
+
+if executable('go-langserver')
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'go-langserver',
+        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
+        \ 'whitelist': ['go'],
+        \ })
+    autocmd BufWritePre *.go LspDocumentFormatSync
+endif
+
+Plugin 'prabirshrestha/asyncomplete.vim'
+Plugin 'prabirshrestha/asyncomplete-lsp.vim'
+Plugin 'natebosch/vim-lsc'
+
+" Plugin 'ryanolsonx/vim-lsp-typescript'
+if executable('typescript-language-server')
+    autocmd User lsp_setup call lsp#register_server({
+        \ 'name': 'typescript-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+        \ 'whitelist': ['typescript', 'typescript.tsx'],
+        \ })
+endif
+
+Plugin 'dart-lang/dart-vim-plugin'
 
 finish
