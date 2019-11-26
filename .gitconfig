@@ -62,7 +62,7 @@
     algorithm = patience
     wordRegex = [[:alnum:]]+|[^[:space:]]
     renames = copies
-	tool = vimdiff
+    tool = vimdiff
     mnemonicprefix
     # noprefix
 [diff "gzip"]

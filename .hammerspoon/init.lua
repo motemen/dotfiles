@@ -22,5 +22,9 @@ hs.hotkey.bind({"cmd","ctrl"}, "H", function()
 end)
 
 hs.hotkey.bind({"cmd","ctrl"}, "U", function()
-    hs.application.launchOrFocus("Visual Studio Code")
+    -- hs.application.launchOrFocus("Visual Studio Code")
+    local app = hs.appfinder.appFromName("Visual Studio Code")
+    if app then
+        app:activate()
+    end
 end)
