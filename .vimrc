@@ -3,65 +3,45 @@ filetype off
 
 scriptencoding utf-8
 
-set runtimepath+=~/.vim/bundle/vundle/
-call vundle#rc()
+call plug#begin()
 
 set spellfile=~/.vim/spell/en.utf-8.add
 
 set directory=~/.vim/swap
 
-Plugin 'kana/vim-metarw'
-Plugin 'kana/vim-metarw-git'
-" Plugin 'motemen/git-vim'
-Plugin 'wombat256.vim'
-Plugin 'desert-warm-256'
-Plugin 'vim-coffee-script'
-Plugin 'nginx.vim'
-" Plugin 'scala.vim'
-Plugin 'smartchr'
+Plug 'kana/vim-metarw'
+Plug 'kana/vim-metarw-git'
+" Plug 'motemen/git-vim'
+Plug 'vim-scripts/wombat256.vim'
+Plug 'vim-scripts/desert-warm-256'
+Plug 'vim-scripts/smartchr'
 
-Plugin 'petdance/vim-perl'
+Plug 'vim-scripts/closetag.vim'
 
-Plugin 'pangloss/vim-javascript'
-Plugin 'briancollins/vim-jst'
+" Plug 'plasticboy/vim-markdown'
+" let g:vim_markdown_frontmatter = 1
+" let g:vim_markdown_folding_disabled = 1
 
-Plugin 'groenewege/vim-less'
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-lastpat'
+Plug 'thinca/vim-textobj-function-perl'
+" Plug 'mjbrownie/html-textobjects'
 
-Plugin 'slim-template/vim-slim'
-Plugin 'udalov/kotlin-vim'
+Plug 'motemen/vim-help-random'
 
-Plugin 'VimClojure'
+" Plug 'motemen/vim-syntax-dockerfile'
 
-Plugin 'closetag.vim'
+Plug 'gre/play2vim'
 
-Plugin 'plasticboy/vim-markdown'
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_folding_disabled = 1
+Plug 'editorconfig/editorconfig-vim'
 
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-syntax'
-Plugin 'kana/vim-textobj-lastpat'
-Plugin 'thinca/vim-textobj-function-perl'
-" Plugin 'mjbrownie/html-textobjects'
+Plug 'thinca/vim-qfreplace'
 
-Plugin 'motemen/vim-help-random'
+Plug 'leafgarland/typescript-vim'
 
-Plugin 'motemen/vim-syntax-dockerfile'
-
-Plugin 'gre/play2vim'
-
-Plugin 'editorconfig/editorconfig-vim'
-
-Plugin 'thinca/vim-qfreplace'
-
-Plugin 'fatih/vim-go'
-let g:go_template_autocreate = 0
-let g:go_list_type = 'quickfix'
-
-Plugin 'leafgarland/typescript-vim'
-
-Plugin 'junegunn/fzf'
-Plugin 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_action = {
   \ 'ctrl-k': 'vsplit',
@@ -75,7 +55,7 @@ nnoremap <silent> ]<C-S> :FzfTags<CR>
 nnoremap <silent> m<C-S> :FzfHistory<CR>
 nnoremap g<C-S> :FzfFiles =expand('%:h').'/'<CR>
 command! -nargs=* FzfGrep call fzf#vim#grep('pt ' . <q-args>, 1)
-command FzfPtFiles call fzf#vim#grep('pt -g ""', 0)
+command! FzfPtFiles call fzf#vim#grep('pt -g ""', 0)
 nnoremap <silent> '<C-S> :FzfMarks<CR>
 nnoremap <silent> =<C-S> :call Fzf_ghq()<CR>
 
@@ -99,7 +79,7 @@ function! Fzf_ghq_sink(lines)
     " execute 'tabedit' split(a:lines, ' ')[1]
 endfunction
 
-Plugin 'wellle/targets.vim'
+Plug 'wellle/targets.vim'
 
 let g:ftplugin_sql_omni_key = '<C-K>'
 
@@ -149,7 +129,7 @@ set wildignore=*.o,*.hi,*.obj,*.sw?,blib*,cover_db*
 set mouse=a
 
 set complete-=i
-set completeopt=menu,longest,menuone,preview
+set completeopt=menu,longest,menuone,preview,noselect
 
 set fileencodings=ucs-bom,utf-8,euc-jp,cp932 ",ucs-2le,utf-16
 set fileformats=unix,dos
@@ -314,17 +294,17 @@ nmap <Space> [Space]
 nmap [Space] <NOP>
 let mapleader='0'
 
-Plugin 'motemen/vim-guess-abbrev'
+Plug 'motemen/vim-guess-abbrev'
 inoremap <silent> <expr> <C-]> gabbrev#i_start()
 let g:gabbrev#keyword_ch_pattern = '[[:alnum:]:]'
 
-Plugin 'surround.vim'
-let g:surround_no_mappings = 1
-nmap      ds   <Plug>Dsurround
+Plug 'tpope/vim-surround'
+" let g:surround_no_mappings = 1
+" nmap      ds   <Plug>Dsurround
 
 " fuzzyfinder {{{
-" Plugin 'L9'
-" Plugin 'FuzzyFinder'
+" Plug 'L9'
+" Plug 'FuzzyFinder'
 " let g:fuf_autoPreview = 0
 " let g:fuf_previewHeight = 5
 " let g:fuf_smartBs = 0
@@ -359,7 +339,7 @@ nmap      ds   <Plug>Dsurround
 " }}}
 
 " tap.vim {{{
-Plugin 'motemen/tap-vim'
+Plug 'motemen/tap-vim'
 autocmd FileType tap-result nnoremap <buffer> <ESC>m :call tap#prove(b:tap_arg)<CR>
 " }}}
 
@@ -372,52 +352,52 @@ nnoremap <ESC>/     :split<CR>/
 
 command! -range=% Source silent split `=tempname()` | silent put=getbufline('#', <line1>, <line2>) | silent write | source % | bwipeout
 
-""" Plugin settings """
+""" Plug settings """
 
-" CtrlP
-Plugin 'kien/ctrlp.vim'
-Plugin 'sgur/ctrlp-extensions.vim'
-let g:ctrlp_extensions = ['ghq', 'quickfix', 'cmdline', 'yankring', 'tag' ]
-let g:ctrlp_prompt_mappings = {
-  \ 'PrtBS()':              ['<bs>','<c-h>'],
-  \ 'PrtDelete()':          ['<del>'],
-  \ 'PrtDeleteWord()':      ['<c-w>'],
-  \ 'PrtClear()':           ['<c-u>'],
-  \ 'PrtSelectMove("j")':   ['<c-n>', '<down>'],
-  \ 'PrtSelectMove("k")':   ['<c-p>', '<up>'],
-  \ 'PrtHistory(-1)':       ['<m-p>'],
-  \ 'PrtHistory(1)':        ['<m-n>'],
-  \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
-  \ 'AcceptSelection("h")': ['<c-j>', '<c-cr>', '<c-s>'],
-  \ 'AcceptSelection("t")': ['<c-]>', '<MiddleMouse>'],
-  \ 'AcceptSelection("v")': ['<c-k>', '<c-q>', '<RightMouse>'],
-  \ 'ToggleFocus()':        ['<s-tab>'],
-  \ 'ToggleRegex()':        ['<c-r>'],
-  \ 'ToggleByFname()':      ['<c-d>'],
-  \ 'ToggleType(1)':        ['<c-f>', '<c-up'],
-  \ 'ToggleType(-1)':       ['<c-b>', '<c-down>'],
-  \ 'PrtExpandDir()':       ['<tab>'],
-  \ 'PrtCurStart()':        ['<c-a>'],
-  \ 'PrtCurEnd()':          ['<c-e>'],
-  \ 'PrtCurLeft()':         ['<left>'],
-  \ 'PrtCurRight()':        ['<right>'],
-  \ 'PrtClearCache()':      ['<F5>'],
-  \ 'PrtDeleteMRU()':       ['<F7>'],
-  \ 'CreateNewFile()':      ['<c-y>'],
-  \ 'MarkToOpen()':         ['<c-z>'],
-  \ 'OpenMulti()':          ['<c-o>'],
-  \ 'PrtExit()':            ['<esc>', '<c-g>', '<c-c>'],
-  \ }
-let g:ctrlp_max_depth = 10
-let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files']
-let g:ctrlp_use_caching = 1
-let g:ctrlp_clear_cache_on_exit = 1
-let g:ctrlp_map = 'g<C-P>'
+"  " CtrlP
+"  Plug 'kien/ctrlp.vim'
+"  Plug 'sgur/ctrlp-extensions.vim'
+"  let g:ctrlp_extensions = ['ghq', 'quickfix', 'cmdline', 'yankring', 'tag' ]
+"  let g:ctrlp_prompt_mappings = {
+"    \ 'PrtBS()':              ['<bs>','<c-h>'],
+"    \ 'PrtDelete()':          ['<del>'],
+"    \ 'PrtDeleteWord()':      ['<c-w>'],
+"    \ 'PrtClear()':           ['<c-u>'],
+"    \ 'PrtSelectMove("j")':   ['<c-n>', '<down>'],
+"    \ 'PrtSelectMove("k")':   ['<c-p>', '<up>'],
+"    \ 'PrtHistory(-1)':       ['<m-p>'],
+"    \ 'PrtHistory(1)':        ['<m-n>'],
+"    \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+"    \ 'AcceptSelection("h")': ['<c-j>', '<c-cr>', '<c-s>'],
+"    \ 'AcceptSelection("t")': ['<c-]>', '<MiddleMouse>'],
+"    \ 'AcceptSelection("v")': ['<c-k>', '<c-q>', '<RightMouse>'],
+"    \ 'ToggleFocus()':        ['<s-tab>'],
+"    \ 'ToggleRegex()':        ['<c-r>'],
+"    \ 'ToggleByFname()':      ['<c-d>'],
+"    \ 'ToggleType(1)':        ['<c-f>', '<c-up'],
+"    \ 'ToggleType(-1)':       ['<c-b>', '<c-down>'],
+"    \ 'PrtExpandDir()':       ['<tab>'],
+"    \ 'PrtCurStart()':        ['<c-a>'],
+"    \ 'PrtCurEnd()':          ['<c-e>'],
+"    \ 'PrtCurLeft()':         ['<left>'],
+"    \ 'PrtCurRight()':        ['<right>'],
+"    \ 'PrtClearCache()':      ['<F5>'],
+"    \ 'PrtDeleteMRU()':       ['<F7>'],
+"    \ 'CreateNewFile()':      ['<c-y>'],
+"    \ 'MarkToOpen()':         ['<c-z>'],
+"    \ 'OpenMulti()':          ['<c-o>'],
+"    \ 'PrtExit()':            ['<esc>', '<c-g>', '<c-c>'],
+"    \ }
+"  let g:ctrlp_max_depth = 10
+"  let g:ctrlp_user_command = ['.git/', 'cd %s && git ls-files']
+"  let g:ctrlp_use_caching = 1
+"  let g:ctrlp_clear_cache_on_exit = 1
+"  let g:ctrlp_map = 'g<C-P>'
+"  
+"  Plug 'mattn/ctrlp-ghq'
+"  let g:ctrlp_ghq_default_action='tabedit'
 
-Plugin 'mattn/ctrlp-ghq'
-let g:ctrlp_ghq_default_action='tabedit'
-
-Plugin 'itchyny/lightline.vim' " {{{
+Plug 'itchyny/lightline.vim' " {{{
 let g:lightline = {}
 let g:lightline.component = { 'filename': '%f' }
 let g:lightline.active = {
@@ -456,24 +436,24 @@ endfunction
 " nnoremap <silent> t  :let g:ctrlp_default_input = 0<CR>:CtrlPTag<CR>
 " nnoremap <silent> p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
 " nnoremap <silent> <C-P>p  :call ctrlp#init(ctrlp#perldoc#id())<CR>
-nnoremap <silent> <C-P>g  :call ctrlp#init(ctrlp#ghq#id())<CR>
+" nnoremap <silent> <C-P>g  :call ctrlp#init(ctrlp#ghq#id())<CR>
 
 " override
-runtime autoload/ctrlp.vim
+" runtime autoload/ctrlp.vim
 
-redir => sc_names
-silent scriptnames
-redir END
+" redir => sc_names
+" silent scriptnames
+" redir END
+" 
+" let s:ctrlp_sid = matchstr(sc_names, '\zs[0-9]\+\ze: \S\+autoload/ctrlp\.vim')
 
-let s:ctrlp_sid = matchstr(sc_names, '\zs[0-9]\+\ze: \S\+autoload/ctrlp\.vim')
+" function! ctrlp#buffers(...)
+"     let ids = sort(filter(range(1, bufnr('$')),
+"                 \ 'getbufvar(v:val, "&bl") && strlen(bufname(v:val))'), '<SNR>'.s:ctrlp_sid.'_compmreb')
+"     retu a:0 && a:1 == 'id' ? ids : map(ids, 'fnamemodify(bufname(v:val), ":.")')
+" endf
 
-function! ctrlp#buffers(...)
-    let ids = sort(filter(range(1, bufnr('$')),
-                \ 'getbufvar(v:val, "&bl") && strlen(bufname(v:val))'), '<SNR>'.s:ctrlp_sid.'_compmreb')
-    retu a:0 && a:1 == 'id' ? ids : map(ids, 'fnamemodify(bufname(v:val), ":.")')
-endf
-
-Plugin 'Lokaltog/vim-easymotion'
+Plug 'Lokaltog/vim-easymotion'
 let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyz0123456789'
 let g:EasyMotion_grouping = 1
 
@@ -600,7 +580,8 @@ augroup vimrc-add-highlights
         highlight MatchParen term=bold gui=bold cterm=bold
         highlight CursorLine ctermbg=NONE
         highlight CursorColumn ctermbg=NONE
-        highlight Pmenu ctermbg=grey ctermfg=236 guibg=grey guifg=#111111
+        " highlight Pmenu ctermbg=grey ctermfg=236 guibg=grey guifg=#111111
+        highlight Pmenu guibg=#000000 guifg=#c0c0aa
         highlight Pmenusel ctermbg=lightblue ctermfg=236
         highlight Pmenuselbar ctermbg=grey
         highlight Folded ctermbg=240 ctermfg=252 cterm=NONE
@@ -615,12 +596,26 @@ augroup vimrc-add-highlights
         highlight SpecialKey ctermfg=DarkGray
         highlight SpellBad ctermbg=NONE ctermfg=red cterm=underline
         highlight SpellCap ctermbg=Blue ctermfg=Black
+        highlight NonText guibg=NONE guifg=#335393
+
+        highlight clear LspErrorHighlight
+        highlight LspErrorHighlight ctermfg=9 ctermbg=None guibg=#772222
+
+        highlight clear LspErrorText
+        highlight LspErrorText ctermfg=246 ctermbg=None guifg=#BBBBBB
+
+        highlight clear LspWarningText
+        highlight LspWarningText ctermfg=246 ctermbg=None guifg=#BBBBBB
+
+        highlight clear LspWarningHighlight
+        highlight LspWarningHighlight cterm=underline guibg=#555522
+
+        highlight clear LspHintText
+        highlight LspHintText ctermfg=246 ctermbg=None
     endfunction
 augroup END
 
 set termguicolors
-colorscheme desert-warm-256
-" colorscheme wombat256mod
 
 command! -nargs=1 -complete=custom,PerlModules Perldoc new | :call Perldoc(<q-args>)
 command! -nargs=* -range GitBrowseRemote !git browse-remote --rev -L<line1>,<line2> <f-args> -- %
@@ -731,25 +726,25 @@ endfunction
 
 """ Experimental zone
 
-Plugin 'tpope/vim-abolish'
+Plug 'tpope/vim-abolish'
 
 " Bundle "osyo-manga/vim-textobj-multiblock"
 " Bundle 'c9s/perlomni.vim'
-Plugin 'LeafCage/yankround.vim'
+Plug 'LeafCage/yankround.vim'
 nmap p <Plug>(yankround-p)
 nmap P <Plug>(yankround-P)
 nmap <C-p> <Plug>(yankround-prev)
 nmap <C-n> <Plug>(yankround-next)
 
-Plugin 'osyo-manga/vim-over'
+Plug 'osyo-manga/vim-over'
 cnoremap <C-S> <C-U>OverCommandLine<CR>
 
 nnoremap m* :<C-U>grep <cword><CR>
 vnoremap m* :<C-U>let x_save = @x <Bar> normal "xy <Bar> grep <C-R>x<CR> <Bar> let @x = x_save
 
-Plugin 'severin-lemaignan/vim-minimap'
+Plug 'severin-lemaignan/vim-minimap'
 
-Plugin 'majutsushi/tagbar' "{{{
+Plug 'majutsushi/tagbar' "{{{
 
 let g:tagbar_sort = 0
 let g:tagbar_iconchars = ['▸', '▾']
@@ -814,7 +809,7 @@ let g:tagbar_type_go = {
 \ }
 " }}}
 
-Plugin 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
@@ -822,126 +817,102 @@ map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
 nnoremap g/ /
 
-Plugin 'haya14busa/vim-asterisk'
+Plug 'haya14busa/vim-asterisk'
 map *  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
 map g* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
 map #  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
 map g# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 
-Plugin 'tpope/vim-dispatch'
+Plug 'tpope/vim-dispatch'
 
 command! -range GitLogRange TmuxSplitRun git log -p -L <line1>,<line2>:%
 
-Plugin 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region'
 
 vmap v <Plug>(expand_region_expand)
 
-Plugin 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 
-Plugin 'keith/swift.vim'
+Plug 'garyburd/go-explorer'
 
-Plugin 'garyburd/go-explorer'
+Plug 'Townk/vim-autoclose'
 
-" Plugin 'derekwyatt/vim-scala'
-
-Plugin 'Townk/vim-autoclose'
-
-Plugin 'digitaltoad/vim-jade'
+" Plug 'digitaltoad/vim-jade'
 
 let g:loaded_matchparen = 1
-Plugin 'itchyny/vim-parenmatch'
-Plugin 'itchyny/vim-cursorword'
+Plug 'itchyny/vim-parenmatch'
+Plug 'itchyny/vim-cursorword'
 
-Plugin 'motemen/hatena-vim'
+" Plug 'motemen/hatena-vim'
 
-""" Scala
-
-Plugin 'derekwyatt/vim-scala'
-
-" Plugin 'vim-syntastic/syntastic' " {{{
+" Plug 'vim-syntastic/syntastic' " {{{
 " let g:syntastic_typescript_checkers = ['tslint']
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
 " " }}}
 
-" Plugin 'w0rp/ale'
+" Plug 'w0rp/ale'
 " let g:ale_linters = {
 "             \ 'perl': [],
 "             \ 'ruby': [],
 "             \ 'java': [],
 "             \ }
 
-" Plugin 'ensime/ensime-vim'
+" Plug 'ensime/ensime-vim'
 
 if has('nvim')
-  Plugin 'Shougo/vimproc.vim'
+  Plug 'Shougo/vimproc.vim'
 endif
 
-" Plugin 'Quramy/tsuquyomi'
-" let g:tsuquyomi_use_local_typescript = 0 " XXX Cannot work with tsserver 1.8.10, install tsserver 1.6 globally
-" let g:tsuquyomi_disable_quickfix = 1
-" let g:tsuquyomi_disable_default_mappings = 1
-" let g:tsuquyomi_completion_preview = 1
-" let g:tsuquyomi_completion_detail = 1
-" autocmd FileType typescript nmap <buffer> <Leader>t :<C-u>echo tsuquyomi#hint()<CR>
-
-Plugin 'runoshun/vim-alloy'
+Plug 'runoshun/vim-alloy'
 
 autocmd! filetypedetect BufReadPost *.run
 
-Plugin 'tmux-plugins/vim-tmux'
+Plug 'vim-scripts/nagios-syntax'
 
-Plugin 'vim-scripts/nagios-syntax'
-
-Plugin 'lambdatoast/elm.vim'
-
-Plugin 'eagletmt/ghcmod-vim'
-
-Plugin 'rust-lang/rust.vim'
-let g:rustfmt_autosave = 1
-let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
+Plug 'eagletmt/ghcmod-vim'
 
 " test!!!
 " inoremap jj <ESC>
 
-Plugin 'tpope/vim-fugitive.git'
+Plug 'tpope/vim-fugitive'
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gc :Gcommit<CR>
 
-Plugin 'cespare/vim-toml'
-
-Plugin 'racer-rust/vim-racer'
-let g:racer_cmd = '$HOME/.cargo/bin/racer'
-
-Plugin 'glidenote/keepalived-syntax.vim'
+Plug 'glidenote/keepalived-syntax.vim'
 
 if !has('nvim')
-    Plugin 'davidhalter/jedi-vim'
+    Plug 'davidhalter/jedi-vim'
 endif
 
-" Plugin 'maralla/completor.vim'
+" Plug 'maralla/completor.vim'
 " let g:completor_completion_delay = 300
 
-Plugin 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 let g:airline#extensions#whitespace#checks = []
 let g:airline#extensions#tagbar#enabled = 0
 let g:airline_symbols = {
     \ 'maxlinenr': ''
     \ }
 
-Plugin 'tomlion/vim-solidity'
+Plug 'aklt/plantuml-syntax'
 
-Plugin 'aklt/plantuml-syntax'
-
-Plugin 'jparise/vim-graphql'
+Plug 'jparise/vim-graphql'
 autocmd BufRead *.graphql set filetype=graphql
 
-" Plugin 'pedrohdz/vim-yaml-folds'
+" Plug 'pedrohdz/vim-yaml-folds'
 
-Plugin 'prabirshrestha/async.vim'
-Plugin 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" " let g:asyncomplete_auto_popup = 0
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 let g:lsp_async_completion = 1
 let g:lsp_signs_enabled = 1
@@ -949,39 +920,48 @@ let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_signs_error   = {'text': 'x'}
 let g:lsp_signs_warning = {'text': '!'}
 let g:lsp_signs_hint    = {'text': 'o'}
-
-highlight clear LspErrorHighlight
-highlight LspErrorHighlight ctermfg=9 ctermbg=None
-
-highlight clear LspErrorText
-highlight LspErrorText ctermfg=246 ctermbg=None
-
-highlight clear LspHintText
-highlight LspHintText ctermfg=246 ctermbg=None
+let g:lsp_preview_doubletap = 0
 
 if executable('gopls')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'gopls',
-        \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go LspDocumentFormatSync
+    augroup LspGopls
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'gopls',
+            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+            \ 'whitelist': ['go'],
+            \ 'workspace_config': {'gopls': {
+            \     'staticcheck': v:true,
+            \     'completeUnimported': v:true,
+            \     'caseSensitiveCompletion': v:true,
+            \     'usePlaceholders': v:true,
+            \     'completionDocumentation': v:true,
+            \     'watchFileChanges': v:true,
+            \     'hoverKind': 'SingleLine',
+            \   }},
+            \ })
+        autocmd BufWritePre *.go LspDocumentFormatSync
+        autocmd FileType go setlocal omnifunc=lsp#complete
+        autocmd FileType go nnoremap <buffer> <C-]> :LspDefinition<CR>
+    augroup END
 endif
 
-if executable('go-langserver')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'go-langserver',
-        \ 'cmd': {server_info->['go-langserver', '-gocodecompletion']},
-        \ 'whitelist': ['go'],
-        \ })
-    autocmd BufWritePre *.go LspDocumentFormatSync
+if executable('rls')
+    augroup LspRls
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'rls',
+                    \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+                    \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+                    \ 'whitelist': ['rust'],
+                    \ })
+        autocmd BufWritePre *.rs LspDocumentFormatSync
+        autocmd FileType rust setlocal omnifunc=lsp#complete
+        autocmd FileType rust nnoremap <buffer> <C-]> :LspDefinition<CR>
+    augroup END
 endif
 
-Plugin 'prabirshrestha/asyncomplete.vim'
-Plugin 'prabirshrestha/asyncomplete-lsp.vim'
-Plugin 'natebosch/vim-lsc'
+Plug 'natebosch/vim-lsc'
 
-" Plugin 'ryanolsonx/vim-lsp-typescript'
 if executable('typescript-language-server')
     autocmd User lsp_setup call lsp#register_server({
         \ 'name': 'typescript-language-server',
@@ -989,8 +969,41 @@ if executable('typescript-language-server')
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
         \ 'whitelist': ['typescript', 'typescript.tsx'],
         \ })
+    autocmd FileType typescript setlocal omnifunc=lsp#complete
 endif
 
-Plugin 'dart-lang/dart-vim-plugin'
+if executable('vls')
+    augroup LspVls
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'vue-language-server',
+                    \ 'cmd': {server_info->['vls']},
+                    \ 'whitelist': ['vue'],
+                    \ 'initialization_options': {
+                    \     'config': {
+                    \         'html': {},
+                    \         'vetur': {
+                    \             'validation': {},
+                    \             'completion': {}
+                    \          }
+                    \        }
+                    \     }
+                    \ })
+        autocmd FileType vue setlocal omnifunc=lsp#complete
+    augroup end
+endif
+
+inoremap <C-L> <C-O>:LspHover<CR>
+nnoremap <C-K><C-I> :LspHover<CR>
+
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
+Plug 'sheerun/vim-polyglot'
+let g:rust_recommended_style = 0 " sets tabstop=8 :(
+
+call plug#end()
+
+colorscheme desert-warm-256
+" colorscheme wombat256mod
 
 finish
