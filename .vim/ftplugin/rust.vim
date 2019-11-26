@@ -1,2 +1,1 @@
-nnoremap <C-]> <Plug>(rust-def)
-nnoremap K <Plug>(rust-doc)
+setlocal tabstop=4
