@@ -87,7 +87,7 @@ tm () {
 }
 
 # export FZF_DEFAULT_OPTS='--preview="cat {}" --bind "tab:execute(less {})"'
-export FZF_DEFAULT_OPTS='--bind "tab:execute(less {})"'
+export FZF_DEFAULT_OPTS='--bind "tab:execute(less {})" --inline-info --border'
 
 #
 # History
@@ -423,9 +423,13 @@ abbrev-alias -g B='bundle exec'
 abbrev-alias -g F='furo2 exec'
 abbrev-alias -g C='carton exec'
 abbrev-alias -g K='kubectl'
+abbrev-alias -g DC='docker-compose'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 if whence kubectl > /dev/null; then
     source <(kubectl completion zsh)
 fi
+
+# added by travis gem
+[ -f /Users/motemen/.travis/travis.sh ] && source /Users/motemen/.travis/travis.sh

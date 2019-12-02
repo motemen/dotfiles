@@ -4,6 +4,7 @@ export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
+export PATH=$PATH:$HOME/dev/flutter/bin
 
 export RLWRAP_HOME=~/.rlwrap
 
@@ -14,7 +15,8 @@ export CPLUS_INCLUDE_PATH=$HOME/homebrew/include
 
 export MYSQL_PS1='\u@\h [\d]> '
 
-export ANDROID_SDK_ROOT=/usr/local/opt/android-sdk
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
 # export NODE_PATH=/usr/local/lib/node_modules
 # if type brew > /dev/null; then
 #     export NODE_PATH=$NODE_PATH:$(brew --prefix)/lib/node_modules
@@ -67,3 +69,5 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
