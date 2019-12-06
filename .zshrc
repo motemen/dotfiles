@@ -333,7 +333,7 @@ zstyle ':chpwd:*' recent-dirs-max 1000
 _fuzzy-cdr () {
     local r=$({ cdr -l | awk '{ print $2 }' & ghq list -p | sed "s#^$HOME#~#" & } | PLENV_VERSION=system perl -anal -e '$h{$_}++ or print' | fzf --no-preview)
     if [ -n "$r" ]; then
-        zle autosuggest-suspend
+        # zle autosuggest-suspend
         BUFFER="cd -- $r"
         zle accept-line
     fi
@@ -347,7 +347,7 @@ _fuzzy-ghq () {
     if [ -n "$r" ]; then
         r=$(ghq list -e -p $r)
 
-        zle autosuggest-suspend
+        # zle autosuggest-suspend
         BUFFER="cd -- $r"
         zle accept-line
     fi
@@ -355,6 +355,20 @@ _fuzzy-ghq () {
 }
 zle -N _fuzzy-ghq
 bindkey '^x^g' _fuzzy-ghq
+
+function fzf-furo2-history-exec () {
+  local cmd=$(furo2 history --pretty=format:%s | grep -v -F '[failed]' | fzf --exit-0 --query "$LBUFFER")
+  if [ $? -ne 0 ]; then
+      return $?
+  fi
+  if [ -n "$cmd" ]; then
+    BUFFER=
+    LBUFFER+="furo2 exec $cmd"
+  fi
+  zle reset-prompt
+}
+zle -N fzf-furo2-history-exec
+bindkey '^x^h' fzf-furo2-history-exec
 
 # zle-line-init() {
 #     zle autosuggest-start
