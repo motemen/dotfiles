@@ -81,7 +81,7 @@
     ff = false
     # conflictstyle = diff3
     tool = vimdiff
-    verbosity = 10
+    verbosity = 5
 [gc]
     auto = 0
 [filetype "compressed"]
@@ -100,8 +100,8 @@
 [advice]
     detachedHead = false
 [ghq]
-    root = ~/dev/src
     root = ~/dev/go/src
+    root = ~/dev/src
 [ghq "import"]
     pocket = !pocket list --domain github.com --format '{{.URL}}'
     starred = !github-list-starred
@@ -115,7 +115,7 @@
     top = https://{host}/{path}
     ref = https://{host}/{path}/tree/{short_ref}
     rev = https://{host}/{path}/commit/{commit}
-    file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
+    file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#\" + % lines.map { |l| \"#L${l}\" }.join(\"-\")}"
 # [rerere]
 #     enabled = true
 [rebase]
