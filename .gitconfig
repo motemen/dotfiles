@@ -44,12 +44,16 @@
     excludesfile = ~/.gitignore
 #	whitespace = nowarn
 #	pager = less --quit-if-one-screen --RAW-CONTROL-CHARS --no-init
-    pager = less -+$LESS -FRX
-[pager]
-# contrib/diff-highlight/diff-highlight
-    log  = diff-highlight | less -+$LESS -FRX
-    show = diff-highlight | less -+$LESS -FRX
-    diff = diff-highlight | less -+$LESS -FRX
+# pager = less -+$LESS -FRX
+[core]
+    pager = delta --width=variable
+# [interactive]
+#     diffFilter = delta --width=variable
+# [pager]
+# # contrib/diff-highlight/diff-highlight
+#     log  = diff-highlight | less -+$LESS -FRX
+#     show = diff-highlight | less -+$LESS -FRX
+#     diff = diff-highlight | less -+$LESS -FRX
 [push]
     default = current
 [apply]
@@ -127,3 +131,8 @@
     date = iso
 [http]
     cookiefile = /Users/motemen/.gitcookies
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

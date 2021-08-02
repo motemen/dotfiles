@@ -145,6 +145,7 @@ set statusline=[%n]%m\ %(%1*%{fugitive#head(6)}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?
 
 set cedit=<C-O>
 set history=1000
+set shada+=!,'1000,<50,s10,h
 
 set shortmess+=A
 set splitright
@@ -399,6 +400,7 @@ command! -range=% Source silent split `=tempname()` | silent put=getbufline('#',
 
 Plug 'itchyny/lightline.vim' " {{{
 let g:lightline = {}
+let g:lightline.colorscheme = 'Tomorrow'
 let g:lightline.component = { 'filename': '%f' }
 let g:lightline.active = {
             \ 'left': [ [ 'mode', 'paste' ],
@@ -890,12 +892,12 @@ endif
 " Plug 'maralla/completor.vim'
 " let g:completor_completion_delay = 300
 
-Plug 'vim-airline/vim-airline'
-let g:airline#extensions#whitespace#checks = []
-let g:airline#extensions#tagbar#enabled = 0
-let g:airline_symbols = {
-    \ 'maxlinenr': ''
-    \ }
+" Plug 'vim-airline/vim-airline'
+" let g:airline#extensions#whitespace#checks = []
+" let g:airline#extensions#tagbar#enabled = 0
+" let g:airline_symbols = {
+"     \ 'maxlinenr': ''
+"     \ }
 
 Plug 'aklt/plantuml-syntax'
 
@@ -914,7 +916,7 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 " Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-let g:lsp_async_completion = 1
+let g:lsp_async_completion = 0
 let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 let g:lsp_signs_error   = {'text': 'x'}
@@ -935,8 +937,10 @@ if executable('gopls')
             \     'caseSensitiveCompletion': v:true,
             \     'usePlaceholders': v:true,
             \     'completionDocumentation': v:true,
-            \     'watchFileChanges': v:true,
             \     'hoverKind': 'SingleLine',
+            \     'analyses': {
+            \        'S1002': v:false
+            \     }
             \   }},
             \ })
         autocmd BufWritePre *.go LspDocumentFormatSync
@@ -967,9 +971,10 @@ if executable('typescript-language-server')
         \ 'name': 'typescript-language-server',
         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescript.tsx'],
+        \ 'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'],
         \ })
     autocmd FileType typescript setlocal omnifunc=lsp#complete
+    autocmd FileType typescript.tsx setlocal omnifunc=lsp#complete
 endif
 
 if executable('vls')
@@ -1000,6 +1005,11 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'sheerun/vim-polyglot'
 let g:rust_recommended_style = 0 " sets tabstop=8 :(
+let g:polyglot_disabled = ['typescript']
+
+" Plug 'wellle/context.vim'
+
+Plug 'mattn/vim-goimports'
 
 call plug#end()
 

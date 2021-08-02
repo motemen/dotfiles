@@ -1,7 +1,9 @@
+if [[ -n "$HOMEBREW_DEV_CMD_RUN" ]]; then
+    return
+fi
+
 # Vim で Ctrl-Q, Ctrl-S が効くように
 stty -ixon -ixoff
-
-PATH=/usr/local/bin:$PATH
 
 autoload -U colors; colors
 

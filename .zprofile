@@ -5,6 +5,7 @@ export PATH=$HOME/.cabal/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
 export PATH=$PATH:$HOME/dev/flutter/bin
+export PATH=/usr/local/bin:$PATH
 
 export RLWRAP_HOME=~/.rlwrap
 
@@ -63,6 +64,10 @@ if which nodenv > /dev/null; then
     eval "$(nodenv init - --no-rehash)"
 fi
 
+if which pyenv > /dev/null; then
+    eval "$(pyenv init - --no-rehash)"
+fi
+
 export PATH=$HOME/bin:$PATH
 
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -71,3 +76,5 @@ export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rust
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
+
+export PATH="$HOME/.poetry/bin:$PATH"

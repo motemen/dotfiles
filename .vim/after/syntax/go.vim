@@ -1,5 +1,6 @@
 syntax clear goExtraType
 syntax clear goBuiltins
+syntax clear goOctalError
 
 syntax match goFormatSpecifier +%_+ contained containedin=goString
 syntax match goBuiltins /\<\v(append|cap|close|complex|copy|delete|imag|len)\ze\(/
