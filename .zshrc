@@ -257,16 +257,16 @@ autoload -U add-zsh-hook
 
 add-zsh-hook precmd _update_prompt
 
-_clear-line-echo "functions... _tmux_echo_pwd"
-function _tmux_echo_pwd() {
-    [ -n "$TMUX" ] && [ -z "$VIM" ] && echo -ne "\ek$(basename $(pwd))\e\\"
-}
+# _clear-line-echo "functions... _tmux_echo_pwd"
+# function _tmux_echo_pwd() {
+#     [ -n "$TMUX" ] && [ -z "$VIM" ] && echo -ne "\ek$(basename $(pwd))\e\\"
+# }
+#
+# add-zsh-hook precmd _tmux_echo_pwd
 
-add-zsh-hook precmd _tmux_echo_pwd
-
-if ! whence compdef > /dev/null; then
-    autoload -U compinit; compinit
-fi
+# if ! whence compdef > /dev/null; then
+#     autoload -U compinit; compinit -C
+# fi
 
 if functions p > /dev/null; then
     compdef _precommand p
@@ -280,24 +280,24 @@ fi
 # Setting for screen
 #
 # From <http://www.nijino.com/ari/diary/?20020614&to=200206141S1#200206141S1>
-if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
-    _preexec_tmux() {
-        if [ -n "$TMUX" ]; then
-            emulate -L zsh
-            local -a cmd; cmd=(${(z)2})
-
-            if [[ $cmd[1] = 'fg' ]]; then
-                # echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
-                echo -ne "\ek%$(ps -o command= $(builtin jobs -l %+ 2> /dev/null | awk '{print $3}') 2>/dev/null)\e\\" 2> /dev/null
-            elif [[ $cmd[1] = 'ssh' ]]; then
-                echo -ne "\ek%$cmd[2]\e\\"
-            else
-                echo -ne "\ek@${${1#*=* }%% *}\e\\"
-            fi
-        fi
-    }
-    add-zsh-hook preexec _preexec_tmux
-fi
+# if [ "$TERM" = "screen" -o "$TERM" = "screen-256color" ]; then
+#     _preexec_tmux() {
+#         if [ -n "$TMUX" ]; then
+#             emulate -L zsh
+#             local -a cmd; cmd=(${(z)2})
+# 
+#             if [[ $cmd[1] = 'fg' ]]; then
+#                 # echo -ne "\ek%$(builtin jobs -l %+)\e\\" 2> /dev/null
+#                 echo -ne "\ek%$(ps -o command= $(builtin jobs -l %+ 2> /dev/null | awk '{print $3}') 2>/dev/null)\e\\" 2> /dev/null
+#             elif [[ $cmd[1] = 'ssh' ]]; then
+#                 echo -ne "\ek%$cmd[2]\e\\"
+#             else
+#                 echo -ne "\ek@${${1#*=* }%% *}\e\\"
+#             fi
+#         fi
+#     }
+#     add-zsh-hook preexec _preexec_tmux
+# fi
 
 if [ -n "$brew_prefix" ]; then
     export XML_CATALOG_FILES="$brew_prefix/etc/xml/catalog"
@@ -453,8 +453,6 @@ abbrev-alias -g D='docker'
 abbrev-alias -g DC='docker compose'
 abbrev-alias -g DR='docker run --rm -it'
 
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
 if whence kubectl > /dev/null; then
     source <(kubectl completion zsh)
 fi
@@ -471,7 +469,5 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 if which zprof > /dev/null; then
       zprof | less
 fi
-
-# eval "$(starship init zsh)"
 
 . /usr/local/opt/asdf/asdf.sh
