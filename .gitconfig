@@ -13,7 +13,7 @@
     separator = white
 [user]
     email = motemen@gmail.com
-    name = motemen
+    name = Hironao OTSUBO
     homepage = https://motemen.github.io/
 [alias]
     st = status --short --branch . # --ignore-submodules=dirty .
