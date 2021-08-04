@@ -119,7 +119,7 @@
     top = https://{host}/{path}
     ref = https://{host}/{path}/tree/{short_ref}
     rev = https://{host}/{path}/commit/{commit}
-    file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#\" + % lines.map { |l| \"#L${l}\" }.join(\"-\")}"
+    file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#\" + % lines.map { |l| \"#L${l}\" }.join(\"-#\")}"
 # [rerere]
 #     enabled = true
 [rebase]

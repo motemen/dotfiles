@@ -89,7 +89,10 @@ tm () {
 }
 
 # export FZF_DEFAULT_OPTS='--preview="cat {}" --bind "tab:execute(less {})"'
-export FZF_DEFAULT_OPTS='--bind "tab:execute(less {})" --inline-info --border'
+export FZF_DEFAULT_OPTS='--inline-info' # --border
+export FZF_DEFAULT_COMMAND='fd --type f --hidden'
+
+export BAT_THEME=zenburn
 
 #
 # History
@@ -162,7 +165,8 @@ alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
 alias curl='noglob curl'
 alias s='git status --short --branch --untracked-files=no'
-alias l='k --human --almost-all'
+# alias l='exa --long --git --time-style=long-iso'
+alias l='lsd --date relative --long --blocks name,size,date --almost-all'
 
 #
 # Functions
@@ -197,7 +201,7 @@ _clear-line-echo "functions... _update_prompt"
 function _update_prompt {
     GIT_BRANCH=$(__git_ps1 '%s')
 
-    PROMPT="[%{%(?.$fg_bold[green].$fg_bold[red])%}%(5~,%-2~/.../%2~,%~)${reset_color}]"
+    PROMPT="%{%(?.$fg_bold[green].$fg_bold[red])%}%(5~,%-1~/…/%2~,%~)${reset_color}"
     if [ $GIT_BRANCH ]; then
         PROMPT="$PROMPT ${fg[yellow]}$GIT_BRANCH${reset_color}"
     fi
@@ -209,7 +213,7 @@ function _update_prompt {
         PROMPT="$PROMPT ${fg[cyan]}$(basename "$VIRTUAL_ENV")${reset_color}"
     fi
     PROMPT="$PROMPT%E
-%m%# "
+%# "
 
     jobs_suspended=$(( $(jobs -s | wc -l) ))
     if [ $jobs_suspended != 0 ]; then
@@ -377,16 +381,15 @@ bindkey '^x^h' fzf-furo2-history-exec
 # }
 # zle -N zle-line-init
 
-# _clear-line-echo "compinit..."
-# autoload -U compinit; compinit
-
 compdef _g g
 
 if type zprof > /dev/null 2>&1; then
   zprof | less
 fi
 
-source ~/.zsh.d/zplug/init.zsh
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+# source ~/.zsh.d/zplug/init.zsh
 
 # zplug zsh-users/zsh-autosuggestions
 
@@ -402,14 +405,21 @@ zplug zsh-users/zsh-completions
 
 zplug zsh-users/zsh-history-substring-search
 
-zplug greymd/tmux-xpanes
+# zplug greymd/tmux-xpanes
 
 zplug momo-lab/zsh-abbrev-alias
 bindkey -M isearch " " magic-space # https://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
 
-zplug supercrabtree/k
+# zplug supercrabtree/k
 
-zplug check || zplug install
+if ! zplug check; then
+    printf "[zplug] Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
 zplug load
 
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,underline'
@@ -439,13 +449,29 @@ abbrev-alias -g B='bundle exec'
 abbrev-alias -g F='furo2 exec'
 abbrev-alias -g C='carton exec'
 abbrev-alias -g K='kubectl'
-abbrev-alias -g DC='docker-compose'
+abbrev-alias -g D='docker'
+abbrev-alias -g DC='docker compose'
+abbrev-alias -g DR='docker run --rm -it'
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 if whence kubectl > /dev/null; then
     source <(kubectl completion zsh)
 fi
 
-# added by travis gem
-[ -f /Users/motemen/.travis/travis.sh ] && source /Users/motemen/.travis/travis.sh
+if whence gh > /dev/null; then
+    eval "$(gh completion -s zsh)"
+fi
+
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/motemen/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+if which zprof > /dev/null; then
+      zprof | less
+fi
+
+# eval "$(starship init zsh)"
+
+. /usr/local/opt/asdf/asdf.sh
