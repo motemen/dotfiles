@@ -170,6 +170,7 @@ iabbrev arsg   <F10>args<F10>
 iabbrev lenght <F10>length<F10>
 iabbrev argumetns <F10>arguments<F10>
 iabbrev serach <F10>search<F10>
+iabbrev WEHRE <F10>WHERE<F10>
 
 nnoremap <silent> j gj
 nnoremap <silent> k gk
