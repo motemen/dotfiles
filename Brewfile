@@ -125,11 +125,9 @@ cask "font-cascadia-code"
 cask "font-envy-code-r"
 cask "font-fira-code"
 cask "gimp"
-cask "google-backup-and-sync"
-# cask "google-chrome"
 cask "google-chrome-canary"
 cask "google-cloud-sdk"
-cask "google-drive-file-stream"
+cask "google-drive"
 cask "google-japanese-ime"
 cask "hammerspoon"
 cask "iterm2"
@@ -152,3 +150,8 @@ cask "kindle"
 brew "mas"
 mas "Dato", id: 1470584107
 mas "RunCat", id: 1429033973
+# mas "Slack for Desktop", id: 803453959
+# mas "Input Source Pro", id: 1537056428
+
+cask "switchkey"
+cask "showyedge"

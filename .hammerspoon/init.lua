@@ -9,6 +9,7 @@ end)
 
 hs.hotkey.bind({"cmd","ctrl"}, "L", function()
     local slack = hs.appfinder.appFromName("Slack")
+    -- local slack = hs.appfinder.appFromName("Discord")
     if slack then
         slack:activate()
     end

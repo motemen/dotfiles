@@ -394,7 +394,7 @@ source $ZPLUG_HOME/init.zsh
 
 # zplug zsh-users/zsh-autosuggestions
 
-zplug zsh-users/zsh-completions
+# zplug zsh-users/zsh-completions
 
 # zplug zsh-users/zsh-syntax-highlighting, defer:2
 # typeset -A ZSH_HIGHLIGHT_STYLES

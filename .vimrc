@@ -145,7 +145,9 @@ set statusline=[%n]%m\ %(%1*%{fugitive#head(6)}%*\ %)%f\ %<%h%w%r%y[%{&fenc!=''?
 
 set cedit=<C-O>
 set history=1000
-set shada+=!,'1000,<50,s10,h
+if has('nvim')
+    set shada+=!,'1000,<50,s10,h
+endif
 
 set shortmess+=A
 set splitright
@@ -837,8 +839,6 @@ vmap v <Plug>(expand_region_expand)
 Plug 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 
-Plug 'garyburd/go-explorer'
-
 Plug 'Townk/vim-autoclose'
 
 " Plug 'digitaltoad/vim-jade'
@@ -935,7 +935,6 @@ if executable('gopls')
             \ 'workspace_config': {'gopls': {
             \     'staticcheck': v:true,
             \     'completeUnimported': v:true,
-            \     'caseSensitiveCompletion': v:true,
             \     'usePlaceholders': v:true,
             \     'completionDocumentation': v:true,
             \     'hoverKind': 'SingleLine',

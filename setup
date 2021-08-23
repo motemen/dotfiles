@@ -27,9 +27,14 @@ git submodule update --init
 echo '---> Installing Vim bundles'
 
 if [ -t 0 ]; then
-    vim -e +BundleInstall +qall!
+    vim -e +PlugInstall +qall!
 elif [ "$(uname)" = Darwin ]; then
-    script dotfiles-setup.log vim +BundleInstall '+qall!'
+    script dotfiles-setup.log vim +PlugInstall '+qall!'
 else
-    script -c 'vim -e +BundleInstall +qall!'
+    script -c 'vim -e +PlugInstall +qall!'
+fi
+
+setup_os=setup.$(uname -s)
+if [ -e "$setup_os" ]; then
+    . $setup_os
 fi

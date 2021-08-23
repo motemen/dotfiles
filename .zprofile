@@ -1,11 +1,10 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
 export PATH=$PATH:/usr/sbin
 export PATH=/usr/local/bin:$PATH
-# export PATH=/usr/local/go/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
 export PATH=$PATH:$HOME/dev/flutter/bin
-export PATH=/usr/local/bin:$PATH
 
 export RLWRAP_HOME=~/.rlwrap
 
@@ -23,7 +22,6 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 #     export NODE_PATH=$NODE_PATH:$(brew --prefix)/lib/node_modules
 # fi
 
-export EDITOR="$(which nvim)"
 export LESS='--ignore-case --raw-control-chars --status-column --HILITE-UNREAD --LONG-PROMPT --force'
 export PAGER="$(which less)"
 export FILTER=fzf
@@ -38,9 +36,6 @@ export LANG=ja_JP.UTF-8
 # fi
 
 # autoload -U compinit; compinit
-
-export GOPATH=$HOME/dev/go:$HOME/dev
-export PATH=$PATH:$HOME/dev/bin:$HOME/dev/go/bin:$(go env GOROOT)/bin
 
 # . $(brew --prefix)/share/zsh/site-functions/_go
 
@@ -78,3 +73,7 @@ export RIPGREP_CONFIG_PATH=~/.ripgreprc
 export ANDROID_HOME=$HOME/Library/Android/sdk
 
 export PATH="$HOME/.poetry/bin:$PATH"
+
+export GOPATH=$HOME/dev
+export PATH=$PATH:$HOME/dev/bin:$(go env GOROOT)/bin
+export EDITOR="$(which nvim)"
