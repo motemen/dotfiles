@@ -144,6 +144,7 @@ _clear-line-echo "aliasing..."
 alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
+alias vim='nvim'
 
 ls=$(which gls > /dev/null 2>&1 && echo 'gls' || echo 'ls')
 if [ $(uname) = 'Darwin' -a "$ls" = 'ls' ]; then
@@ -387,7 +388,7 @@ if type zprof > /dev/null 2>&1; then
   zprof | less
 fi
 
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=~/.zsh.d/zplug
 source $ZPLUG_HOME/init.zsh
 # source ~/.zsh.d/zplug/init.zsh
 
@@ -453,14 +454,6 @@ abbrev-alias -g D='docker'
 abbrev-alias -g DC='docker compose'
 abbrev-alias -g DR='docker run --rm -it'
 
-if whence kubectl > /dev/null; then
-    source <(kubectl completion zsh)
-fi
-
-if whence gh > /dev/null; then
-    eval "$(gh completion -s zsh)"
-fi
-
 # heroku autocomplete setup
 HEROKU_AC_ZSH_SETUP_PATH=/Users/motemen/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 
@@ -470,4 +463,4 @@ if which zprof > /dev/null; then
       zprof | less
 fi
 
-. /usr/local/opt/asdf/asdf.sh
+. $HOMEBREW_PREFIX/opt/asdf/asdf.sh
