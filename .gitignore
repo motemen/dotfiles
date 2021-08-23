@@ -16,3 +16,4 @@
 /.tmux/plugins
 /yarn-error.log
 /.vstags
+/.config
