@@ -16,7 +16,6 @@ tap "homebrew/services"
 tap "itchyny/rexdep"
 tap "itchyny/tap"
 tap "kayac/tap"
-tap "motemen/furoshiki2"
 tap "osx-cross/arm"
 tap "osx-cross/avr"
 tap "qmk/qmk"
@@ -116,7 +115,6 @@ cask "android-studio"
 cask "authy"
 cask "choosy"
 cask "discord"
-cask "discord-ptb"
 cask "docker"
 cask "dropbox"
 cask "dungeon-crawl-stone-soup-console"
@@ -132,7 +130,6 @@ cask "google-japanese-ime"
 cask "hammerspoon"
 cask "iterm2"
 cask "karabiner-elements"
-cask "krisp"
 cask "licecap"
 cask "logitech-options"
 cask "ngrok"
@@ -151,7 +148,7 @@ brew "mas"
 mas "Dato", id: 1470584107
 mas "RunCat", id: 1429033973
 # mas "Slack for Desktop", id: 803453959
-# mas "Input Source Pro", id: 1537056428
+mas "Input Source Pro", id: 1537056428
 
 cask "switchkey"
 cask "showyedge"

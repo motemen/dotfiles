@@ -27,7 +27,6 @@ setopt auto_resume
 setopt no_auto_remove_slash
 setopt interactive_comments
 setopt null_glob
-setopt inc_append_history
 
 # export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export WORDCHARS=${WORDCHARS//[\/]}
@@ -99,8 +98,9 @@ export BAT_THEME=zenburn
 #
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=100000
-SAVEHIST=100000
+SAVEHIST=1000000
 setopt append_history
+setopt inc_append_history
 setopt share_history
 setopt extended_history
 setopt hist_ignore_dups
@@ -189,6 +189,11 @@ if [ -n "$brew_prefix" ]; then
     . "$brew_prefix/etc/bash_completion.d/git-prompt.sh"
     test -e "$brew_prefix/share/zsh/site-functions/aws_zsh_completer.sh" && . "$brew_prefix/share/zsh/site-functions/aws_zsh_completer.sh"
     fpath=("$brew_prefix/share/zsh/site-functions" $fpath)
+
+    if [ -d "$brew_prefix/Caskroom/google-cloud-sdk" ]; then
+        source "$brew_prefix/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+        source "$brew_prefix/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+    fi
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
@@ -264,18 +269,6 @@ add-zsh-hook precmd _update_prompt
 # }
 #
 # add-zsh-hook precmd _tmux_echo_pwd
-
-# if ! whence compdef > /dev/null; then
-#     autoload -U compinit; compinit -C
-# fi
-
-if functions p > /dev/null; then
-    compdef _precommand p
-fi
-
-if whence e > /dev/null; then
-    compdef _precommand e
-fi
 
 #
 # Setting for screen
@@ -394,7 +387,7 @@ source $ZPLUG_HOME/init.zsh
 
 # zplug zsh-users/zsh-autosuggestions
 
-# zplug zsh-users/zsh-completions
+zplug zsh-users/zsh-completions
 
 # zplug zsh-users/zsh-syntax-highlighting, defer:2
 # typeset -A ZSH_HIGHLIGHT_STYLES

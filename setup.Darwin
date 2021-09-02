@@ -9,6 +9,11 @@ defaults write com.apple.dock magnification -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults write -g com.apple.sound.beep.feedback -bool true
 
+# https://github.com/mathiasbynens/dotfiles/blob/c886e139233320e29fd882960ba3dd388d57afd7/.macos#L51-L53
+# 保存パネルを最初から開くらしい
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
 # 前の入力ソースを選択: Opt+Cmd+Space
 defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 60 "
   <dict>
@@ -46,4 +51,8 @@ defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 64
 # Spotlight検索を表示: 無効
 defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/></dict>"
 
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! which brew; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+brew bundle install --no-upgrade
