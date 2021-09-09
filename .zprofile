@@ -47,21 +47,21 @@ if [ -e ~/.zsh/local.profile ]; then
     . ~/.zsh/local.profile
 fi
 
-if which plenv > /dev/null; then
-    eval "$(plenv init - --no-rehash)"
-fi
+# if which plenv > /dev/null; then
+#     eval "$(plenv init - --no-rehash)"
+# fi
 
-if which rbenv > /dev/null; then
-    eval "$(rbenv init - --no-rehash)"
-fi
+# if which rbenv > /dev/null; then
+#     eval "$(rbenv init - --no-rehash)"
+# fi
 
-if which nodenv > /dev/null; then
-    eval "$(nodenv init - --no-rehash)"
-fi
+# if which nodenv > /dev/null; then
+#     eval "$(nodenv init - --no-rehash)"
+# fi
 
-if which pyenv > /dev/null; then
-    eval "$(pyenv init - --no-rehash)"
-fi
+# if which pyenv > /dev/null; then
+#     eval "$(pyenv init - --no-rehash)"
+# fi
 
 export PATH=$HOME/bin:$PATH
 
