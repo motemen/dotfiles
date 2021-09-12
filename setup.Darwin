@@ -9,6 +9,18 @@ defaults write com.apple.dock magnification -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults write -g com.apple.sound.beep.feedback -bool true
 
+# 三本指でドラッグ
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+
+# タップでクリック
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults -currentHost write -g com.apple.mouse.tapBehavior -bool true
+
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g KeyRepeat -int 2
+
 # https://github.com/mathiasbynens/dotfiles/blob/c886e139233320e29fd882960ba3dd388d57afd7/.macos#L51-L53
 # 保存パネルを最初から開くらしい
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
