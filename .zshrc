@@ -331,7 +331,7 @@ add-zsh-hook chpwd chpwd_recent_dirs
 zstyle ':chpwd:*' recent-dirs-max 1000
 
 _fuzzy-cdr () {
-    local r=$({ cdr -l | awk '{ print $2 }' & ghq list -p | sed "s#^$HOME#~#" & } | PLENV_VERSION=system perl -anal -e '$h{$_}++ or print' | fzf --no-preview)
+    local r=$({ cdr -l | awk '{ print $2 }' & ghq list -p | sed "s#^$HOME#~#" & } | ASDF_PERL_VERSION=system PLENV_VERSION=system perl -anal -e '$h{$_}++ or print' | fzf --no-preview)
     if [ -n "$r" ]; then
         # zle autosuggest-suspend
         BUFFER="cd -- $r"
@@ -456,4 +456,8 @@ if which zprof > /dev/null; then
       zprof | less
 fi
 
-. $HOMEBREW_PREFIX/opt/asdf/asdf.sh
+. $brew_prefix/opt/asdf/asdf.sh
+
+if which kubectl > /dev/null; then
+    source <(kubectl completion zsh)
+fi
