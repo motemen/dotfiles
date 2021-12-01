@@ -458,6 +458,14 @@ fi
 
 . $brew_prefix/opt/asdf/asdf.sh
 
+eval "$(direnv hook zsh)"
+
+export PATH=$HOME/bin:$PATH
+
 if which kubectl > /dev/null; then
     source <(kubectl completion zsh)
+fi
+
+if which kubectl-krew > /dev/null; then
+    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
