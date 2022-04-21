@@ -296,7 +296,7 @@ cnoremap <expr> <C-G> "\<C-U>grep" . (len(@/) ? ' ' . substitute(@/, '^\\<\(.*\)
 
 nmap <Space> [Space]
 nmap [Space] <NOP>
-let mapleader='0'
+let mapleader=','
 
 Plug 'motemen/vim-guess-abbrev'
 inoremap <silent> <expr> <C-]> gabbrev#i_start()
@@ -548,7 +548,8 @@ function! s:SpacesAsAbove()
     return repeat(' ', len + 1)
 endfunction
 
-inoremap <expr> <C-E> pumvisible() ? "\<C-E>" : <SID>SpacesAsAbove()
+inoremap <expr> <C-E> pumvisible() ? "<C-E>" : <SID>SpacesAsAbove()
+inoremap <expr> <CR> pumvisible() ? "<C-y>" : "<CR>"
 
 augroup vimrc-auto-mkdir
     autocmd!
@@ -913,93 +914,130 @@ autocmd BufRead *.graphql set filetype=graphql
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" https://zenn.dev/yano/articles/vim_frontend_development_2021
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+inoremap <silent> <expr> <C-X><C-O> coc#refresh()
+nnoremap <silent> K                 :<C-u>call <SID>show_documentation()<CR>
+" nnoremap <silent> <C-]>             :<C-u>call <SID>coc_jump_definition()<CR>
 
-let g:lsp_async_completion = 0
-let g:lsp_signs_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_signs_error   = {'text': 'x'}
-let g:lsp_signs_warning = {'text': '!'}
-let g:lsp_signs_hint    = {'text': 'o'}
-let g:lsp_preview_doubletap = 0
+nmap <leader>rn <Plug>(coc-rename)
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>a  <Plug>(coc-codeaction)
 
-if executable('gopls')
-    augroup LspGopls
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-            \ 'name': 'gopls',
-            \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
-            \ 'whitelist': ['go'],
-            \ 'workspace_config': {'gopls': {
-            \     'staticcheck': v:true,
-            \     'completeUnimported': v:true,
-            \     'usePlaceholders': v:true,
-            \     'completionDocumentation': v:true,
-            \     'hoverKind': 'SingleLine',
-            \     'analyses': {
-            \        'S1002': v:false
-            \     }
-            \   }},
-            \ })
-        autocmd BufWritePre *.go LspDocumentFormatSync
-        autocmd FileType go setlocal omnifunc=lsp#complete
-        autocmd FileType go nnoremap <buffer> <C-]> :LspDefinition<CR>
-    augroup END
-endif
+augroup coc
+  autocmd!
+  autocmd FileType go,typescript,typescript.tsx setlocal formatexpr=CocAction('formatSelected')
+  autocmd FileType go,typescript,typescript.tsx setlocal tagfunc=CocTagFunc
+augroup end
 
-if executable('rls')
-    augroup LspRls
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-                    \ 'name': 'rls',
-                    \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
-                    \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
-                    \ 'whitelist': ['rust'],
-                    \ })
-        autocmd BufWritePre *.rs LspDocumentFormatSync
-        autocmd FileType rust setlocal omnifunc=lsp#complete
-        autocmd FileType rust nnoremap <buffer> <C-]> :LspDefinition<CR>
-    augroup END
-endif
+function! s:show_documentation() abort
+  if index(['vim','help'], &filetype) >= 0
+    execute 'h ' . expand('<cword>')
+  elseif coc#rpc#ready()
+    call CocActionAsync('doHover')
+  endif
+endfunction
 
-Plug 'natebosch/vim-lsc'
+function! s:coc_jump_definition()
+  if CocHasProvider('definition')
+    call CocAction('jumpDefinition')
+  else
+    normal! 
+  endif
+endfunction
 
-if executable('typescript-language-server')
-    autocmd User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'],
-        \ })
-    autocmd FileType typescript setlocal omnifunc=lsp#complete
-    autocmd FileType typescript.tsx setlocal omnifunc=lsp#complete
-endif
+let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-go', 'coc-lists']
 
-if executable('vls')
-    augroup LspVls
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-                    \ 'name': 'vue-language-server',
-                    \ 'cmd': {server_info->['vls']},
-                    \ 'whitelist': ['vue'],
-                    \ 'initialization_options': {
-                    \     'config': {
-                    \         'html': {},
-                    \         'vetur': {
-                    \             'validation': {},
-                    \             'completion': {}
-                    \          }
-                    \        }
-                    \     }
-                    \ })
-        autocmd FileType vue setlocal omnifunc=lsp#complete
-    augroup end
-endif
-
-inoremap <C-L> <C-O>:LspHover<CR>
-nnoremap <C-K><C-I> :LspHover<CR>
+" vim-lsp {{{
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" 
+" let g:lsp_async_completion = 0
+" let g:lsp_signs_enabled = 1
+" let g:lsp_diagnostics_echo_cursor = 1
+" let g:lsp_signs_error   = {'text': 'x'}
+" let g:lsp_signs_warning = {'text': '!'}
+" let g:lsp_signs_hint    = {'text': 'o'}
+" let g:lsp_preview_doubletap = 0
+" 
+" if executable('gopls')
+"     augroup LspGopls
+"         autocmd!
+"         autocmd User lsp_setup call lsp#register_server({
+"             \ 'name': 'gopls',
+"             \ 'cmd': {server_info->['gopls', '-mode', 'stdio']},
+"             \ 'whitelist': ['go'],
+"             \ 'workspace_config': {'gopls': {
+"             \     'staticcheck': v:true,
+"             \     'completeUnimported': v:true,
+"             \     'usePlaceholders': v:true,
+"             \     'completionDocumentation': v:true,
+"             \     'hoverKind': 'SingleLine',
+"             \     'analyses': {
+"             \        'S1002': v:false
+"             \     }
+"             \   }},
+"             \ })
+"         autocmd BufWritePre *.go LspDocumentFormatSync
+"         autocmd FileType go setlocal omnifunc=lsp#complete
+"         autocmd FileType go nnoremap <buffer> <C-]> :LspDefinition<CR>
+"     augroup END
+" endif
+" 
+" if executable('rls')
+"     augroup LspRls
+"         autocmd!
+"         autocmd User lsp_setup call lsp#register_server({
+"                     \ 'name': 'rls',
+"                     \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+"                     \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+"                     \ 'whitelist': ['rust'],
+"                     \ })
+"         autocmd BufWritePre *.rs LspDocumentFormatSync
+"         autocmd FileType rust setlocal omnifunc=lsp#complete
+"         autocmd FileType rust nnoremap <buffer> <C-]> :LspDefinition<CR>
+"     augroup END
+" endif
+" 
+" Plug 'natebosch/vim-lsc'
+" 
+" if executable('typescript-language-server')
+"     autocmd User lsp_setup call lsp#register_server({
+"         \ 'name': 'typescript-language-server',
+"         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+"         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+"         \ 'whitelist': ['typescript', 'typescript.tsx', 'typescriptreact'],
+"         \ })
+"     autocmd FileType typescript setlocal omnifunc=lsp#complete
+"     autocmd FileType typescript.tsx setlocal omnifunc=lsp#complete
+" endif
+" 
+" if executable('vls')
+"     augroup LspVls
+"         autocmd!
+"         autocmd User lsp_setup call lsp#register_server({
+"                     \ 'name': 'vue-language-server',
+"                     \ 'cmd': {server_info->['vls']},
+"                     \ 'whitelist': ['vue'],
+"                     \ 'initialization_options': {
+"                     \     'config': {
+"                     \         'html': {},
+"                     \         'vetur': {
+"                     \             'validation': {},
+"                     \             'completion': {}
+"                     \          }
+"                     \        }
+"                     \     }
+"                     \ })
+"         autocmd FileType vue setlocal omnifunc=lsp#complete
+"     augroup end
+" endif
+" 
+" inoremap <C-L> <C-O>:LspHover<CR>
+" nnoremap <C-K><C-I> :LspHover<CR>
+" }}}
 
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
@@ -1010,6 +1048,8 @@ let g:polyglot_disabled = ['typescript']
 " Plug 'wellle/context.vim'
 
 Plug 'mattn/vim-goimports'
+
+Plug 'jjo/vim-cue'
 
 call plug#end()
 

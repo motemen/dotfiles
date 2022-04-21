@@ -3,4 +3,4 @@ setlocal tabstop=2 shiftwidth=2 softtabstop=2
 " nnoremap <buffer> <C-\> <Plug>(TsuquyomiSignatureHelp)
 imap <buffer> <C-\> <C-o><C-\>
 
-nnoremap <buffer> <C-]> :LspDefinition<CR>
+" nnoremap <buffer> <C-]> :LspDefinition<CR>

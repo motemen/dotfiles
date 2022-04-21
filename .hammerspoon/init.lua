@@ -34,3 +34,11 @@ hs.hotkey.bind({"cmd","ctrl"}, "U", function()
         app:activate()
     end
 end)
+
+hs.hotkey.bind({"cmd","ctrl"}, "P", function()
+    -- hs.application.launchOrFocus("Visual Studio Code")
+    local app = hs.appfinder.appFromName("TickTick")
+    if app then
+        app:activate()
+    end
+end)
