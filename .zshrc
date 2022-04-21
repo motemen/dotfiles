@@ -28,6 +28,9 @@ setopt no_auto_remove_slash
 setopt interactive_comments
 setopt null_glob
 
+# https://blog.vghaisas.com/zsh-beep-sound/
+unsetopt LIST_BEEP
+
 # export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 export WORDCHARS=${WORDCHARS//[\/]}
 REPORTTIME=5
@@ -167,7 +170,9 @@ alias vi='vim'
 alias curl='noglob curl'
 alias s='git status --short --branch --untracked-files=no'
 # alias l='exa --long --git --time-style=long-iso'
-alias l='lsd --date relative --long --blocks name,size,date --almost-all'
+alias l='lsd --date relative --long --blocks name,size,date'
+alias la='lsd --date relative --long --blocks name,size,date --almost-all'
+alias lw='lsd -F'
 
 #
 # Functions
@@ -197,6 +202,8 @@ if [ -n "$brew_prefix" ]; then
 elif [ -e /etc/bash_completion.d/git-prompt ]; then
     . /etc/bash_completion.d/git-prompt
 fi
+
+fpath=("$HOME/local/fpath" $fpath)
 
 PATH=$PATH:$brew_prefix/opt/git/share/git-core/contrib/diff-highlight
 PATH=$PATH:$brew_prefix/opt/git/share/git-core/contrib/git-jump
@@ -405,6 +412,10 @@ zplug momo-lab/zsh-abbrev-alias
 bindkey -M isearch " " magic-space # https://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
 
 # zplug supercrabtree/k
+
+MAGIC_ENTER_GIT_COMMAND='git st'
+MAGIC_ENTER_OTHER_COMMAND='t7'
+zplug plugins/magic-enter, from:oh-my-zsh
 
 if ! zplug check; then
     printf "[zplug] Install? [y/N]: "
