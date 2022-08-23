@@ -1,0 +1,24 @@
+{
+  "name": "dotfiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/motemen/dotfiles",
+  "author": "Hironao OTSUBO <motemen@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@secretlint/secretlint-rule-preset-recommend": "^5.2.3",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "secretlint": "^5.2.3"
+  },
+  "lint-staged": {
+    "*": [
+      "secretlint"
+    ]
+  },
+  "scripts": {
+    "postinstall": "husky install",
+    "test": "lint-staged"
+  }
+}
