@@ -143,6 +143,8 @@ cask "zoom"
 cask "font-fira-code-nerd-font"
 cask "shureplus-motiv"
 cask "kindle"
+cask "font-cousine-nerd-font"
+cask "spotify"
 
 brew "mas"
 mas "Dato", id: 1470584107
