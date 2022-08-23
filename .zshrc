@@ -53,6 +53,10 @@ if [ -d ~/.zsh/cache ]; then
     zstyle ':completion:*' cache-path ~/.zsh/cache
 fi
 
+# https://zsh.sourceforge.io/FAQ/zshfaq04.html#l55
+zstyle ':completion:*' completer _complete _ignored _files
+
+
 # https://unix.stackexchange.com/a/174641
 ZLE_SPACE_SUFFIX_CHARS=$'|&'
 
@@ -365,6 +369,12 @@ _fuzzy-ghq () {
 zle -N _fuzzy-ghq
 bindkey '^x^g' _fuzzy-ghq
 
+# https://zsh.sourceforge.io/FAQ/zshfaq04.html#l55
+
+zle -C complete-file complete-word _generic
+zstyle ':completion:complete-file::::' completer _files
+bindkey '^x^f' complete-file
+
 function fzf-furo2-history-exec () {
   local cmd=$(furo2 history --pretty=format:%s | grep -v -F '[failed]' | fzf --exit-0 --query "$LBUFFER")
   if [ $? -ne 0 ]; then
@@ -469,7 +479,10 @@ if which zprof > /dev/null; then
       zprof | less
 fi
 
-. $brew_prefix/opt/asdf/asdf.sh
+if [ -d "$brew_prefix/opt/asdf/libexec" ]; then
+    export ASDF_DIR="$brew_prefix/opt/asdf/libexec"
+    . $ASDF_DIR/asdf.sh
+fi
 
 eval "$(direnv hook zsh)"
 
