@@ -18,3 +18,5 @@
 /.vstags
 /.config
 /.vim/plugged
+/.vim/sessions
+/node_modules/
