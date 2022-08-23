@@ -5,6 +5,7 @@ export PATH=$HOME/.cabal/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
 export PATH=$PATH:$HOME/dev/flutter/bin
+export PATH=$PATH:$HOME/.ghcup/bin
 
 export RLWRAP_HOME=~/.rlwrap
 

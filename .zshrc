@@ -4,6 +4,8 @@ fi
 
 # Vim で Ctrl-Q, Ctrl-S が効くように
 stty -ixon -ixoff
+# https://github.com/neomutt/neomutt/issues/1195#issuecomment-388016804
+stty discard undef
 
 autoload -U colors; colors
 
