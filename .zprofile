@@ -1,18 +1,21 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
 export PATH=$PATH:/usr/sbin
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
 export PATH=$PATH:$HOME/dev/flutter/bin
-export PATH=$PATH:$HOME/.ghcup/bin
+export PATH=$HOME/.ghcup/bin:$PATH
 
 export RLWRAP_HOME=~/.rlwrap
 
 # export LD_LIBRARY_PATH=$HOME/homebrew/lib:/usr/lib
 # export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/mysql/lib
-export C_INCLUDE_PATH=$HOME/homebrew/include
-export CPLUS_INCLUDE_PATH=$HOME/homebrew/include
+export CPATH=$HOMEBREW_PREFIX/include
+export C_INCLUDE_PATH=$HOMEBREW_PREFIX/include
+export CPLUS_INCLUDE_PATH=$HOMEBREW_PREFIX/include
+export LIBRARY_PATH=$HOMEBREW_PREFIX/lib
 
 export MYSQL_PS1='\u@\h [\d]> '
 
@@ -24,7 +27,7 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 # fi
 
 export LESS='--ignore-case --raw-control-chars --status-column --HILITE-UNREAD --LONG-PROMPT --force'
-export PAGER="$(which less)"
+export PAGER=less
 export FILTER=fzf
 
 export PERL_REPL=rp
@@ -75,5 +78,5 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH="$HOME/.poetry/bin:$PATH"
 
 export GOPATH=$HOME/dev
-export PATH=$PATH:$HOME/dev/bin:$(go env GOROOT)/bin
-export EDITOR="$(which nvim)"
+export PATH=$PATH:$HOME/dev/bin
+export EDITOR=nvim
