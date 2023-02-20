@@ -1,3 +1,6 @@
 [submodule ".zsh.d/zplug"]
 	path = .zsh.d/zplug
 	url = https://github.com/zplug/zplug
+[submodule ".zsh.d/zinit"]
+	path = .zsh.d/zinit
+	url = https://github.com/zdharma-continuum/zinit.git

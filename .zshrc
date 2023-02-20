@@ -48,9 +48,9 @@ zstyle ':completion:*:default' menu select=1
 zstyle ':completion:*:descriptions' format '%B%d%b'
 # zstyle ':completion:*:messages' format '%d'
 # zstyle ':completion:*:warnings' format 'No matches for: %d'
-if [ -d ~/.zsh/cache ]; then
+if [ -d ~/.cache/zsh ]; then
     zstyle ':completion:*' use-cache yes
-    zstyle ':completion:*' cache-path ~/.zsh/cache
+    zstyle ':completion:*' cache-path ~/.cache/zsh
 fi
 
 # https://zsh.sourceforge.io/FAQ/zshfaq04.html#l55
@@ -400,44 +400,19 @@ if type zprof > /dev/null 2>&1; then
   zprof | less
 fi
 
-export ZPLUG_HOME=~/.zsh.d/zplug
-source $ZPLUG_HOME/init.zsh
-# source ~/.zsh.d/zplug/init.zsh
+ZINIT_HOME=~/.zsh.d/zinit
+source "$ZINIT_HOME/zinit.zsh"
 
-# zplug zsh-users/zsh-autosuggestions
+zinit load zsh-users/zsh-completions
 
-zplug zsh-users/zsh-completions
+zinit load zsh-users/zsh-history-substring-search
 
-# zplug zsh-users/zsh-syntax-highlighting, defer:2
-# typeset -A ZSH_HIGHLIGHT_STYLES
-# ZSH_HIGHLIGHT_STYLES[function]='fg=green,bold'
-# ZSH_HIGHLIGHT_STYLES[alias]='fg=green,bold'
-# ZSH_HIGHLIGHT_STYLES[command]='fg=cyan,bold'
-# ZSH_HIGHLIGHT_STYLES[builtin]='fg=blue,bold'
-# ZSH_HIGHLIGHT_STYLES[path_approx]='none'
-
-zplug zsh-users/zsh-history-substring-search
-
-# zplug greymd/tmux-xpanes
-
-zplug momo-lab/zsh-abbrev-alias
+zinit load momo-lab/zsh-abbrev-alias
 bindkey -M isearch " " magic-space # https://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
-
-# zplug supercrabtree/k
 
 MAGIC_ENTER_GIT_COMMAND='git st'
 MAGIC_ENTER_OTHER_COMMAND='t7'
-zplug plugins/magic-enter, from:oh-my-zsh
-
-if ! zplug check; then
-    printf "[zplug] Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
-# Then, source plugins and add commands to $PATH
-zplug load
+zinit snippet OMZP::magic-enter
 
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,underline'
 
@@ -464,14 +439,10 @@ fi
 
 abbrev-alias -g B='bundle exec'
 abbrev-alias -g F='furo2 exec'
-abbrev-alias -g C='carton exec'
 abbrev-alias -g K='kubectl'
 abbrev-alias -g D='docker'
 abbrev-alias -g DC='docker compose'
 abbrev-alias -g DR='docker run --rm -it'
-
-# heroku autocomplete setup
-HEROKU_AC_ZSH_SETUP_PATH=/Users/motemen/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -495,3 +466,4 @@ fi
 if which kubectl-krew > /dev/null; then
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
