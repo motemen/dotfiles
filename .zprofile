@@ -1,5 +1,3 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 export PATH=$PATH:/usr/sbin
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
@@ -7,6 +5,9 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$PATH:$HOME/Library/Haskell/bin
 export PATH=$PATH:$HOME/dev/flutter/bin
 export PATH=$HOME/.ghcup/bin:$PATH
+export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export RLWRAP_HOME=~/.rlwrap
 
@@ -26,7 +27,7 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 #     export NODE_PATH=$NODE_PATH:$(brew --prefix)/lib/node_modules
 # fi
 
-export LESS='--ignore-case --raw-control-chars --status-column --HILITE-UNREAD --LONG-PROMPT --force'
+export LESS='--ignore-case --raw-control-chars --status-column --HILITE-UNREAD --LONG-PROMPT'
 export PAGER=less
 export FILTER=fzf
 

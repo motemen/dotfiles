@@ -176,7 +176,7 @@ alias vi='vim'
 alias curl='noglob curl'
 alias s='git status --short --branch --untracked-files=no'
 # alias l='exa --long --git --time-style=long-iso'
-alias l='lsd --date relative --long --blocks name,size,date'
+alias l='lsd --date relative --long --blocks name,size,date --no-symlink --icon never'
 alias la='lsd --date relative --long --blocks name,size,date --almost-all'
 alias lw='lsd -F'
 
@@ -354,6 +354,7 @@ _fuzzy-cdr () {
 }
 zle -N _fuzzy-cdr
 bindkey '^x^b' _fuzzy-cdr
+bindkey '^x^k' _fuzzy-cdr
 
 _fuzzy-ghq () {
     local r=$(ghq list | fzf --no-preview --extended-exact --delimiter=/ --nth=2,3,4,5)
@@ -411,7 +412,7 @@ zinit load momo-lab/zsh-abbrev-alias
 bindkey -M isearch " " magic-space # https://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
 
 MAGIC_ENTER_GIT_COMMAND='git st'
-MAGIC_ENTER_OTHER_COMMAND='t7'
+MAGIC_ENTER_OTHER_COMMAND="dt \"PP E pp y'W'w\""
 zinit snippet OMZP::magic-enter
 
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=yellow,underline'
@@ -450,20 +451,27 @@ if which zprof > /dev/null; then
       zprof | less
 fi
 
-if [ -d "$brew_prefix/opt/asdf/libexec" ]; then
-    export ASDF_DIR="$brew_prefix/opt/asdf/libexec"
-    . $ASDF_DIR/asdf.sh
+# if [ -d "$brew_prefix/opt/asdf/libexec" ]; then
+#     export ASDF_DIR="$brew_prefix/opt/asdf/libexec"
+#     . $ASDF_DIR/asdf.sh
+# fi
+
+if which mise > /dev/null; then
+    eval "$(mise activate)"
 fi
 
 eval "$(direnv hook zsh)"
 
 export PATH=$HOME/bin:$PATH
 
-if which kubectl > /dev/null; then
-    source <(kubectl completion zsh)
-fi
+# if which kubectl > /dev/null; then
+#     source <(kubectl completion zsh)
+# fi
 
 if which kubectl-krew > /dev/null; then
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/motemen/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
