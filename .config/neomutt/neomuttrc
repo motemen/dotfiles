@@ -1,0 +1,90 @@
+source ~/.config/neomutt/local/accounts
+
+set folder    = "imaps://imap.gmail.com/"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+# set trash     = "+[Gmail]/All Mail"
+
+# https://neomutt.org/guide/reference.html#index-format
+# https://arimasou16.com/blog/2021/02/22/00375/
+set index_format="%4C %Z %<[y?%<[d?%[%H:%M      ]&%[%d %a %H:%M]>&%[%Y/%m/%d ]> %-15.15L %s"
+# 20:27
+# 04/21 18:48
+# 2021/03/26
+
+ignore X-Mailer
+
+# https://github.com/neomutt/neomutt/blob/7df877bf67f8eb8e33473fad380846436943b143/contrib/samples/sample.neomuttrc-starter
+unset record # Gmail auto-stores in "+[Gmail].Sent Mail"
+unset trash  # Unset, deletion will remove labels
+
+set header_cache     = "~/.cache/neomutt/headers"
+set message_cachedir = "~/.cache/neomutt/bodies"
+
+unset imap_passive
+
+set imap_keepalive = 300
+
+set ssl_force_tls = yes
+
+set mail_check = 120 # seconds
+
+# https://neomutt.org/guide/gettingstarted.html#intro-sidebar-format
+set sidebar_visible       = no
+set sidebar_format        = "%D%* %?N? %N?"
+set sidebar_width         = 18
+# set sidebar_new_mail_only = yes
+sidebar_whitelist INBOX
+
+bind index,pager \CP sidebar-prev
+bind index,pager \CN sidebar-next
+bind index,pager \CO sidebar-open
+bind index,pager B   sidebar-toggle-visible
+
+macro index,pager \cB "<pipe-message>urlscan<Enter>"
+
+bind index,pager . sync-mailbox
+bind index G imap-fetch-mail
+
+macro index,pager { "<delete-message><next-undeleted>"
+macro index,pager } "<delete-message><previous-undeleted>"
+
+macro index,pager V "<pipe-message>mail-dwim<Enter>"
+
+bind index,pager j next-entry
+bind index,pager k previous-entry
+
+
+set sort=date-received
+
+# 削除したメールの同期時に確認しない
+set delete=no
+
+# メールを削除したときに自動で次のエントリに進まない
+set resolve=no
+
+# <tag-prefix><pipe-entry> ';|' するときに毎回コマンドを起動する
+set pipe_split
+
+set mail_check_stats
+
+set forward_format="Fwd: %s"
+
+set imap_check_subscribed
+
+unset wait_key
+
+set use_threads=yes
+
+set pager_context=10
+set pager_index_lines=10
+set pager_stop=yes
+
+set ts_enabled=yes
+
+set mailcap_path = ~/.config/neomutt/mailcap
+auto_view text/html
+
+source ~/.config/neomutt/local/aliases
+
+source ~/.config/neomutt/vombatidae.neomuttrc

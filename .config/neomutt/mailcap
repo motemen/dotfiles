@@ -1,0 +1,7 @@
+text/html; w3m -I %{charset} -T text/html; needsterminal
+text/html; w3m -I %{charset} -T text/html; copiousoutput
+image/jpeg; imgcat-pause
+image/jpg; imgcat-pause
+image/png; imgcat-pause
+image/gif; imgcat-pause
+application/pdf; open %s;
