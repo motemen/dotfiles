@@ -9,8 +9,8 @@ set spellfile=~/.vim/spell/en.utf-8.add
 
 set directory=~/.vim/swap
 
-Plug 'kana/vim-metarw'
-Plug 'kana/vim-metarw-git'
+" Plug 'kana/vim-metarw'
+" Plug 'kana/vim-metarw-git'
 " Plug 'motemen/git-vim'
 Plug 'vim-scripts/wombat256.vim'
 Plug 'vim-scripts/desert-warm-256'
@@ -914,40 +914,42 @@ autocmd BufRead *.graphql set filetype=graphql
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
 
-" https://zenn.dev/yano/articles/vim_frontend_development_2021
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-inoremap <silent> <expr> <C-X><C-O> coc#refresh()
-nnoremap <silent> K                 :<C-u>call <SID>show_documentation()<CR>
-" nnoremap <silent> <C-]>             :<C-u>call <SID>coc_jump_definition()<CR>
-
-nmap <leader>rn <Plug>(coc-rename)
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>a  <Plug>(coc-codeaction)
-
-augroup coc
-  autocmd!
-  autocmd FileType go,typescript,typescript.tsx setlocal formatexpr=CocAction('formatSelected')
-  autocmd FileType go,typescript,typescript.tsx setlocal tagfunc=CocTagFunc
-augroup end
-
-function! s:show_documentation() abort
-  if index(['vim','help'], &filetype) >= 0
-    execute 'h ' . expand('<cword>')
-  elseif coc#rpc#ready()
-    call CocActionAsync('doHover')
-  endif
-endfunction
-
-function! s:coc_jump_definition()
-  if CocHasProvider('definition')
-    call CocAction('jumpDefinition')
-  else
-    normal! 
-  endif
-endfunction
-
-let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-go', 'coc-lists']
+" coc {{{
+" " https://zenn.dev/yano/articles/vim_frontend_development_2021
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" inoremap <silent> <expr> <C-X><C-O> coc#refresh()
+" nnoremap <silent> K                 :<C-u>call <SID>show_documentation()<CR>
+" " nnoremap <silent> <C-]>             :<C-u>call <SID>coc_jump_definition()<CR>
+" 
+" nmap <leader>rn <Plug>(coc-rename)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>a  <Plug>(coc-codeaction)
+" 
+" augroup coc
+"   autocmd!
+"   autocmd FileType go,typescript,typescript.tsx setlocal formatexpr=CocAction('formatSelected')
+"   autocmd FileType go,typescript,typescript.tsx setlocal tagfunc=CocTagFunc
+" augroup end
+" 
+" function! s:show_documentation() abort
+"   if index(['vim','help'], &filetype) >= 0
+"     execute 'h ' . expand('<cword>')
+"   elseif coc#rpc#ready()
+"     call CocActionAsync('doHover')
+"   endif
+" endfunction
+" 
+" function! s:coc_jump_definition()
+"   if CocHasProvider('definition')
+"     call CocAction('jumpDefinition')
+"   else
+"     normal! 
+"   endif
+" endfunction
+" 
+" let g:coc_global_extensions = ['coc-tsserver', 'coc-eslint8', 'coc-prettier', 'coc-go', 'coc-lists']
+" }}}
 
 " vim-lsp {{{
 " Plug 'prabirshrestha/async.vim'
@@ -1043,7 +1045,7 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'sheerun/vim-polyglot'
 let g:rust_recommended_style = 0 " sets tabstop=8 :(
-let g:polyglot_disabled = ['typescript']
+let g:polyglot_disabled = ['typescript','csv']
 
 " Plug 'wellle/context.vim'
 
@@ -1052,6 +1054,9 @@ Plug 'mattn/vim-goimports'
 Plug 'jjo/vim-cue'
 
 call plug#end()
+
+" https://reasonable-code.com/vim-clipboard/
+set clipboard=unnamed
 
 colorscheme desert-warm-256
 " colorscheme wombat256mod
