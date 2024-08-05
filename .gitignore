@@ -21,3 +21,4 @@
 /.vim/sessions
 /node_modules/
 /.env.1p
+/.husky
