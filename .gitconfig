@@ -12,8 +12,8 @@
     linenumber = yellow
     separator = white
 [user]
-    email = motemen@gmail.com
-    name = Hironao OTSUBO
+	email = motemen@gmail.com
+	name = Hironao OTSUBO
     homepage = https://motemen.works/
 [alias]
     st = status --short --branch . # --ignore-submodules=dirty .
@@ -27,6 +27,7 @@
     # r = recent-branches --no-merged
     # r = !git reflog | head -n 200 | PLENV_VERSION=system perl -anal -e '$seen{$1}++ or print $1 if /checkout:.*to (.+)/'
     r = !git reflog -n 50 --pretty='format:%gs' | perl -anal -e '$seen{$1}++ or print $1 if /checkout:.*to (.+)/'
+    rr = "!f() { git for-each-ref --sort=-committerdate 'refs/heads/' --format '%(refname)' | while read s; do git --no-pager log -1 --color --decorate=short --decorate-refs=refs/heads -1 --pretty='format:%C(yellow)%D%Creset  %s %Cgreen%ar%Creset%n' \"$s\"; done }; f"
     psuh = push
     o = browse-remote
     pr = browse-remote --pr
@@ -41,13 +42,16 @@
     tig = !tig
     su = !env PLENV_VERSION=system git shared-submodule-update --init
     pu = pull --prune
+    clean-local = "!f() { git for-each-ref --merged HEAD --no-contains HEAD 'refs/heads/**' --format '%(refname)' | while read s; do echo \"$s\t$(git rev-parse \"$s\")\"; git update-ref -d \"$s\"; done }; f"
 [core]
-    excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore
 #	whitespace = nowarn
 #	pager = less --quit-if-one-screen --RAW-CONTROL-CHARS --no-init
 # pager = less -+$LESS -FRX
 [core]
-    pager = delta --width=variable
+	symlinks = false
+	quotepath = false
+    # pager = delta --width=variable
 # [interactive]
 #     diffFilter = delta --width=variable
 # [pager]
@@ -142,6 +146,8 @@
 	ref = https://{host}/{path}/tree/{short_ref}
 	rev = https://{host}/{path}/commit/{commit}
 	pr = https://{host}/{path}/pull/{short_ref}
-	file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-\")}"
+	file = "https://{host}/{path}/{file.directory? and :tree or :blob}/{short_rev}/{file}{lines && \"#L%s\" % lines.join(\"-L\")}"
 [init]
 	defaultBranch = main
+[gpg]
+	format = ssh
