@@ -63,6 +63,9 @@ defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 64
 # Spotlight検索を表示: 無効
 defaults write com.apple.symbolichotkeys.plist AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/></dict>"
 
+# キー長押しできるようにする
+defaults write -g ApplePressAndHoldEnabled -bool false
+
 if ! which brew; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
