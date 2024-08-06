@@ -98,7 +98,7 @@ tm () {
 
 # export FZF_DEFAULT_OPTS='--preview="cat {}" --bind "tab:execute(less {})"'
 export FZF_DEFAULT_OPTS='--inline-info' # --border
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --no-ignore-vcs'
+# export FZF_DEFAULT_COMMAND='fd --type f --hidden --no-ignore-vcs'
 
 export BAT_THEME=zenburn
 
