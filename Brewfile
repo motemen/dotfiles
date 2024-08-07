@@ -41,7 +41,9 @@ brew "gnupg"
 brew "go"
 brew "graphviz"
 brew "grep"
+brew "grpcurl"
 brew "hadolint"
+brew "htmlq"
 brew "htop"
 brew "httpie"
 brew "jq"
@@ -109,6 +111,7 @@ cask "font-fira-code"
 cask "font-fira-code-nerd-font"
 cask "font-jetbrains-mono"
 cask "font-noto-sans-jp"
+cask "font-oxygen-mono"
 cask "gimp"
 cask "google-cloud-sdk"
 cask "google-drive"
@@ -135,3 +138,4 @@ mas "Keynote", id: 409183694
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "RunCat", id: 1429033973
+mas "辞書 by 物書堂", id: 1380563956
