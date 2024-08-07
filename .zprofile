@@ -8,6 +8,7 @@ export PATH=$HOME/.ghcup/bin:$PATH
 export PATH="$HOMEBREW_PREFIX/opt/llvm/bin:$PATH"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export HOMEBREW_AUTO_UPDATE_SECS=$((86400 * 7))
 
 export RLWRAP_HOME=~/.rlwrap
 
