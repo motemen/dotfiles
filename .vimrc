@@ -1041,7 +1041,7 @@ autocmd BufRead *.graphql set filetype=graphql
 " nnoremap <C-K><C-I> :LspHover<CR>
 " }}}
 
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'sheerun/vim-polyglot'
 let g:rust_recommended_style = 0 " sets tabstop=8 :(
