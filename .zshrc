@@ -173,11 +173,10 @@ alias :e='vim'
 alias :q='exit'
 alias ssh="TERM=screen $(whence ssh)"
 alias vi='vim'
-alias curl='noglob curl'
 alias s='git status --short --branch --untracked-files=no'
 # alias l='exa --long --git --time-style=long-iso'
-alias l='lsd --date relative --long --blocks name,size,date --no-symlink --icon never'
-alias la='lsd --date relative --long --blocks name,size,date --almost-all'
+alias l='lsd --date relative --long --blocks name,size,date --no-symlink --git'
+alias la='lsd --date relative --long --blocks name,size,date --almost-all --no-symlink --git'
 alias lw='lsd -F'
 
 #
@@ -270,6 +269,10 @@ function _update_prompt {
 _clear-line-echo "functions... chpwd"
 function chpwd() {
     _update_prompt
+
+    if command update-cwds 2>/dev/null; then
+        update-cwds
+    fi
 }
 
 autoload -U add-zsh-hook
@@ -305,6 +308,34 @@ add-zsh-hook precmd _update_prompt
 #     }
 #     add-zsh-hook preexec _preexec_tmux
 # fi
+
+# https://gitlab.freedesktop.org/Per_Bothner/specifications/-/blob/master/proposals/prompts-data/shell-integration.zsh
+_prompt_executing=""
+function __prompt_precmd() {
+    local ret="$?"
+    if test "$_prompt_executing" != "0"
+    then
+      _PROMPT_SAVE_PS1="$PS1"
+      _PROMPT_SAVE_PS2="$PS2"
+      PS1=$'%{\e]133;P;k=i\a%}'$PS1$'%{\e]133;B\a\e]122;> \a%}'
+      PS2=$'%{\e]133;P;k=s\a%}'$PS2$'%{\e]133;B\a%}'
+    fi
+    if test "$_prompt_executing" != ""
+    then
+       printf "\033]133;D;%s;aid=%s\007" "$ret" "$$"
+    fi
+    printf "\033]133;A;cl=m;aid=%s\007" "$$"
+    _prompt_executing=0
+}
+function __prompt_preexec() {
+    PS1="$_PROMPT_SAVE_PS1"
+    PS2="$_PROMPT_SAVE_PS2"
+    printf "\033]133;C;\007"
+    _prompt_executing=1
+}
+preexec_functions+=(__prompt_preexec)
+precmd_functions+=(__prompt_precmd)
+
 
 if [ -n "$brew_prefix" ]; then
     export XML_CATALOG_FILES="$brew_prefix/etc/xml/catalog"
