@@ -1,71 +1,68 @@
 {
-    "editor.fontSize": 16,
-    "editor.fontFamily": "\"Fira Code\", \"Consolas\", 'Envy Code R', Menlo, Monaco, 'Courier New', monospace",
-    "workbench.startupEditor": "newUntitledFile",
-    "editor.wordWrap": "on",
-    "workbench.activityBar.visible": true,
-    "go.gocodeAutoBuild": false,
-    "go.buildFlags": [
-        "-v"
-    ],
-    "window.zoomLevel": 0,
-    "workbench.fontAliasing": "antialiased",
-    "workbench.iconTheme": "eq-material-theme-icons-light",
-    "gitlens.advanced.messages": {
-        "suppressShowKeyBindingsNotice": true
+  "editor.fontSize": 16,
+  "editor.fontFamily": "\"Fira Code\", \"Consolas\", 'Envy Code R', Menlo, Monaco, 'Courier New', monospace",
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.wordWrap": "on",
+  "go.gocodeAutoBuild": false,
+  "go.buildFlags": ["-v"],
+  "window.zoomLevel": 0,
+  "workbench.fontAliasing": "antialiased",
+  "workbench.iconTheme": "eq-material-theme-icons-light",
+  "gitlens.advanced.messages": {
+    "suppressShowKeyBindingsNotice": true
+  },
+  "git.detectSubmodules": false,
+  "files.autoGuessEncoding": true,
+  "git.enableSmartCommit": true,
+  "git.detectSubmodulesLimit": 50,
+  "git.countBadge": "tracked",
+  "markdown.preview.fontSize": 18,
+  "markdown.preview.lineHeight": 1.7,
+  "markdown.preview.fontFamily": "YuGothic, -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif",
+  "terminal.integrated.fontFamily": "Fira Code",
+  "editor.minimap.enabled": false,
+  "languageServerHaskell.useHieWrapper": true,
+  "editor.renderControlCharacters": true,
+  "editor.formatOnType": true,
+  "[typescript]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "files.associations": {
+    "*.css": "css",
+    "*.html": "html"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "tslint.autoFixOnSave": true,
+  "tslint.run": "onSave",
+  "terminal.integrated.confirmOnExit": true,
+  "terminal.integrated.fontWeight": "100",
+  "terminal.integrated.fontWeightBold": "500",
+  "search.location": "panel",
+  "prettier.printWidth": 120,
+  "terminal.integrated.fontSize": 14,
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#005f5f",
+    "statusBar.noFolderBackground": "#005f5f",
+    "statusBar.debuggingBackground": "#005f5f"
+  },
+  "prettier.trailingComma": "es5",
+  "csharp.suppressDotnetInstallWarning": true,
+  "InstantWeather.location": "Kyoto,JP",
+  "InstantWeather.key": "431a61599aa22382151eccb1b6cfaa30",
+  "terminal.integrated.rendererType": "dom",
+  "liveshare.showInStatusBar": "never",
+  "go.formatTool": "gofmt",
+  "go.gotoSymbol.includeImports": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j"],
+      "after": ["g", "j"]
     },
-    "git.detectSubmodules": false,
-    "files.autoGuessEncoding": true,
-    "git.enableSmartCommit": true,
-    "git.detectSubmodulesLimit": 50,
-    "git.countBadge": "tracked",
-    "markdown.preview.fontSize": 18,
-    "markdown.preview.lineHeight": 1.7,
-    "markdown.preview.fontFamily": "YuGothic, -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'HelveticaNeue-Light', 'Ubuntu', 'Droid Sans', sans-serif",
-    "terminal.integrated.fontFamily": "Fira Code",
-    "editor.minimap.enabled": false,
-    "languageServerHaskell.useHieWrapper": true,
-    "editor.renderControlCharacters": true,
-    "editor.formatOnType": true,
-    "[typescript]": {
-        "editor.tabSize": 2,
-        "editor.formatOnSave": true
-    },
-    "files.associations": {
-        "*.css": "css",
-        "*.html": "html"
-    },
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    "tslint.autoFixOnSave": true,
-    "tslint.run": "onSave",
-    "terminal.integrated.confirmOnExit": true,
-    "terminal.integrated.fontWeight": "100",
-    "terminal.integrated.fontWeightBold": "500",
-    "search.location": "panel",
-    "prettier.printWidth": 120,
-    "terminal.integrated.fontSize": 14,
-    "workbench.colorCustomizations": {
-        "statusBar.background": "#005f5f",
-        "statusBar.noFolderBackground": "#005f5f",
-        "statusBar.debuggingBackground": "#005f5f"
-    },
-    "prettier.trailingComma": "es5",
-    "csharp.suppressDotnetInstallWarning": true,
-    "InstantWeather.location": "Kyoto,JP",
-    "InstantWeather.key": "431a61599aa22382151eccb1b6cfaa30",
-    "terminal.integrated.rendererType": "dom",
-    "liveshare.showInStatusBar": "never",
-    "go.formatTool": "gofmt",
-    "go.gotoSymbol.includeImports": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": ["j"],
-            "after": ["g", "j"]
-        },
-        {
-            "before": ["k"],
-            "after": ["g", "k"]
-        }
-    ],
-    "editor.fontLigatures": true
+    {
+      "before": ["k"],
+      "after": ["g", "k"]
+    }
+  ],
+  "editor.fontLigatures": true
 }
