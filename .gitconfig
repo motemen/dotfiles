@@ -22,6 +22,7 @@
     ci = commit -v
     di = diff
     dc = diff --cached
+    dd = -c pager.diff=delta diff
     br = branch
     lg = log --decorate --graph --abbrev-commit --pretty=oneline
     # r = recent-branches --no-merged
