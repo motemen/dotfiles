@@ -6,6 +6,9 @@ config.color_scheme = 'Tokyo Night'
 config.color_scheme = 'Wombat'
 config.color_scheme = 'Breeze'
 
+config.use_ime = true
+config.macos_forward_to_ime_modifier_mask = "SHIFT|CTRL"
+
 config.colors = {
 	selection_bg = "#CCCC33",
 	selection_fg = "#111111",
@@ -13,6 +16,7 @@ config.colors = {
 	cursor_fg = "#000000",
 	cursor_border = "#00FF00",
 	scrollbar_thumb = "#AAAAAA",
+	compose_cursor = 'silver',
 }
 
 config.cursor_blink_rate = 800
@@ -66,6 +70,10 @@ config.disable_default_key_bindings = true
 
 config.leader = { key = 'Space', mods = 'CTRL', timeout_milliseconds = 1000 }
 
+config.quick_select_patterns = {
+	'[0-9a-zA-Z]+[._-][0-9a-zA-Z._-]+',
+}
+
 local act = wezterm.action
 
 config.keys = {
@@ -87,6 +95,7 @@ config.keys = {
 
 	{ key = '[',     mods = 'SHIFT|SUPER', action = act.ActivateTabRelative(-1) },
 	{ key = '[',     mods = 'LEADER',      action = act.ActivateCopyMode },
+	{ key = ']',     mods = 'LEADER',      action = act.PasteFrom 'Clipboard' },
 	{ key = ']',     mods = 'SHIFT|SUPER', action = act.ActivateTabRelative(1) },
 	{ key = 'c',     mods = 'SUPER',       action = act.CopyTo 'Clipboard' },
 	-- { key = 'f',     mods = 'SUPER',       action = act.Search 'CurrentSelectionOrEmptyString' },
@@ -160,6 +169,8 @@ config.key_tables = {
 		{ key = '^',      mods = 'SHIFT', action = act.CopyMode 'MoveToStartOfLineContent' },
 		{ key = 'b',      mods = 'NONE',  action = act.CopyMode 'MoveBackwardWord' },
 		{ key = 'b',      mods = 'ALT',   action = act.CopyMode 'MoveBackwardWord' },
+		{ key = 'B',      mods = 'NONE',  action = act.CopyMode 'MoveBackwardWord' },
+		{ key = 'B',      mods = 'SHIFT', action = act.CopyMode 'MoveBackwardWord' },
 		{ key = 'b',      mods = 'CTRL',  action = act.CopyMode 'PageUp' },
 		{ key = 'c',      mods = 'CTRL',  action = act.CopyMode 'Close' },
 		{ key = 'd',      mods = 'CTRL',  action = act.CopyMode { MoveByPage = (0.25) } },
@@ -202,8 +213,16 @@ config.key_tables = {
 	},
 
 	search_mode = {
-		{ key = 'Enter',     mods = 'NONE',  action = act.CopyMode 'PriorMatch' },
-		{ key = 'Escape',    mods = 'NONE',  action = act.CopyMode 'Close' },
+		{ key = 'Enter',  mods = 'NONE', action = act.CopyMode 'PriorMatch' },
+		{ key = 'Escape', mods = 'NONE', action = act.CopyMode 'Close' },
+		{
+			key = 'c',
+			mods = 'CTRL',
+			action = act.Multiple {
+				act.CopyMode 'ClearPattern',
+				act.CopyMode 'Close',
+			}
+		},
 		{ key = 'n',         mods = 'CTRL',  action = act.CopyMode 'NextMatch' },
 		{ key = 'p',         mods = 'CTRL',  action = act.CopyMode 'PriorMatch' },
 		{ key = 'r',         mods = 'CTRL',  action = act.CopyMode 'CycleMatchType' },
