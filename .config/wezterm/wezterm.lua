@@ -19,7 +19,10 @@ config.colors = {
 	compose_cursor = 'silver',
 }
 
-config.cursor_blink_rate = 800
+config.default_cursor_style = 'BlinkingBlock'
+config.cursor_blink_rate = 500
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
 
 config.enable_scroll_bar = true
 
@@ -213,8 +216,15 @@ config.key_tables = {
 	},
 
 	search_mode = {
-		{ key = 'Enter',  mods = 'NONE', action = act.CopyMode 'PriorMatch' },
-		{ key = 'Escape', mods = 'NONE', action = act.CopyMode 'Close' },
+		{ key = 'Enter',     mods = 'NONE',  action = act.CopyMode 'PriorMatch' },
+		{
+			key = 'Escape',
+			mods = 'NONE',
+			action = act.Multiple {
+				act.CopyMode 'ClearPattern',
+				act.CopyMode 'Close',
+			}
+		},
 		{
 			key = 'c',
 			mods = 'CTRL',
