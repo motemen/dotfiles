@@ -38,7 +38,7 @@
     when-merged = "!f() { git rev-list --reverse --ancestry-path --merges $1.. | head -1; }; f"
     u = remote update
     sel-revision = !git log --oneline -50 | fzf | cut -f1 -d' '
-    fixit = "!f () { if [ \"$#\" -eq 0 ] && git diff --cached --quiet; then git commit --amend; else git commit --amend --no-edit \"$@\"; fi; }; f"
+    fixit = "!f () { if [ \"$#\" -eq 0 ] && git diff --cached --quiet; then git commit --amend --reset-author; else git commit --amend --no-edit --reset-author \"$@\"; fi; }; f"
     sha = "!f() { git rev-parse \"${1-HEAD}\"; }; f"
     tig = !tig
     su = !env PLENV_VERSION=system git shared-submodule-update --init

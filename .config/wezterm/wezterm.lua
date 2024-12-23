@@ -19,7 +19,7 @@ config.colors = {
 	compose_cursor = 'silver',
 }
 
-config.default_cursor_style = 'BlinkingBlock'
+-- config.default_cursor_style = 'BlinkingBlock'
 config.cursor_blink_rate = 500
 config.cursor_blink_ease_in = "Constant"
 config.cursor_blink_ease_out = "Constant"
@@ -27,6 +27,8 @@ config.cursor_blink_ease_out = "Constant"
 config.enable_scroll_bar = true
 
 config.font = wezterm.font_with_fallback {
+	'Moralerspace Argon NF',
+	'MonaspiceAr Nerd Font Mono',
 	'Cousine Nerd Font Mono',
 	'Hiragino Kaku Gothic Pro',
 	'Noto Sans JP',
@@ -247,11 +249,11 @@ config.key_tables = {
 }
 
 config.mouse_bindings = {
-  {
-    event = { Down = { streak = 3, button = 'Left' } },
-    action = wezterm.action.SelectTextAtMouseCursor 'SemanticZone',
-    mods = 'NONE',
-  },
+	{
+		event = { Down = { streak = 3, button = 'Left' } },
+		action = wezterm.action.SelectTextAtMouseCursor 'SemanticZone',
+		mods = 'NONE',
+	},
 }
 
 return config

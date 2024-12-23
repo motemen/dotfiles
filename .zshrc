@@ -231,7 +231,7 @@ function _update_prompt {
         PROMPT="$PROMPT ${fg[cyan]}$(basename "$VIRTUAL_ENV")${reset_color}"
     fi
     PROMPT="$PROMPT%E
-%# "
+%D{%H:%M:%S} %# "
 
     jobs_suspended=$(( $(jobs -s | wc -l) ))
     if [ $jobs_suspended != 0 ]; then
@@ -420,6 +420,12 @@ function fzf-furo2-history-exec () {
 }
 zle -N fzf-furo2-history-exec
 bindkey '^x^h' fzf-furo2-history-exec
+
+function re-prompt() {
+  zle .reset-prompt
+  zle .accept-line
+}
+zle -N accept-line re-prompt  # update date on execute command
 
 # zle-line-init() {
 #     zle autosuggest-start
